@@ -4,7 +4,7 @@ This project contains specifications and resources for FIX Performance session l
 For a fuller explanation, see [FIX Performance session layer](http://fixtradingcommunity.github.io/fixp-specification/).
 
 ## Protocol stack
-SBE is part of a family of protocols created by the High Performance Working Group
+FIPX is part of a family of protocols created by the High Performance Working Group
  of the FIX Trading Community. FIXP is a session layer protocol (layer 5).
 
 ## Versions
