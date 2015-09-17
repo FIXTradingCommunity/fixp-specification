@@ -20,9 +20,7 @@ Data types are abstract. Actual encoding of FIXP is left to the implementation.
 | String           | text                    |                 | UTF-8, length may need to be specified as part of the encoding.                                                                             |
 | nanotime         | Time in nanoseconds     | u64             | Number of nanoseconds since UNIX epoch                                                                                                      |
 | DeltaMillisecs   | Number of milliseconds  | u32             |                                                                                                                                             |
-| Object           |                         |                 | Unspecified data content                                                                                                                    
-                                                                                                                                                                                                             
-                                                                Requires some way to determine length                                                                                                        |
+| Object           |                         |                 | Unspecified data content Requires some way to determine length                                                                                                        |
 | Enumeration      | A finite set of values  |                 | Error and message type identifiers are enumerated by symbolic name in this specification. Wire format is determined by a specific encoding. |
 
 FIXP Session Messages
@@ -46,6 +44,8 @@ Message Sequencing
 Sequence numbering supports ordered delivery and recovery of messages. In FIXP, only application messages are sequenced, not session protocol messages. A Sequence message is used to start a sequenced flow of application messages. Any applications message passed after a Sequence message is implicitly numbered, where the first message after Sequence has the sequence number NextSeqNo.
 
 Sending a Sequence message on an Unsequenced or None (one-way session) flow is a protocol violation.
+
+**Sequence**
 
 | **Field name** | Type | Required | Value    | Description |
 |----------------|------|----------|----------|-------------|
@@ -73,6 +73,8 @@ FIXP provides no mechanism for fragmenting messages across datagrams. In other w
 If sessions are multiplexed over a transport, they are framed independently. When multiplexing, the Context message expands Sequence to also specify the session being sequenced.
 
 If flows are multiplexed over a transport, the transport does not imply the session. Context is used to set the session for the remainder of the current datagram (in a datagram oriented transport) or until a new Context is passed. In a sequenced flow, Context can take the role of Sequence by including NextSeqNo (optimizes away the Sequence that would otherwise follow).
+
+**Context**
 
 | **Field name** | Type | Required | Value    | Description |
 |----------------|------|----------|----------|-------------|
