@@ -5,7 +5,7 @@ FIXP Session Messages
 ---------------------
 
 | Stage          | Message Name         | Purpose                                | Recoverable   | Idempotent   | Unsequenced / None | Multicast |
-|----------------|----------------------|----------------------------------------|---------------|--------------|--------------------|-----------|
+|----------------|----------------------|----------------------------------------|:-------------:|:------------:|:------------------:|:---------:|
 | Initialization | Negotiate            | Initiates session                      | •             | •            | •                  |           |
 |                | NegotiationResponse  | Accepts session                        | •             | •            | •                  |           |
 |                | NegotiationReject    | Rejects session                        | •             | •            | •                  |           |
