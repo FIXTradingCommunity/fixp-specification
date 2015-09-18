@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>FIXP-specification by FIXTradingCommunity</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>FIXP-specification</h1>
+        <h2>A FIX standard for high performance message exchange</h2>
+        <a href="https://github.com/FIXTradingCommunity/fixp-specification" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <p>FIX Performance Session Layer (FIXP) is a lightweight protocol designed to replace the traditional FIX session protocol (known officially as FIXT) for high performance use cases. It supports both point-to-point exchange of application messages as well as multicasts for market data and the like. </p>
+
+<h3>
+<a id="performance" class="anchor" href="#performance" aria-hidden="true"><span class="octicon octicon-link"></span></a>Performance</h3>
+
+<p>The goal of this effort was to create an enhanced session protocol that can provide reliable, highly efficient, exchange of messages to support high performance financial messaging, over a variety of transports. The protocol is fit for purpose for current high message rates, low latency environments in financial markets, but should be to every extent possible applicable to other business domains. </p>
+
+<h3>
+<a id="protocol-layering" class="anchor" href="#protocol-layering" aria-hidden="true"><span class="octicon octicon-link"></span></a>Protocol Layering</h3>
+
+<p>This standard endeavors to maintain a clear separation of protocol layers, as expressed by the Open Systems Interconnection model (OSI).  The responsibilities of a session layer are establishment, termination and restart procedures and rules for the exchange of application messages.</p>
+
+<p>The protocol shall be independent of message encoding (presentation layer), to provide the maximum utility. Encoding independence applies both to session layer messages specified in this document as well as to application messages. Implementation may be simpler if session protocol messages are encoded the same way as application messages, but that is not a requirement of this session protocol.</p>
+
+<p>FIXP is transport independent; it works on TCP streams as well as datagram oriented transports.</p>
+
+<p>Unlike the traditional FIX session layer protocol, FIXP does not impose a verbose header on application messages.</p>
+
+<h3>
+<a id="appropriate-delivery-guarantees" class="anchor" href="#appropriate-delivery-guarantees" aria-hidden="true"><span class="octicon octicon-link"></span></a>Appropriate Delivery Guarantees</h3>
+
+<p>FIXP supports a choice of message flow types: </p>
+
+<ul>
+<li>Recoverable (missed messages are retransmitted)</li>
+<li>Unsequenced (sequencing not needed at the session layer because it is provided at another layer)</li>
+<li>Idempotent (operations guaranteed to be applied only once)</li>
+<li>None (for a one-way flow of messages). </li>
+</ul>
+
+<p>The protocol supports asymmetric flows, such as an idempotent flow of orders into a market with recoverable execution reports outbound.</p>
+
+<h3>
+<a id="point-to-point-and-multicast-communications" class="anchor" href="#point-to-point-and-multicast-communications" aria-hidden="true"><span class="octicon octicon-link"></span></a>Point-to-Point and Multicast Communications</h3>
+
+<p>FIXP allows the communication of messages to multiple receivers (multicast) for applications such as market data as well as point-to-point communications. </p>
+
+<h3>
+<a id="session-lifetime" class="anchor" href="#session-lifetime" aria-hidden="true"><span class="octicon octicon-link"></span></a>Session Lifetime</h3>
+
+<p>Session creation is cheap, and each session is identified by a statistically unique identifier. FIXP separates session identifier from business entity identifiers. </p>
+
+<p>Sessions with recoverable flows have an explicit end of logical flow, as distinguished from simple unbinding of its transport. Sessions that have not reached their logical end may be re-established and re-synchronized. 
+On the other hand, a non-recoverable session ends when its transport is terminated. Subsequent message exchange is achieved by negotiating a new session with a new session ID.</p>
+
+<h3>
+<a id="message-sequencing" class="anchor" href="#message-sequencing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Message Sequencing</h3>
+
+<p>FIXP only sequences application messages, not session layer messages. This makes message recovery deterministic, and by design, sequencing issues do not cause problems with session establishment. On reliable TCP streams the sequencing is implicit after a market message and on unreliable streams such as UDP, the sequencing is per packet.</p>
+
+<h3>
+<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+
+<p>The FIXP standard was developed by the High Performance Working Group of FIX Trading Community™, the non-profit, industry-driven standards body at the heart of global trading.</p>
+
+<h3>
+<a id="implementations" class="anchor" href="#implementations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Implementations</h3>
+
+<p>We will post links to open source implementations of FIXP. Implementors, contact one of the owners of the FIXTradingCommunity/fixp-specification repository.</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/FIXTradingCommunity/fixp-specification/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/FIXTradingCommunity/fixp-specification/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/FIXTradingCommunity/fixp-specification"></a> is maintained by <a href="https://github.com/FIXTradingCommunity">FIXTradingCommunity</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
