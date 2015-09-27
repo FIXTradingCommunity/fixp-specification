@@ -20,7 +20,7 @@ and enhancements. The working group will consider pull requests for
 changes to the working draft.
 
 ### Previous versions
-RC2 and previous versions of SBE, as well as other FIX high performance protocols,
+RC2 and previous versions of FIXP, as well as other FIX high performance protocols,
  are available as MS Word documents at [High Performance Specifications](http://www.fixtradingcommunity.org/pg/structure/tech-specs/high-performance-specifications).
 
 ## License

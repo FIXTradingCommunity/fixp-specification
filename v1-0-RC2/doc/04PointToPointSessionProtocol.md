@@ -98,14 +98,14 @@ If negotiation is re-attempted after rejection, a new session ID should be gener
 
 ###  Session Negotiation Sequence Diagram
 
-<span id="_Toc424544504" class="anchor"></span>Figure 1 Session Negotiation Sequence Diagram
+![](./media/SessionNegotiation.png)
 
 Session Establishment
 ---------------------
 
 Establish attempts to bind the specified logical session to the transport that the message is passed over. The response to Establish is either EstablishmentAck or EstablishmentReject.
 
-### <span id="_Toc383684736" class="anchor"><span id="_Toc384627655" class="anchor"><span id="_Toc386124565" class="anchor"><span id="_Toc386125409" class="anchor"><span id="_Toc386125466" class="anchor"></span></span></span></span></span>Establish
+### Establish
 
 The client sends Establish message to the server and awaits acknowledgement.
 
@@ -122,7 +122,6 @@ There is no specific timeout value for the wait defined in this protocol. Experi
 | NextSeqNo         | u64            | N            |           | For re-establishment of a recoverable server flow only, the next application sequence number to be produced by the client. |
 | Credentials       | object         | N            |           | Optional credentials to identify the client.                                                                               |
 
-<span id="_Toc383684738" class="anchor"><span id="_Toc384627657" class="anchor"><span id="_Toc386124567" class="anchor"><span id="_Toc386125411" class="anchor"><span id="_Toc386125468" class="anchor"><span id="_Toc383684739" class="anchor"><span id="_Toc384627658" class="anchor"><span id="_Toc386124568" class="anchor"><span id="_Toc386125412" class="anchor"><span id="_Toc386125469" class="anchor"></span></span></span></span></span></span></span></span></span></span>
 
 Counterparties may agree on a valid range for KeepaliveInterval.
 
@@ -174,7 +173,7 @@ Rejection reasons:
 
 ### Session Establishment Sequence Diagram
 
-<span id="_Toc424544505" class="anchor"></span>Figure 2 Session Establishment Sequence Diagram
+![](./media/SessionEstablishment.png)
 
 Transport Termination
 ---------------------
@@ -214,9 +213,11 @@ On a connection-oriented transport such as TCP, when the initiator receives the 
 
 ### Terminate Session Sequence Diagrams
 
-<span id="_Toc424544506" class="anchor"></span>Figure 3 Termination Sequence Diagram - TCP
+![UnbindTransport-TCP](./media/UnbindTransport-TCP.png)
 
-<span id="_Toc424544507" class="anchor"></span>Figure 4 Termination Sequence Diagram - UDP
+
+![Unbind Transport-UDP](./media/UnbindTransport-UDP.png)
+
 
 Session Heartbeat
 -----------------
@@ -239,8 +240,8 @@ When a session is being finalized, but the FinishedReceiving message has not yet
 
 On TCP, it is recommended that Nagle algorithm be disabled to prevent the transmission of heartbeats and other messages from being delayed, potentially causing unnecessary session termination.
 
- <span id="_Ref414368043" class="anchor"><span id="_Ref414370472" class="anchor"><span id="_Toc429639513" class="anchor"></span></span></span>Resynchronization
----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Resynchronization
+-----------------
 
 The following sections describe resynchronization of a recoverable flow.
 
@@ -280,7 +281,7 @@ Sending a RetransmitRequest to the sender of an Idempotent ,Unsequenced or None 
 
 #### Retransmission Diagram
 
-<span id="_Toc424544508" class="anchor"></span>Figure 5 Retransmission Diagram
+![](./media/Retransmission.png)
 
 #### Interleaving and Pacing Retransmissions
 
@@ -318,7 +319,7 @@ Rejection reasons:
 
 ### RetransmitReject Diagram
 
-<span id="_Toc424544509" class="anchor"></span>Figure 5 RetransmitReject Diagram
+![](./media/RetransmissionReject.png)
 
 ### Retransmission Violations
 
@@ -326,7 +327,7 @@ For a RetransmitRequest that the requester should have known was invalid with ce
 
 ### Retransmit Violation Diagram
 
-<span id="_Toc424544510" class="anchor"></span>Figure 6 Retransmit Violation Diagram
+![](./media/RetransmitViolation.png)
 
 ### FIX Application Layer Recovery
 
@@ -376,7 +377,7 @@ When a FinishedReceiving has been received by the party that initiated the final
 
 ### Terminating a Recoverable Session Sequence Diagram
 
-<span id="_Toc424544511" class="anchor"></span>Figure 7 Recoverable Session Termination Sequence Diagram
+![](./media/FlowFinalization.png)
 
 Idempotent Flow
 ---------------
@@ -425,7 +426,4 @@ Sending NotApplied for a Recoverable, Unsequenced or None flow is a protocol vio
 
 ### Idempotent Flow Sequence Diagram
 
-<span id="_Toc424544512" class="anchor"></span>Figure 8 Idempotent Flow sequence diagram
-
-<span id="_Ref409166016" class="anchor"></span>
-
+![](./media/IdempotentFlow.png)
