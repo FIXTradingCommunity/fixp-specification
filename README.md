@@ -4,7 +4,7 @@ This project contains specifications and resources for FIX Performance session l
 For a fuller explanation, see [FIX Performance session layer](http://fixtradingcommunity.github.io/fixp-specification/).
 
 ## Protocol stack
-FIPX is part of a family of protocols created by the High Performance Working Group
+FIXP is part of a family of protocols created by the High Performance Working Group
  of the FIX Trading Community. FIXP is a session layer protocol (layer 5).
 
 ## Versions
@@ -14,7 +14,7 @@ RC2 specification is included here for reference only. Pull requests for this
 version will not be accepted.
 
 ### Next working draft: 1.0 Release Candidate 3
-A baseline for version 1.0 RC3 will be posted here soon. The
+A baseline for version 1.0 RC3 has been posted. The
 working group encourages users to submit issues for error corrections
 and enhancements. The working group will consider pull requests for
 changes to the working draft.
