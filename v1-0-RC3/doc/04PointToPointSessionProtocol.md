@@ -426,4 +426,4 @@ Sending NotApplied for a Recoverable, Unsequenced or None flow is a protocol vio
 
 ### Idempotent Flow Sequence Diagram
 
-![](./media/IdempotentFlow.png)
+![](./media/Idempotent.png)
