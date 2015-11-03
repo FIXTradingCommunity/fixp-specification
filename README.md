@@ -22,6 +22,8 @@ changes to the working draft.
 ### Previous versions
 RC2 and previous versions of FIXP, as well as other FIX high performance protocols,
  are available as MS Word documents at [High Performance Specifications](http://www.fixtradingcommunity.org/pg/structure/tech-specs/high-performance-specifications).
+ 
+FIXP is largely based on a designed submitted by Pantor Engineering under the name XMIT. See the original [XMIT specifiation] (http://blinkprotocol.org/s/XmitSpec-alpha15.pdf).
 
 ## License
 FIXP specifications are ©Copyright 2014-2015 FIX Protocol Limited. 
