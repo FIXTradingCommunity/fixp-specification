@@ -93,6 +93,28 @@ Authors should provide a list of any intellectual property
 | XMIT                                                    | Copyright                          | Pantor Engineering | Basis for design of protocol                                             |
 | Soup, SoupBinTCP, UFO (UDP for Orders), and MoldUDP     | Copyright                          | NASDAQOMX          | FIXP is intended to provide functionality equivalent to these protocols. |
 
+## Specification terms
+
+These key words in this document are to be interpreted as described in
+[Internet Engineering Task Force RFC2119](http://www.apps.ietf.org/rfc/rfc2119.html). These terms indicate
+an absolute requirement for implementations of the standard: "**must**",
+or "**required**".
+
+This term indicates an absolute prohibition: "**must not**".
+
+These terms indicate that a feature is allowed by the standard but not
+required: "**may**", "**optional**". An implementation that does not
+provide an optional feature must be prepared to interoperate with one
+that does.
+
+These terms give guidance, recommendation or best practices:
+"**should**" or "**recommended**". A recommended choice among
+alternatives is described as "**preferred**".
+
+These terms give guidance that a practice is not recommended: "**should not**" 
+or "**not recommended**".
+
+
 
 Definitions
 -----------
