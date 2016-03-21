@@ -12,11 +12,11 @@ Multicast addresses and publishing schedules must be provided out-of-band to lis
 
 ### Multicast Session Establishment
 
-Like a point-to-point session, a multicast session is identified by a UUID. Each time a session is initiated, a new UUID should be generated, and sequence numbers of subsequent application messages begin with 1.
+Like a point-to-point session, a multicast session is identified by a UUID. Each time a session is initiated, a new UUID must be generated, and sequence numbers of subsequent application messages must begin with 1.
 
 #### Topic Message
 
-To associate a transient UUID to a permanent or semi-permanent classification of messages, a Topic message is used to initiate a flow. Multiple topics may be published on a transport.
+To associate a transient UUID to a permanent or semi-permanent classification of messages, a Topic message must be used to initiate a flow. Multiple topics may be published on a transport.
 
 FlowType = Recoverable | Idempotent 
 
@@ -41,7 +41,7 @@ To support late joiners, Topic messages should be repeated at regular intervals 
 
 ### Finalizing a Multicast Session
 
-Finalization ends a logical flow when there are no more application messages to send. A multicast flows is finalized by transmitting a FinishedSending message. No further messages may be sent, and the session ID is no longer valid after that.
+Finalization ends a logical flow when there are no more application messages to send. A multicast flow should be finalized by transmitting a FinishedSending message. No further messages should be sent, and the session ID is no longer valid after that.
 
 Session Heartbeat
 -----------------
