@@ -8,20 +8,30 @@ All symbolic names for messages and fields in this protocol should follow the sa
 Data Types
 ----------
 
-Data types are abstract. Actual encoding of FIXP is left to the implementation.
+Data types used in this standard are abstract. 
+The terminology used to define them are to be interpreted as described in international standard
+[ISO/IEC 11404 Information technology -- General-Purpose Datatypes ](http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=39479). 
 
-| **Logical Type** | **Range**               | **Native Type** | **Comments**                                                                                                                                |
+> It defines a set
+of datatypes, independent of any particular programming language specification or implementation, that is rich
+enough so that any common datatype in a standard programming language or service package can be
+mapped to some datatype in the set. 
+
+
+Actual wire format of FIXP is left to the presentation layer implementation.
+
+| **FIXP Type** | **Description**               | **General PurposeType** | **Properties**                                                                                                                                |
 |------------------|-------------------------|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| u8               | 0..2<sup>8</sup>-1                |                 |                                                                                                                                             |
-| u16              | 0..2<sup>16</sup>-1               |                 |                                                                                                                                             |
-| u32              | 0..2<sup>32</sup>-1               |                 |                                                                                                                                             |
-| u64              | 0..2<sup>64</sup>-1               |                 |                                                                                                                                             |
-| UUID             | RFC 4122 compliant UUID |                 | The requirement is to provide a mechanism that can be self-generated and guaranteed free of collision. Implementers are encouraged to adopt version 4.                                                                                              |
-| String           | text                    |                 | UTF-8, length may need to be specified as part of the encoding.                                                                             |
-| nanotime         | Time in nanoseconds     | u64             | Number of nanoseconds since UNIX epoch                                                                                                      |
-| DeltaMillisecs   | Number of milliseconds  | u32             |                                                                                                                                             |
-| Object           |                         |                 | Unspecified data content Requires some way to determine length                                                                                                        |
-| Enumeration      | A finite set of values  |                 | Error and message type identifiers are enumerated by symbolic name in this specification. Wire format is determined by a specific encoding. |
+| u8               |  Unsigned number        |   Integer              |  Ordered, exact, numeric, bounded. Range 0..2<sup>8</sup>-1                                                                                                                                      |
+| u16              |  Unsigned number        |  Integer               |  Ordered, exact, numeric, bounded. Range 0..2<sup>16</sup>-1                                                                                                                                                                     |
+| u32              |  Unsigned number        |  Integer               |  Ordered, exact, numeric, bounded. Range 0..2<sup>32</sup>-1                                                                                                                                                                 |
+| u64              |  Unsigned number        |  Integer               |  Ordered, exact, numeric, bounded. Range 0..2<sup>64</sup>-1                      
+| UUID             | RFC 4122 version 4 compliant unique identifier | Octet string   | Fixed size 16.
+| String           | Text                    | Character string                | Unordered, exact, non-numeric, denumerable. Paramterized by character set.                                                   |
+| nanotime         | Time in nanoseconds     | Date-and-Time          |  Ordered, exact, numeric, bounded. Time-unit = nanosecond. Same range as u64.                                                                                                     |
+| DeltaMillisecs   | Number of milliseconds  | Time interval          |   Ordered, exact, numeric, bounded. Time-unit = millisecond. Same range as u32.                                                                                                                                             |
+| Object           | Unspecified data content                        | Octet string                | Unordered, exact, non-numeric, denumerable.                                                                                                        |
+| Enumeration      | A finite set of values. Error and message type identifiers are enumerated by symbolic name in this specification.  |  State   | Unordered, exact, non-numeric. The value space of a state datatype is the set comprising exactly the named values in the state-value-list, each of which is designated by a unique state-literal. |
 
 FIXP Session Messages
 ---------------------
