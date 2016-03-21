@@ -3,7 +3,7 @@ Common Features
 Usage and Naming Conventions
 ----------------------------
 
-All symbolic names for messages and fields in this protocol should follow the same naming convention as other FIX specifications: alphanumeric characters plus underscores without spaces.
+All symbolic names for messages and fields in this protocol must follow the same naming convention as other FIX specifications: alphanumeric characters plus underscores without spaces.
 
 Data Types
 ----------
@@ -51,7 +51,7 @@ Message Sequencing
 
 ### Sequence Numbering
 
-Sequence numbering supports ordered delivery and recovery of messages. In FIXP, only application messages are sequenced, not session protocol messages. A Sequence message is used to start a sequenced flow of application messages. Any applications message passed after a Sequence message is implicitly numbered, where the first message after Sequence has the sequence number NextSeqNo.
+Sequence numbering supports ordered delivery and recovery of messages. In FIXP, only application messages are sequenced, not session protocol messages. A Sequence message (or Context message described below) must be used to start a sequenced flow of application messages. Any applications message passed after a Sequence message is implicitly numbered, where the first message after Sequence has the sequence number NextSeqNo.
 
 Sending a Sequence message on an Unsequenced or None (one-way session) flow is a protocol violation.
 
@@ -80,9 +80,9 @@ FIXP provides no mechanism for fragmenting messages across datagrams. In other w
 
 ### Multiplexed session considerations
 
-If sessions are multiplexed over a transport, they are framed independently. When multiplexing, the Context message expands Sequence to also specify the session being sequenced.
+If sessions are multiplexed over a transport, they should be framed independently. When multiplexing, the Context message expands Sequence to also specify the session being sequenced.
 
-If flows are multiplexed over a transport, the transport does not imply the session. Context is used to set the session for the remainder of the current datagram (in a datagram oriented transport) or until a new Context is passed. In a sequenced flow, Context can take the role of Sequence by including NextSeqNo (optimizes away the Sequence that would otherwise follow).
+If flows are multiplexed over a transport, the transport does not imply the session. Context is used to set the session for the remainder of the current datagram (in a datagram oriented transport) or until a new Context is passed. In a sequenced flow, Context supersedes the role of Sequence by including NextSeqNo (optimizes away the Sequence that would otherwise follow).
 
 **Context**
 
@@ -107,7 +107,7 @@ Session Properties
 
 ### Session Identification
 
-Each session is identified by a unique Session ID encoded as a UUID version 4 (RFC 4122) assigned by the client. The benefit of using an UUID is that it is effortless to allocate in a distributed system. It is also simple and efficient to hash and therefore easy to look up at the endpoints. The downside is a larger size overhead. The identifier however does not appear in the stream except once at the start of each datagram, when using UDP, or when sessions are multiplexed, regardless of the underlying transport that is used. For a non-multiplexed TCP session, the identifier therefore appears only once during the lifetime of the TCP session. A UUID is intended to be unique, not only amongst currently active sessions, but for all time. Reusing a session ID is a protocol violation.
+Each session must be identified by a unique Session ID encoded as a UUID version 4 (RFC 4122) assigned by the client. The benefit of using an UUID is that it is effortless to allocate in a distributed system. It is also simple and efficient to hash and therefore easy to look up at the endpoints. The downside is a larger size overhead. The identifier however does not appear in the stream except once at the start of each datagram, when using UDP, or when sessions are multiplexed, regardless of the underlying transport that is used. For a non-multiplexed TCP session, the identifier therefore appears only once during the lifetime of the TCP session. A session identifier must be unique, not only amongst currently active sessions, but for all time. Reusing a session ID is a protocol violation.
 
 ### User Identification
 

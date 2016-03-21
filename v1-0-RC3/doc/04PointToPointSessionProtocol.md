@@ -1,20 +1,20 @@
 Point-to-Point Session Protocol
 ===============================
 
-A point-to-point session between a client and server is conducted over a bidirectional transport, such as TCP or UDP unicast. Point-to-point protocol is designed for private flows of information between organizations. Optionally, multiple sessions belonging to an organization may be multiplexed over a shared transport.
+A point-to-point session between a client and server must be conducted over a bidirectional transport, such as TCP or UDP unicast. Point-to-point protocol is designed for private flows of information between organizations. Optionally, multiple sessions belonging to an organization may be multiplexed over a shared transport.
 
 Summary of Messages that Control Lifetime
 -----------------------------------------
 
-Logical sessions are created by using the Negotiation message. The session ID is sent in the Negotiation message and that ID is used for the lifetime of the session.
+A logical session must be created by using a Negotiation message. The session ID must be sent in the Negotiation message and that ID is used for the lifetime of the session.
 
-After negotiation is complete, the client sends an Establish message to reach the established state. Once established, exchange of application messages may proceed. The established state is concurrent with the lifetime of a connection-oriented transport such as TCP. A client can re-establish a previous session after reconnecting without any further negotiation. Thus, Establish binds the session to the new transport instance.
+After negotiation is complete, the client must send an Establish message to reach the established state. Once established, exchange of application messages may proceed. The established state is concurrent with the lifetime of a connection-oriented transport such as TCP. A client may re-establish a previous session after reconnecting without any further negotiation. Thus, Establish binds the session to the new transport instance.
 
-To signal a counterparty that a disconnection is about to occur, a Terminate message is sent. This unbinds the transport from the session, but it does not end a logical session.
+To signal a counterparty that a disconnection is about to occur, a Terminate message should be sent. This unbinds the transport from the session, but it does not end a logical session.
 
 A session that has a recoverable flow may be re-established by sending Establish with the same session ID, and an exchange of messages may continue until all business transactions are finished.
 
-A logical session is ended by sending a FinishedSending message. Thereafter, no more application messages should be sent. The counterparty responds with FinishedReceiving when it has processed the last message, and then the transport is terminated for the final time for that session. Once a flow is finalized and the transport is unbound, a session ID is no longer valid and messages previously sent on that session are no longer recoverable.
+A logical session should be ended by sending a FinishedSending message. Thereafter, no more application messages should be sent. The counterparty must respond with FinishedReceiving when it has processed the last message, and then the transport must be terminated for the final time for that session. Once a flow is finalized and the transport is unbound, a session ID is no longer valid and messages previously sent on that session are no longer recoverable.
 
 Session Initiation and Negotiation
 ----------------------------------
@@ -31,13 +31,13 @@ FlowType = Recoverable | Unsequenced | Idempotent | None
 
 From highest to lowest delivery guarantee, the flow types are:
 
--   **Recoverable**: Guarantees exactly-once message delivery. If gaps are detected, then missed messages are recovered by retransmission.
+-   **Recoverable**: Guarantees exactly-once message delivery. If gaps are detected, then missed messages may be recovered by retransmission.
 
 -   **Idempotent**: Guarantees at-most-once delivery. If gaps are detected, the sender is notified, but recovery is under control of the application, if it is done at all.
 
 -   **Unsequenced**: Makes no delivery guarantees (best-effort). This choice is appropriate if guarantees are unnecessary or if recovery is provided at the application layer or through a different communication channel.
 
--   **None**: No application messages are delivered in one direction of a session. If ClientFlow is None, then application messages flow only from server to client.
+-   **None**: No application messages should be sent in one direction of a session. If ClientFlow is None, then application messages flow only from server to client.
 
 By agreement between counterparties, only certain of these flow types may be supported for a particular service.
 
@@ -57,7 +57,7 @@ Negotiate message is sent from client to server.
 
 ### Accept Session Negotiation
 
-When a session is accepted by a server, it sends a NegotiationResponse in response to a Negotiate message.
+When a session is accepted by a server, it must send a NegotiationResponse in response to a Negotiate message.
 
 **NegotiationResponse**
 
@@ -70,7 +70,7 @@ When a session is accepted by a server, it sends a NegotiationResponse in respon
 
 ### Reject Session Negotiation
 
-When a session cannot be created, a server sends NegotiationReject to the client, giving the reason for the rejection. No further messages should be sent, and the transport should be terminated.
+When a session cannot be created, a server must send NegotiationReject to the client, giving the reason for the rejection. No further messages should be sent, and the transport should be terminated.
 
 NegotiationRejectCode = Credentials | Unspecified | FlowTypeNotSupported | DuplicateId 
 
@@ -107,7 +107,7 @@ Establish attempts to bind the specified logical session to the transport that t
 
 ### Establish
 
-The client sends Establish message to the server and awaits acknowledgement.
+The client must send Establish message to the server and await acknowledgement.
 
 There is no specific timeout value for the wait defined in this protocol. Experience should be a guide to determine an abnormal wait after which a server is considered unresponsive. Then establishment may be retried or out-of-band inquiry may be made to determine application readiness.
 
@@ -118,7 +118,7 @@ There is no specific timeout value for the wait defined in this protocol. Experi
 | MessageType       | Enum           | Y            | Establish |                                                                                                                            |
 | Timestamp         | nanotime       | Y            |           | Time of request                                                                                                            |
 | SessionId         | UUID           | Y            |           | Session Identifier                                                                                                         |
-| KeepaliveInterval | DeltaMillisecs | Y            |           | The longest time in milliseconds the initiator will remain silent before sending a keep alive message                      |
+| KeepaliveInterval | DeltaMillisecs | Y            |           | The longest time in milliseconds the initiator should remain silent before sending a keep alive message                      |
 | NextSeqNo         | u64            | N            |           | For re-establishment of a recoverable server flow only, the next application sequence number to be produced by the client. |
 | Credentials       | object         | N            |           | Optional credentials to identify the client.                                                                               |
 
@@ -129,7 +129,7 @@ The server should evaluate NextSeqNo to determine whether it missed any messages
 
 ### Establish Acknowledgment
 
-Used to indicate the acceptor acknowledges the session. If the communication flow from this endpoint is recoverable, it will fill the NextSeqNo field, allowing the initiator to start requesting the replay of messages that it has not received.
+Used to indicate the acceptor acknowledges the session. If the communication flow from this endpoint is recoverable, it should fill the NextSeqNo field, allowing the initiator to start requesting the replay of messages that it has not received.
 
 **EstablishmentAck**
 
@@ -137,8 +137,8 @@ Used to indicate the acceptor acknowledges the session. If the communication flo
 |-------------------|----------------|--------------|------------------|--------------------------------------------------------------------------------------------------------|
 | MessageType       | Enum           | Y            | EstablishmentAck |                                                                                                        |
 | SessionId         | UUID           | Y            |                  | SessionId is included only for robustness, as matching RequestTimestamp is enough                      |
-| RequestTimestamp  | nanotime       | Y            |                  | Matches Establish.Timestamp                                                                            |
-| KeepaliveInterval | DeltaMillisecs | Y            |                  | The longest time in milliseconds the acceptor will wait before sending a keep alive message            |
+| RequestTimestamp  | nanotime       | Y            |                  | Must match Establish.Timestamp                                                                            |
+| KeepaliveInterval | DeltaMillisecs | Y            |                  | The longest time in milliseconds the acceptor should wait before sending a keep alive message            |
 | NextSeqNo         | u64            | N            |                  | For a recoverable server flow only, the next application sequence number to be produced by the server. |
 
 The client should evaluate NextSeqNo to determine whether it missed any messages after re-establishment of a recoverable flow. If so, it may immediately send a RetransmitRequest .
@@ -167,7 +167,7 @@ Rejection reasons:
 |------------------|------------------------------|--------------|---------------------|---------------------------------------------------------|
 | MessageType      | Enum                         | Y            | EstablishmentReject |                                                         |
 | SessionId        | UUID                         | Y            |                     | SessionId is redundant and included only for robustness |
-| RequestTimestamp | nanotime                     | Y            |                     | Matches Establish.Timestamp                             |
+| RequestTimestamp | nanotime                     | Y            |                     | Must match Establish.Timestamp                             |
 | Code             | EstablishmentRejectCode Enum | Y            |                     |                                                         |
 | Reason           | string                       | N            |                     | Reject reason details                                   |
 
@@ -224,9 +224,9 @@ Session Heartbeat
 
 Each party must send a heartbeat message during each interval in which no application messages were sent. A client's heartbeat timing is governed by the KeepaliveInterval value it sent in the Establish message, and a server is governed by the value it sent in EstablishAck.
 
-Each party should check whether it has received any message from its counterparty in the expected interval. Silence is taken as evidence that the transport is no longer valid, and the session is terminated in that event.
+Each party should check whether it has received any message from its counterparty in the expected interval. Silence is taken as evidence that the transport is no longer valid, and the session should be terminated in that event.
 
-For recoverable or idempotent flows, the gap detection can be achieved by sending Sequence messages respecting the keepalive interval.
+For recoverable or idempotent flows, the gap detection should be achieved by sending Sequence messages respecting the keepalive interval.
 
 For Unsequenced and None (one-way session) flows, there is the UnsequencedHeartbeat message to detect that a logical session has disappeared or that there is a problem with the transport, allowing the peer to terminate session state timely and to potentially reestablish the session.
 
@@ -236,7 +236,7 @@ For Unsequenced and None (one-way session) flows, there is the UnsequencedHeartb
 |----------------|----------|--------------|----------------------|-----------------|
 | MessageType    | Enum     | Y            | UnsequencedHeartbeat |                 |
 
-When a session is being finalized, but the FinishedReceiving message has not yet been received, then FinishedSending message is used as the heartbeat.
+When a session is being finalized, but the FinishedReceiving message has not yet been received, then FinishedSending message must be used as the heartbeat.
 
 On TCP, it is recommended that Nagle algorithm be disabled to prevent the transmission of heartbeats and other messages from being delayed, potentially causing unnecessary session termination.
 
@@ -247,13 +247,13 @@ The following sections describe resynchronization of a recoverable flow.
 
 ### Retransmission Request
 
-When receiving a recoverable message flow, a peer may request sequenced messages to be retransmitted by sending a *RetransmitRequest* message, which is answered by one or more *Retransmission* messages (or with a *Terminate* message if the request is invalid).
+When receiving a recoverable message flow, a peer may request sequenced messages to be retransmitted by sending a *RetransmitRequest* message, which should be answered by one or more *Retransmission* messages (or with a *Terminate* message if the request is invalid).
 
-Only one RetransmitRequest is allowed in-flight at a time per session. Another RetransmitRequest may not be sent until a response has been received from a previous request.
+Only one RetransmitRequest is allowed in-flight at a time per session. Another RetransmitRequest must not be sent until a response has been received from a previous request.
 
 The receiver on a recoverable flow should accept messages with a higher sequence number after recognizing a gap. However, the application should queue messages for in-sequence processing after a requested retransmission is received.
 
-Sending a RetransmitRequest to the sender of an Idempotent ,Unsequenced or None flow is a protocol violation. In that case, the session should be terminated.
+Sending a RetransmitRequest to the sender of an Idempotent ,Unsequenced or None flow is a protocol violation. In that case, the session must be terminated.
 
 **RestransmitRequest**
 
@@ -287,7 +287,7 @@ Sending a RetransmitRequest to the sender of an Idempotent ,Unsequenced or None 
 
 This protocol does *not* require real-time messages to be held by the sender until retransmission of a range of messages is complete. Rather, ranges of retransmitted and real-time messages may be interleaved. Each time some messages are retransmitted, they must be preceded by a Retransmission message with a count of messages. Each time real-time flow resumes, a Sequence message (or Context message on a multiplexed flow) must be sent.
 
-The provider of a recoverable flow need not retransmit all requested messages in a single batch. Rather, retransmission may be executed as an iterative process. It is the requester's responsibility to determine whether the current batch fills the original gap. If not, it sends another RetransmitRequest for the remainder. Requests and responses proceed iteratively until all desired messages have been retransmitted. This interaction automatically paces the retransmission flow while allowing real-time messages to flow through uninhibited.
+The provider of a recoverable flow need not retransmit all requested messages in a single batch. Rather, retransmission should be executed as an iterative process. It is the requester's responsibility to determine whether the current batch fills the original gap. If not, it should send another RetransmitRequest for the remainder. Requests and responses should proceed iteratively until all desired messages have been retransmitted. This interaction automatically paces the retransmission flow while allowing real-time messages to flow through uninhibited.
 
 Pacing is the responsibility of the retransmitter. It is managed by controlling the size of batches of retransmitted messages. To maximize interleaving with real-time messages without queuing, it is recommended that messages be retransmitted in small batches. Optimally, a batch should not exceed to the size of a datagram, even on a TCP stream.
 
@@ -348,7 +348,7 @@ Finalization is a handshake that ends a logical session when there are no more m
 
 ### Finish Sending
 
-A FinishedSending message is sent to begin finalizing a logical session when the last application message in a flow has been sent.
+A FinishedSending message should be sent to begin finalizing a logical session when the last application message in a flow has been sent.
 
 The sender of this message awaits a FinishedReceiving response. It the wait takes longer than KeepaliveInterval for the flow, it should send FinishedSending messages as heartbeats until finalization is complete.
 
@@ -358,15 +358,15 @@ The sender of this message awaits a FinishedReceiving response. It the wait take
 |----------------|----------|--------------|-----------------|---------------------------------------------------------|
 | MessageType    | Enum     | Y            | FinishedSending |                                                         |
 | SessionId      | UUID     | Y            |                 | SessionId is redundant and included only for robustness |
-| LastSeqNo      | u64      | N            |                 | Populated for an idempotent or recoverable flow         |
+| LastSeqNo      | u64      | N            |                 | Must be populated for an idempotent or recoverable flow         |
 
 The counterparty should evaluate LastSeqNo to determine whether it has processed the flow to the end. If received on a recoverable flow, the counterparty may send a RetransmitRequest to recover any missed messages before acknowledging finalization of the flow. On an idempotent flow, it should send NotApplied to notify the sender of the gap.
 
 ### Finish Receiving
 
-Upon processing the last application message indicated by the FinishedSending message (possibly received on a retransmission), a FinishedReceving message is sent in response.
+Upon processing the last application message indicated by the FinishedSending message (possibly received on a retransmission), a FinishedReceving message must be sent in response.
 
-When a FinishedReceiving has been received by the party that initiated the finalization handshake, a Terminate message is sent to unbind the transport. At that point, the session is considered finalized, and its session ID is no longer valid.
+When a FinishedReceiving has been received by the party that initiated the finalization handshake, a Terminate message should sent to unbind the transport. At that point, the session is considered finalized, and its session ID is no longer valid.
 
 **FinishedReceiving**
 
@@ -384,7 +384,7 @@ Idempotent Flow
 
 When using the idempotent flow, the protocol ensures that each application message is an idempotent operation that will be guaranteed applied only once.
 
-To guarantee idempotence, a unique sequential identifier has to be allocated to each operation to be carried out. The response flow must identify which operations that have been carried out, and is sequenced. The lack of acknowledgment of an operation triggers the operation to be reattempted (at least once semantics). The lack of acknowledgment can be triggered by the acknowledgment of a later operation or by the expiration of a timer. The side carrying out an operation must filter out operations with a duplicate identifier (at most once semantics). If a transaction has already been applied, a duplicate request should be silently dropped. The combination of at-most-once and at-least-once semantics provide exactly-once semantics, making any operation tagged with a unique id to be idempotent.
+To guarantee idempotence, a unique sequential identifier msut be allocated to each operation to be carried out. The response flow must identify which operations that have been carried out, and is sequenced. The lack of acknowledgment of an operation should trigger the operation to be reattempted (at least once semantics). The lack of acknowledgment should be triggered by the acknowledgment of a later operation or by the expiration of a timer. The side carrying out an operation must filter out operations with a duplicate identifier (at most once semantics). If a transaction has already been applied, a duplicate request should be silently dropped. The combination of at-most-once and at-least-once semantics provide exactly-once semantics, making any operation tagged with a unique id to be idempotent.
 
 The sequence number is implicit and is defined using a Sequence message. The first message after Sequence has the sequence number NextSeqNo. The same lifetime rules apply for the implicit sequence number in the idempotent flow, as for the implicit sequence number in the recoverable flow.
 
@@ -414,7 +414,7 @@ Like Applied, the NotApplied message is handled as an application message. That 
 
 It is recommended that the return flow of an idempotent request flow be recoverable to allow Applied and NotApplied message to be resynchronized if necessary. Thus, the sender can determine with certainty (perhaps after some delay) which requests have been accepted.
 
-Sending NotApplied for a Recoverable, Unsequenced or None flow is a protocol violation. On a recoverable flow, RetransmitRequest should be used instead.
+Sending NotApplied for a Recoverable, Unsequenced or None flow is a protocol violation. On a recoverable flow, RetransmitRequest must be used instead.
 
 **NotApplied**
 
