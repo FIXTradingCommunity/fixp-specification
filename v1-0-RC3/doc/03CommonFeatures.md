@@ -80,9 +80,9 @@ FIXP provides no mechanism for fragmenting messages across datagrams. In other w
 
 ### Multiplexed session considerations
 
-If sessions are multiplexed over a transport, they should be framed independently. When multiplexing, the Context message expands Sequence to also specify the session being sequenced.
+If sessions are multiplexed over a transport, they should be framed independently. If a framing header is used, the same framing protocol must be used for all sessions on a multiplexed transport. There would be no practical way to delimit messages with mixed framing policies.
 
-If flows are multiplexed over a transport, the transport does not imply the session. Context is used to set the session for the remainder of the current datagram (in a datagram oriented transport) or until a new Context is passed. In a sequenced flow, Context supersedes the role of Sequence by including NextSeqNo (optimizes away the Sequence that would otherwise follow).
+If flows are multiplexed over a transport, the transport does not imply the session. When multiplexing, the Context message expands Sequence to also specify the session being sequenced. Context is used to set the session for the remainder of the current datagram (in a datagram oriented transport) or until a new Context is passed. In a sequenced flow, Context supersedes the role of Sequence by including NextSeqNo (optimizes away the Sequence that would otherwise follow).
 
 **Context**
 
