@@ -53,11 +53,13 @@ Negotiate message is sent from client to server.
 | Timestamp      | nanotime      | Y            |           | Time of request                                                                                                      |
 | SessionId      | UUID          | Y            |           | Session Identifier                                                                                                   |
 | ClientFlow     | FlowType Enum | Y            |           | Type of flow from client to server                                                                                   |
-| Credentials    | Object        | N            |           | Optional credentials to identify the session initiator. Format to be determined by agreement between counterparties. |
+| Credentials    | Object        | N            |           | Optional credentials to identify the client. Format to be determined by agreement between counterparties. |
 
 ### Accept Session Negotiation
 
 When a session is accepted by a server, it must send a NegotiationResponse in response to a Negotiate message.
+
+To support mutual authentication, a server may return a Credentials field to the NegotiationResponse message. It conveys identification of the server back to the client. As for the Credentials field in the Negotiate message, the format should be determined by agreement of counterparties.
 
 **NegotiationResponse**
 
@@ -67,11 +69,12 @@ When a session is accepted by a server, it must send a NegotiationResponse in re
 | RequestTimestamp | nanotime      | Y            |                     | Matches Negotiate.Timestamp        |
 | SessionId        | UUID          | Y            |                     | Session Identifier                 |
 | ServerFlow       | FlowType Enum | Y            |                     | Type of flow from server to client |
+| Credentials    | Object        | N            |           | Optional credentials to identify the server. Format to be determined by agreement between counterparties. |
 
 ### Reject Session Negotiation
 
 When a session cannot be created, a server must send NegotiationReject to the client, giving the reason for the rejection. No further messages should be sent, and the transport should be terminated.
-
+ 
 NegotiationRejectCode = Credentials | Unspecified | FlowTypeNotSupported | DuplicateId 
 
 Rejection reasons:
