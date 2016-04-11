@@ -37,6 +37,7 @@ To support late joiners, Topic messages should be repeated at regular intervals 
 | MessageType    | Enum     | Y            | Topic     |                 |
 | SessionId      | UUID     | Y            |           | Session Identifier
 | Flow           | FlowType Enum | Y       |           | Type of flow from publisher
+| KeepaliveInterval | DeltaMillisecs | Y            |           | The longest time in milliseconds the publisher should remain silent before sending a heartbeat                      |
 | Classification | Object   | Y            |           | Category of application messages that follow 
 
 ### Finalizing a Multicast Session
@@ -46,6 +47,6 @@ Finalization ends a logical flow when there are no more application messages to 
 Session Heartbeat
 -----------------
 
-During the lifetime of a multicast session, its publisher should send Sequence or Context messages as a heartbeat at regular intervals when the session is otherwise inactive. This allows a receiver to tell whether a session is live and has not reached the end of its logical flow.
+During the lifetime of a multicast session, its publisher should send Sequence or Context messages as a heartbeat at regular intervals when the session is otherwise inactive. This allows a receiver to tell whether a session is live and has not reached the end of its logical flow. Silence for longer than the KeepaliveInterval sent in a Topic message indicates possible data loss.
 
 If only a single Topic is published, then Sequence message may be used for heartbeats since there is no context switch. If multiple topics are published on a shared multicast transport, then Context must be used. See the Common Features section above for a description of sequence numbering and the Sequence and Context messages.
