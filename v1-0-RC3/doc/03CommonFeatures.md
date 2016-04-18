@@ -46,6 +46,10 @@ Message types are listed in this document as an enumeration of symbolic names. E
 
 See section 4 below for an enumeration of message types.
 
+### Fields
+
+Exact wire format is determined by a presentation layer protocol (message encoding). However, fields should be encoded in the same order that they are listed in this specification.
+
 Message Sequencing
 ------------------
 
