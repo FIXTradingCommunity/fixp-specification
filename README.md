@@ -25,6 +25,9 @@ RC2 and previous versions of FIXP, as well as other FIX high performance protoco
  
 FIXP is largely based on a designed submitted by Pantor Engineering under the name XMIT. See the original [XMIT specifiation] (http://blinkprotocol.org/s/XmitSpec-alpha15.pdf).
 
+## Reference implementation
+An open-source implementation of FIXP is available in GitHub project [FIXTradingCommunity/silverflash](https://github.com/FIXTradingCommunity/silverflash). That project also demonstrates FIX standards Simple Binary Encoding (SBE) and Simple Open Framing Header (SOFH).
+
 ## License
 FIXP specifications are ©Copyright 2014-2015 FIX Protocol Limited. 
 
