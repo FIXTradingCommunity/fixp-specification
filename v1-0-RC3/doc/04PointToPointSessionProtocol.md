@@ -50,28 +50,31 @@ Negotiate message is sent from client to server.
 | **Field name** | **Type**      | **Required** | **Value** | **Description**                                                                                                      |
 |----------------|---------------|--------------|-----------|----------------------------------------------------------------------------------------------------------------------|
 | MessageType    | Enum          | Y            | Negotiate |                                                                                                                      |
-| Timestamp      | nanotime      | Y            |           | Time of request                                                                                                      |
 | SessionId      | UUID          | Y            |           | Session Identifier                                                                                                   |
+| Timestamp      | nanotime      | Y            |           | Time of request                                                                                                      |
 | ClientFlow     | FlowType Enum | Y            |           | Type of flow from client to server                                                                                   |
-| Credentials    | Object        | N            |           | Optional credentials to identify the session initiator. Format to be determined by agreement between counterparties. |
+| Credentials    | Object        | N            |           | Optional credentials to identify the client. Format to be determined by agreement between counterparties. |
 
 ### Accept Session Negotiation
 
 When a session is accepted by a server, it must send a NegotiationResponse in response to a Negotiate message.
+
+To support mutual authentication, a server may return a Credentials field to the NegotiationResponse message. It conveys identification of the server back to the client. As for the Credentials field in the Negotiate message, the format should be determined by agreement of counterparties.
 
 **NegotiationResponse**
 
 | **Field name**   | **Type**      | **Required** | **Value**           | **Description**                    |
 |------------------|---------------|--------------|---------------------|------------------------------------|
 | MessageType      | Enum          | Y            | NegotiationResponse |                                    |
-| RequestTimestamp | nanotime      | Y            |                     | Matches Negotiate.Timestamp        |
 | SessionId        | UUID          | Y            |                     | Session Identifier                 |
+| RequestTimestamp | nanotime      | Y            |                     | Matches Negotiate.Timestamp        |
 | ServerFlow       | FlowType Enum | Y            |                     | Type of flow from server to client |
+| Credentials    | Object        | N            |           | Optional credentials to identify the server. Format to be determined by agreement between counterparties. |
 
 ### Reject Session Negotiation
 
 When a session cannot be created, a server must send NegotiationReject to the client, giving the reason for the rejection. No further messages should be sent, and the transport should be terminated.
-
+ 
 NegotiationRejectCode = Credentials | Unspecified | FlowTypeNotSupported | DuplicateId 
 
 Rejection reasons:
@@ -91,8 +94,8 @@ If negotiation is re-attempted after rejection, a new session ID should be gener
 | **Field name**   | **Type**                   | **Required** | **Value**         | **Description**             |
 |------------------|----------------------------|--------------|-------------------|-----------------------------|
 | MessageType      | Enum                       | Y            | NegotiationReject |                             |
-| RequestTimestamp | nanotime                   | Y            |                   | Matches Negotiate.Timestamp |
 | SessionId        | UUID                       | Y            |                   | Session Identifier          |
+| RequestTimestamp | nanotime                   | Y            |                   | Matches Negotiate.Timestamp |
 | Code             | NegotiationRejectCode Enum | Y            |                   |                             |
 | Reason           | string                     | N            |                   | Reject reason details       |
 
@@ -116,8 +119,8 @@ There is no specific timeout value for the wait defined in this protocol. Experi
 | **Field name**    | **Type**       | **Required** | **Value** | **Description**                                                                                                            |
 |-------------------|----------------|--------------|-----------|----------------------------------------------------------------------------------------------------------------------------|
 | MessageType       | Enum           | Y            | Establish |                                                                                                                            |
-| Timestamp         | nanotime       | Y            |           | Time of request                                                                                                            |
 | SessionId         | UUID           | Y            |           | Session Identifier                                                                                                         |
+| Timestamp         | nanotime       | Y            |           | Time of request                                                                                                            |
 | KeepaliveInterval | DeltaMillisecs | Y            |           | The longest time in milliseconds the initiator should remain silent before sending a keep alive message                      |
 | NextSeqNo         | u64            | N            |           | For re-establishment of a recoverable server flow only, the next application sequence number to be produced by the client. |
 | Credentials       | object         | N            |           | Optional credentials to identify the client.                                                                               |
@@ -275,8 +278,8 @@ Sending a RetransmitRequest to the sender of an Idempotent ,Unsequenced or None 
 |------------------|----------|--------------|-----------------|------------------------------------------------------------------------------------|
 | MessageType      | Enum     | Y            | Restransmission |                                                                                    |
 | SessionId        | UUID     | Y            |                 | Defeats the need for Context when multiplexing                                     |
-| NextSeqNo        | u64      | Y            |                 | Sequence number of the next message to be retransmitted                            |
 | RequestTimestamp | nanotime | Y            |                 | Value from RetransmitRequest Timestamp field. Used to match responses to requests. |
+| NextSeqNo        | u64      | Y            |                 | Sequence number of the next message to be retransmitted                            |
 | Count            | u32      | Y            |                 | Count of messages to be retransmitted in a batch                                   |
 
 #### Retransmission Diagram
