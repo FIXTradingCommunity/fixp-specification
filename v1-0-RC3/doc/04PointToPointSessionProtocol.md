@@ -89,7 +89,7 @@ Rejection reasons:
 
 If negotiation is re-attempted after rejection, a new session ID should be generated.
 
-**NegotiationResponse**
+**NegotiationReject**
 
 | **Field name**   | **Type**                   | **Required** | **Value**         | **Description**             |
 |------------------|----------------------------|--------------|-------------------|-----------------------------|
