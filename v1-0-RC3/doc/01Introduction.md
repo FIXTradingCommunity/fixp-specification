@@ -57,7 +57,7 @@ The FIX Simple Open Framing Header standard governs how messages are delimited a
 |------------------------------|----------------|------------------------|--------------------------------------|---------------|
 | Simple Open Framing Header | RC1            |                        | Optional usage at presentation layer | Yes           |
 | FIX message specifications   | 5.0 SP 2       |                        | Presentation and application layers  | No            |
-| FIX Simple Binary Encoding   | RC2            |                        | Optional usage at presentation layer | No            |
+| FIX Simple Binary Encoding   | Draft Standard |                        | Optional usage at presentation layer | No            |
 | Encoding FIX Using ASN.1     | Draft Standard |                        | Optional usage at presentation layer | No            |
 | Encoding FIX Using GPB       | RC2            |                        | Optional usage at presentation layer | No            |
 
