@@ -8,16 +8,11 @@ FIXP is part of a family of protocols created by the High Performance Working Gr
  of the FIX Trading Community. FIXP is a session layer protocol (layer 5).
 
 ## Versions
-### Current approved version: 1.0 Release Candidate 2
-Version 1.0 RC2 was approved by the Global Technical Committee in September 2015. The
-RC2 specification is included here for reference only. Pull requests for this
-version will not be accepted.
+### Current approved version: 1.0 Release Candidate 3
+Version 1.0 RC3 was approved by the Global Technical Committee on July 21, 2016. 
 
-### Next working draft: 1.0 Release Candidate 3
-A baseline for version 1.0 RC3 has been posted. The
-working group encourages users to submit issues for error corrections
-and enhancements. The working group will consider pull requests for
-changes to the working draft.
+The working group encourages users to submit issues for error corrections
+and enhancements. 
 
 ### Previous versions
 RC2 and previous versions of FIXP, as well as other FIX high performance protocols,
