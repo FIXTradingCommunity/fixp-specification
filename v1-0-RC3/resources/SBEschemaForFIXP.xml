@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbe:messageSchema xmlns:sbe="http://fixprotocol.io/2016/sbe" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://fixprotocol.io/2016/sbe sbe.xsd"
+package="FIXP" id="2748" version="0" byteOrder="littleEndian">
+	<types>
+		<type name="UUID" primitiveType="uint8" length="16" description="RFC 4122 version 4 compliant unique identifier"/>
+		<type name="nanotime" primitiveType="uint64" description="Time in nanoseconds"/>
+		<type name="DeltaMillisecs" primitiveType="uint32" description="Time interval in milliseconds"/>
+		<type name="ordinal" primitiveType="uint64"/>
+		<type name="cardinal" primitiveType="uint32"/>
+		<composite name="Object" description="Variable length data, also know as octect string">
+			<type name="length" primitiveType="uint16" semanticType="Length" />
+			<type name="varData" length="0" primitiveType="uint8" semanticType="data" />
+		</composite>
+		<composite name="CharacterString" description="Variable length text">
+			<type name="length" primitiveType="uint16" semanticType="Length" />
+			<type name="varData" length="0" primitiveType="char" semanticType="String" />
+		</composite>
+		<enum name="FlowType" encodingType="uint8">
+			<validValue name="Recoverable" description="Guarantees exactly-once message delivery">0</validValue>
+			<validValue name="Idempotent" description="Guarantees at-most-once delivery">1</validValue>
+			<validValue name="Unsequenced" description="Best effort delivery">2</validValue>
+			<validValue name="None" description="No application messages should be sent in one direction of a session">3</validValue>
+		</enum>
+		<enum name="NegotiationRejectCode" encodingType="uint8">
+			<validValue name="Credentials" description="Failed authentication because identity is not recognized, or the user is not authorized to use a particular service">0</validValue>
+			<validValue name="FlowTypeNotSupported" description="Server does not support requested client flow type">1</validValue>
+			<validValue name="DuplicateId" description="Session ID is non-unique">2</validValue>
+			<validValue name="Unspecified">3</validValue>
+		</enum>
+		<enum name="EstablishmentRejectCode" encodingType="uint8">
+			<validValue name="Unnegotiated" description="Establish request was not preceded by a Negotiation or session was finalized, requiring renegotiation">0</validValue>
+			<validValue name="AlreadyEstablished" description="EstablishmentAck was already sent; Establish was redundant">1</validValue>
+			<validValue name="SessionBlocked" description="User is not authorized">2</validValue>
+			<validValue name="KeepaliveInterval" description="Value is out of accepted range">3</validValue>
+			<validValue name="Credentials" description="Failed authentication because identity is not recognized, or the user is not authorized to use a particular service">4</validValue>
+			<validValue name="Unspecified">5</validValue>
+		</enum>
+		<enum name="RetransmitRejectCode" encodingType="uint8">
+			<validValue name="OutOfRange" description="NextSeqNo + Count is beyond the range of sequence numbers">0</validValue>
+			<validValue name="InvalidSession" description="The specified SessionId is unknown or is not authorized for the requester to access">1</validValue>
+			<validValue name="RequestLimitExceeded" description="The message Count exceeds a local rule for maximum retransmission size">2</validValue>
+		</enum>
+		<enum name="TerminationCode" encodingType="uint8">
+			<validValue name="Finished">0</validValue>
+			<validValue name="UnspecifiedError">1</validValue>
+			<validValue name="ReRequestOutOfBounds">2</validValue>
+			<validValue name="ReRequestInProgress">3</validValue>
+		</enum>
+		<composite name="messageHeader" description="Message identifiers and length of message root">
+            <type name="blockLength" primitiveType="uint16"/>
+            <type name="templateId" primitiveType="uint16"/>
+            <type name="schemaId" primitiveType="uint16"/>
+            <type name="version" primitiveType="uint16"/>
+        </composite>
+	</types>
+	<sbe:message name="Negotiate" id="1">
+		<field name="SessionId" id="1" type="UUID"/>
+		<field name="Timestamp" id="2" type="nanotime" description="Timestamp used as a unique identifier of the request"/>
+		<field name="ClientFlow" id="3" type="FlowType"/>
+		<data name="Credentials" id="4" type="Object"/>
+	</sbe:message>
+	<sbe:message name="NegotiationResponse" id="2">
+		<field name="SessionId" id="1" type="UUID"/>
+		<field name="RequestTimestamp" id="5" type="nanotime"/>
+		<field name="ServerFlow" id="6" type="FlowType"/>
+		<data name="Credentials" id="4" type="Object"/>
+	</sbe:message>
+	<sbe:message name="NegotiationReject" id="3">
+		<field name="SessionId" id="1" type="UUID"/>
+		<field name="RequestTimestamp" id="5" type="nanotime"/>
+		<field name="Code" id="7" type="NegotiationRejectCode"/>
+		<data name="Reason" id="8" type="CharacterString"/>
+	</sbe:message>
+	<sbe:message name="Topic" id="4">
+		<field name="SessionId" id="1" type="UUID"/>
+		<field name="Flow" id="8" type="FlowType"/>
+		<field name="KeepaliveInterval" id="9" type="DeltaMillisecs"/>
+		<data name="Classification" id="10" type="Object" description="Category of application messages that follow"/>
+	</sbe:message>
+	<sbe:message name="Establish" id="5">
+		<field name="SessionId" id="1" type="UUID"/>
+		<field name="Timestamp" id="2" type="nanotime"/>
+		<field name="KeepaliveInterval" id="9" type="DeltaMillisecs"/>
+		<field name="NextSeqNo" id="11" type="ordinal" presence="optional" description="For re-establishment of a recoverable flow only, the next application sequence number to be produced by the client"/>
+		<data name="Credentials" id="4" type="Object"/>
+	</sbe:message>
+	<sbe:message name="EstablishmentAck" id="6">
+		<field name="SessionId" id="1" type="UUID"/>
+		<field name="RequestTimestamp" id="5" type="nanotime"/>
+		<field name="KeepaliveInterval" id="9" type="DeltaMillisecs"/>
+		<field name="NextSeqNo" id="11" type="ordinal" presence="optional" description="For a recoverable flow only, the next application sequence number to be produced by the server"/>
+	</sbe:message>
+	<sbe:message name="EstablishmentReject" id="7">
+		<field name="SessionId" id="1" type="UUID"/>
+		<field name="RequestTimestamp" id="5" type="nanotime"/>
+		<field name="Code" id="12" type="EstablishmentRejectCode"/>
+		<data name="Reason" id="8" type="CharacterString"/>
+	</sbe:message>
+	<sbe:message name="Sequence" id="8">
+		<field name="NextSeqNo" id="11" type="ordinal"/>
+	</sbe:message>
+	<sbe:message name="Context" id="9">
+		<field name="SessionId" id="1" type="UUID"/>
+		<field name="NextSeqNo" id="11" type="ordinal"/>
+	</sbe:message>
+	<sbe:message name="UnsequencedHeartbeat" id="10"/>
+	<sbe:message name="RetransmitRequest" id="11">
+		<field name="SessionId" id="1" type="UUID"/>
+		<field name="Timestamp" id="2" type="nanotime"/>
+		<field name="FromSeqNo" id="13" type="ordinal" description="Sequence number of the first message requested"/>
+		<field name="Count" id="14" type="cardinal" description="Count of messages requested"/>
+	</sbe:message>
+	<sbe:message name="Retransmission" id="12">
+		<field name="SessionId" id="1" type="UUID"/>
+		<field name="RequestTimestamp" id="5" type="nanotime"/>
+		<field name="NextSeqNo" id="11" type="ordinal"/>
+		<field name="Count" id="14" type="cardinal" description="Count of messages to be retransmitted in a batch"/>
+	</sbe:message>
+	<sbe:message name="RestransmitReject" id="13">
+		<field name="SessionId" id="1" type="UUID"/>
+		<field name="RequestTimestamp" id="5" type="nanotime"/>
+		<field name="Code" id="15" type="RetransmitRejectCode"/>
+		<data name="Reason" id="8" type="CharacterString"/>
+	</sbe:message>
+	<sbe:message name="Terminate" id="14">
+		<field name="SessionId" id="1" type="UUID"/>
+		<field name="Code" id="16" type="TerminationCode"/>
+		<data name="Reason" id="8" type="CharacterString"/>
+	</sbe:message>
+	<sbe:message name="FinishedSending" id="15">
+		<field name="SessionId" id="1" type="UUID"/>
+		<field name="LastSeqNo" id="17" type="ordinal" presence="optional" description="Must be populated for an idempotent or recoverable flow"/>
+	</sbe:message>
+	<sbe:message name="FinishedReceiving" id="16">
+		<field name="SessionId" id="1" type="UUID"/>
+	</sbe:message>
+	<sbe:message name="Applied" id="17" description="An application message; consumes a sequence number">
+		<field name="FromSeqNo" id="13" type="ordinal" description="The first applied sequence number"/>
+		<field name="Count" id="14" type="cardinal" description="How many messages have been applied"/>
+	</sbe:message>
+	<sbe:message name="NotApplied" id="18" description="An application message; consumes a sequence number">
+		<field name="FromSeqNo" id="13" type="ordinal" description="The first not applied sequence number"/>
+		<field name="Count" id="14" type="cardinal" description="How many messages haven't been applied"/>
+	</sbe:message>
+</sbe:messageSchema>
