@@ -122,11 +122,12 @@ Definitions
 | Term    | Definition  |   
 |---------|-------------|                                                                                                                                                                            
 | Client      | Initiator of session.                                                                                                                                                                         
-| Credentials | In FIXP, credentials are used only for business entity identification, not as a security key.                                                                                           
+| Credentials | User identification                                                                                          
 | Flow        | A unidirectional stream of messages. Each flow has one producer and one or more consumers.                                                                                              
 | Idempotence | Idempotence means that an operation that is applied multiple times does not change the outcome, the result, after the first time                                                        
 | IP MC       | IP Multicast                                                                                                                                                               
 | Server      | Acceptor of session                                                                                                                                                                            
 | Session     | A dialog for exchanging application messages between peers.   An established point-to-point session consists of a pair of flows, one in each direction between peers. A multicast session consists of a single flow from the producer to multiple consumers. 
-| TCP         | Transmission Control Protocol                                                                                                                                                                  
+| TCP         | Transmission Control Protocol             
+| TLS         | Transport Layer Security is a set of cryptographic methods to provide security to a session. The successor to Security Sockets Layer (SSL).                                                                                                                                                 
 | UDP         | User Datagram Protocol           
