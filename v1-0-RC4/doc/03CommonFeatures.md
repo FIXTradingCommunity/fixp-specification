@@ -115,7 +115,9 @@ Each session must be identified by a unique Session ID encoded as a UUID version
 
 ### User Identification
 
-For most use cases, FIX security recommendations call for cryptographic methods of authentication external to FIXP. Users are thus identified by cryptographic certificates and authenticated by proven security protocols such as TLS. However, there are certain use cases in which FIX credentials may be used for authentication. Authentication of clients then takes place after a secure transport has been established. FIXP does not dictate the format of user credentials; they are agreed between counterparties. The Credentials field in FIXP holds any opaque data (datatype Object).
+The FIX Trading Community is in the process of specifying how to authenticate counterparties. This is expected to primarily using TLS and, optionally, using TLS in conjunction with FIX credentials.  FIX credentials can be used after a TLS tranport has been established, whilst its FIXP session is being established. In any event, the security features will be specified outside of FIXP, but may make use of FIXP credentials.
+
+FIXP does not dictate the format of user credentials. They are agreed between counterparties and should be documented in rules of engagement. The Credentials field in FIXP is of datatype Object (opaque data) so no restriction on its contents is imposed by the protocol.
 
 ### Session Lifetime
 
