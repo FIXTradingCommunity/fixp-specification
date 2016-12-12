@@ -18,7 +18,9 @@ This checklist is an aid to specifying a full protocol stack to be used for comm
 | **Session Layer**                     |							 |			   |
 | Supported flow types                  |							 |			   |
 | **Security protocols**                |							 |			   |                                      
+| TLS version                           |             |
 | Authentication                        |                            |             |
+| Cipher suites                         |                            |             |
 | **Transport Layer**                   |                            |             |
 | Transports supported                  |                            |             |                   
 | Other network protocols               |                            |             |
