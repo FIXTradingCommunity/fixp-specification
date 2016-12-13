@@ -10,6 +10,7 @@ FIXP Session Messages
 |                | NegotiationResponse  | Accepts session                        | •             | •            | •                  |           |
 |                | NegotiationReject    | Rejects session                        | •             | •            | •                  |           |
 |                | Topic                | Announces a flow                       |               |              |                    | •         |
+|                | MessageTemplate      | Delivers template                      | •             | •            | •                  | •         |
 | Binding        | Establish            | Binds session to transport             | •             | •            | •                  |           |
 |                | EstablishmentAck     | Accepts binding                        | •             | •            | •                  |           |
 |                | EstablishmentReject  | Rejects binding                        | •             | •            | •                  |           |
