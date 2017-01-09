@@ -126,3 +126,24 @@ A logical session is established between counterparties and lasts until informat
 A logical session is identified by a session ID, as described above, until its information flows are finalized. After finalization, the old session ID is no longer valid, and messages are no longer recoverable. Counterparties may subsequently start a new session under a different ID.
 
 A logical session is bound to a transport, but a session may outlive a transport connection. The binding to a transport may be terminated intentionally or may be triggered by an error condition. However, a client may reconnect and bind the existing session to the new transport. When re-establishing an existing session, the original session ID continues to be used, and recoverable messages that were lost by disconnection may be recovered.
+
+In-band Template Delivery
+-------------------------
+
+FIXP is independent of the wire format of session and application messages. However, some message encodings are controlled by templates that must be shared between peers in order to interoperate. Therefore, FIXP provides a means to deliver templates or message schemas. 
+
+All FIX encodings that use a template or message schema are supported. They are identified by the same code registered for Simple Open Framing Header (SOFH).
+
+Templates may be delivered either over a point-to-point or multicast session. MessageTemplate may be sent at any time. For a multicast, it is recommended to resend templates at intervals to support late joiners. It is assumed to apply to all sessions on a transport in the case of multiplexing.
+
+
+**MessageTemplate**
+
+| **Field name** | Type     | Required | Value           | Description |
+|----------------|----------|----------|-----------------|-------------|
+| MessageType    | Enum     | Y        | MessageTemplate |
+| EncodingType   | u32      | Y        |                 | Identifier registered for SOFH
+| EffectiveTime  | nanotime | N        |                 | Date-time that the template becomes effective. If not present, effective immediately.
+| Version        | Object   | N        |                 | Version and format description. Version may also be embedded in the template itself, depending on protocol.
+| Template       | Object   | Y        |                 | Content of the template or message schema
+
