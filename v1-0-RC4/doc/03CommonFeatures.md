@@ -130,7 +130,7 @@ A logical session is bound to a transport, but a session may outlive a transport
 In-band Template Delivery
 -------------------------
 
-FIXP is independent of the wire format of session and application messages. However, some message encodings are controlled by templates that must be shared between peers in order to interoperate. Therefore, FIXP provides a means to delivery templates or message schemas. 
+FIXP is independent of the wire format of session and application messages. However, some message encodings are controlled by templates that must be shared between peers in order to interoperate. Therefore, FIXP provides a means to deliver templates or message schemas. 
 
 All FIX encodings that use a template or message schema are supported. They are identified by the same code registered for Simple Open Framing Header (SOFH).
 
