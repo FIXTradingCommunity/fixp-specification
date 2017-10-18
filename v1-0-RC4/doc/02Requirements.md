@@ -29,7 +29,10 @@ Of necessity, the session protocol makes some adaptations for transport layer pr
 
 ### Security Mechanisms
 
-FIXP does not specify security features for user authentication or privacy. If such features are desired, it is recommended that proven mechanisms be employed in other protocol layers, such as a secure transport.
+FIXP does not specify its own security features. Rather, the FIX Trading Community separately issues security requirements and recommendations that may apply to FIXP
+and other FIX session protocols. Due to the ever-changing nature of information security, the requirements and recommendations are likely to be updated periodically. In general, it is recommended that FIX traffic be protected by using proven controls specified by the FIX Trading Community.
+
+The FIX Trading Community is in the process of specifying how to authenticate parties using TLS and optionally using FIX credentials.  FIX credentials can be used to authenticate a client after an underlying TLS session has been established. FIXP supports this use case by providing a field for credentials in the FIXP session negotiation handshake.
 
 ### Low Overhead
 

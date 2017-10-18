@@ -55,7 +55,7 @@ The FIX Simple Open Framing Header standard governs how messages are delimited a
 
 | Related Standard         | Version    | Reference location | Relationship                    | Normative |
 |------------------------------|----------------|------------------------|--------------------------------------|---------------|
-| Simple Open Framing Header | RC1            |                        | Optional usage at presentation layer | Yes           |
+| Simple Open Framing Header | Draft Standard   |                        | Optional usage at presentation layer | Yes           |
 | FIX message specifications   | 5.0 SP 2       |                        | Presentation and application layers  | No            |
 | FIX Simple Binary Encoding   | Draft Standard |                        | Optional usage at presentation layer | No            |
 | Encoding FIX Using ASN.1     | Draft Standard |                        | Optional usage at presentation layer | No            |
@@ -121,12 +121,14 @@ Definitions
 
 | Term    | Definition  |   
 |---------|-------------|                                                                                                                                                                            
-| Client      | Initiator of session.                                                                                                                                                                         
-| Credentials | In FIXP, credentials are used only for business entity identification, not as a security key.                                                                                           
+| Client      | Initiator of session                                                                                                                                                                        
+| Credentials | User identification for authentication                                                                                        
 | Flow        | A unidirectional stream of messages. Each flow has one producer and one or more consumers.                                                                                              
 | Idempotence | Idempotence means that an operation that is applied multiple times does not change the outcome, the result, after the first time                                                        
-| IP MC       | IP Multicast                                                                                                                                                               
+| Multicast   | A method of sending datagrams from one producer to multiple
+| IETF        | Internet Engineering Task Force                                                                                                                                                
 | Server      | Acceptor of session                                                                                                                                                                            
 | Session     | A dialog for exchanging application messages between peers.   An established point-to-point session consists of a pair of flows, one in each direction between peers. A multicast session consists of a single flow from the producer to multiple consumers. 
-| TCP         | Transmission Control Protocol                                                                                                                                                                  
-| UDP         | User Datagram Protocol           
+| TCP         | Transmission Control Protocol is a set of IETF standards for a reliable stream of data exchanged between peers. Since it is connection oriented, it incorporates some features of a session protocol.  
+| TLS         | Transport Layer Security is a set of IETF standards to provide security to a session. TLS is a successor to Secure Sockets Layer (SSL).                                                                                                                                                 
+| UDP         | User Datagram Protocol is a connectionless transmission for delivering packets of data. Any rules for a long-lived exchange of messages must be supplied by a session protocol.
