@@ -125,7 +125,7 @@ Definitions
 | Credentials | User identification for authentication                                                                                        
 | Flow        | A unidirectional stream of messages. Each flow has one producer and one or more consumers.                                                                                              
 | Idempotence | Idempotence means that an operation that is applied multiple times does not change the outcome, the result, after the first time                                                        
-| Multicast   | A method of sending datagrams from one producer to multiple
+| Multicast   | A method of sending datagrams from one producer to multiple consumers
 | IETF        | Internet Engineering Task Force                                                                                                                                                
 | Server      | Acceptor of session                                                                                                                                                                            
 | Session     | A dialog for exchanging application messages between peers.   An established point-to-point session consists of a pair of flows, one in each direction between peers. A multicast session consists of a single flow from the producer to multiple consumers. 
