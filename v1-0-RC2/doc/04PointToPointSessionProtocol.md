@@ -382,7 +382,7 @@ When a FinishedReceiving has been received by the party that initiated the final
 Idempotent Flow
 ---------------
 
-When using the idempotent flow, the protocol ensures that each application message is an idempotent operation that will be guaranteed applied only once.
+When using the idempotent flow, the protocol ensures that each application message is an idempotent operation that will be guaranteed to be applied only once.
 
 To guarantee idempotence, a unique sequential identifier has to be allocated to each operation to be carried out. The response flow must identify which operations that have been carried out, and is sequenced. The lack of acknowledgment of an operation triggers the operation to be reattempted (at least once semantics). The lack of acknowledgment can be triggered by the acknowledgment of a later operation or by the expiration of a timer. The side carrying out an operation must filter out operations with a duplicate identifier (at most once semantics). If a transaction has already been applied, a duplicate request should be silently dropped. The combination of at-most-once and at-least-once semantics provide exactly-once semantics, making any operation tagged with a unique id to be idempotent.
 
