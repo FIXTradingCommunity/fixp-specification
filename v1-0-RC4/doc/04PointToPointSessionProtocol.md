@@ -21,31 +21,16 @@ Session Initiation and Negotiation
 
 A negotiation dialog is provided to support a session negotiation protocol that is used for a client to declare what id it will be using, without having to go out of band. There is no concept of resetting a session. Instead of starting over a session, a new session is negotiated - a SessionId in UUID form is cheap.
 
-The optional session negotiation is expected to occur at session initiation.
-
-### Flow Type
-
-The negotiation protocol identifies the types of message flow in each direction of a session.
-
-FlowType = Recoverable | Unsequenced | Idempotent | None 
-
-From highest to lowest delivery guarantee, the flow types are:
-
--   **Recoverable**: Guarantees exactly-once message delivery. If gaps are detected, then missed messages may be recovered by retransmission.
-
--   **Idempotent**: Guarantees at-most-once delivery. If gaps are detected, the sender is notified, but recovery is under control of the application, if it is done at all.
-
--   **Unsequenced**: Makes no delivery guarantees (best-effort). This choice is appropriate if guarantees are unnecessary or if recovery is provided at the application layer or through a different communication channel.
-
--   **None**: No application messages should be sent in one direction of a session. If ClientFlow is None, then application messages flow only from server to client.
-
-By agreement between counterparties, only certain of these flow types may be supported for a particular service.
+The negotiation dialog declares the types of message flow in each direction of a session.
 
 ### Initiate Session Negotiation
 
 Negotiate message is sent from client to server.
 
 **Negotiate**
+
+
+FlowType = Recoverable | Unsequenced | Idempotent | None 
 
 | **Field name** | **Type**      | **Required** | **Value** | **Description**                                                                                                      |
 |----------------|---------------|--------------|-----------|----------------------------------------------------------------------------------------------------------------------|
@@ -62,6 +47,8 @@ When a session is accepted by a server, it must send a NegotiationResponse in re
 To support mutual authentication, a server may return a Credentials field to the NegotiationResponse message. It conveys identification of the server back to the client. As for the Credentials field in the Negotiate message, the format should be determined by agreement of counterparties.
 
 **NegotiationResponse**
+
+FlowType = Recoverable | Unsequenced | Idempotent | None
 
 | **Field name**   | **Type**      | **Required** | **Value**           | **Description**                    |
 |------------------|---------------|--------------|---------------------|------------------------------------|

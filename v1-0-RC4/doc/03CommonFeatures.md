@@ -50,61 +50,11 @@ See section 4 below for an enumeration of message types.
 
 Exact wire format is determined by a presentation layer protocol (message encoding). However, fields should be encoded in the same order that they are listed in this specification.
 
-Message Sequencing
-------------------
-
-### Sequence Numbering
-
-Sequence numbering supports ordered delivery and recovery of messages. In FIXP, only application messages are sequenced, not session protocol messages. A Sequence message (or Context message described below) must be used to start a sequenced flow of application messages. Any applications message passed after a Sequence message is implicitly numbered, where the first message after Sequence has the sequence number NextSeqNo.
-
-Sending a Sequence message on an Unsequenced or None (one-way session) flow is a protocol violation.
-
-**Sequence**
-
-| **Field name** | Type | Required | Value    | Description |
-|----------------|------|----------|----------|-------------|
-| MessageType    | Enum | Y        | Sequence |
-| NextSeqNo      | u64  | Y        |          | The sequence number of the next message after the Sequence message.
-
-### Message framing
+### Message Framing
 
 FIXP does not require application messages to have a session layer header. Application messages may have their own presentation layer header, depending on encoding. However, application messages may immediately follow Sequence without any intervening session layer prologue.
 
 Optionally, application messages may be delimited by use of the Simple Open Framing Header. This is most useful if session message encoding is different than application message encoding or if a session carries application messages in multiple encodings. The framing header identifies the encoding of the message that follows and gives its overall length. If it is used, then FIXP need not parse application messages to determine length and keep track of message counts in a flow.
-
-### Application message sequencing considerations
-
-An application layer defined on top is obviously free to put any required application level sequencing inside messages.
-
-### Datagram oriented protocol considerations
-
-Using a datagram oriented transport like UDP, each datagram carrying a sequenced flow, the Sequence message is key to detecting packet loss and packet reordering and must precede any application messages in the packet.
-
-FIXP provides no mechanism for fragmenting messages across datagrams. In other words, each application message must fit within a single datagram on UDP.
-
-### Multiplexed session considerations
-
-If sessions are multiplexed over a transport, they should be framed independently. If a framing header is used, the same framing protocol must be used for all sessions on a multiplexed transport. There would be no practical way to delimit messages with mixed framing policies.
-
-If flows are multiplexed over a transport, the transport does not imply the session. When multiplexing, the Context message expands Sequence to also specify the session being sequenced. Context is used to set the session for the remainder of the current datagram (in a datagram oriented transport) or until a new Context is passed. In a sequenced flow, Context supersedes the role of Sequence by including NextSeqNo (optimizes away the Sequence that would otherwise follow).
-
-**Context**
-
-| **Field name** | Type | Required | Value    | Description |
-|----------------|------|----------|----------|-------------|
-| MessageType    | Enum | Y        | Context  |
-| SessionId      | UUID | Y        |          | Session Identifier
-| NextSeqNo      | u64  | N        |          | The sequence number of the next message after the Context message.
-
-### Sequence context switches
-
-A change in session context ends the sequence of messages implicitly and the sender must pass a Sequence or Context message again before starting to send sequenced messages. A Sequence message must be sent if the session is not multiplexed and Context must be sent if it is multiplexed.
-
-Changes of session context include:
-
--   Interleaving of new, real-time messages and retransmitted messages.
-
--   Switching from one multiplexed session to another when sharing a transport.
 
 Session Properties
 ------------------
@@ -126,6 +76,84 @@ A logical session is established between counterparties and lasts until informat
 A logical session is identified by a session ID, as described above, until its information flows are finalized. After finalization, the old session ID is no longer valid, and messages are no longer recoverable. Counterparties may subsequently start a new session under a different ID.
 
 A logical session is bound to a transport, but a session may outlive a transport connection. The binding to a transport may be terminated intentionally or may be triggered by an error condition. However, a client may reconnect and bind the existing session to the new transport. When re-establishing an existing session, the original session ID continues to be used, and recoverable messages that were lost by disconnection may be recovered.
+
+### Flow Types
+
+Each stream of application messages in one direction on a FIXP session is called a flow. FIXP supports configurable delivery guarantees for each flow. A birectional session may have asymetrical flows.
+
+From highest to lowest delivery guarantee, the flow types are:
+
+-   **Recoverable**: Guarantees exactly-once message delivery. If gaps are detected, then missed messages may be recovered by retransmission.
+
+-   **Idempotent**: Guarantees at-most-once delivery. If gaps are detected, the sender is notified, but recovery is under control of the application, if it is done at all.
+
+-   **Unsequenced**: Makes no delivery guarantees (best-effort). This choice is appropriate if guarantees are unnecessary or if recovery is provided at the application layer or through a different communication channel.
+
+-   **None**: No application messages should be sent in one direction of a session. If ClientFlow is None, then application messages flow only from server to client.
+
+#### Flow Restrictions
+
+All the flow types listed above are possible for a point-to-point session. Only one of the flows may be None, meaning that although the transport supports bidirectional transmissions, application messages flow in only one direction. 
+By agreement between counterparties, only certain of these flow types may be supported for a particular service.
+
+A multicast session only supports one flow from producer to consumers, and it is restricted to the Idempotent type, possibly with out-of-band recovery.
+
+Message Sequencing
+------------------
+
+### Sequence Numbering
+
+Sequence numbering supports ordered delivery and recovery of messages. In FIXP, only application messages are sequenced, not session protocol messages. A Sequence message (or Context message described below) must be used to start a sequenced flow of application messages. Any applications message passed after a Sequence message is implicitly numbered, where the first message after Sequence has the sequence number NextSeqNo.
+
+Sending a Sequence or Context message on an Unsequenced or None flow is a protocol violation.
+
+**Sequence**
+
+Sequence message must be used only in a Recoverable or Idempotent flow on a non-multiplexed transport.
+
+| **Field name** | Type | Required | Value    | Description |
+|----------------|------|----------|----------|-------------|
+| MessageType    | Enum | Y        | Sequence |
+| NextSeqNo      | u64  | Y        |          | The sequence number of the next message after the Sequence message.
+
+
+
+### Datagram oriented protocol considerations
+
+Using a datagram oriented transport like UDP, each datagram carrying a sequenced flow, the Sequence message is key to detecting packet loss and packet reordering and must precede any application messages in the packet.
+
+FIXP provides no mechanism for fragmenting messages across datagrams. In other words, each application message must fit within a single datagram on UDP.
+
+### Multiplexed session considerations
+
+If sessions are multiplexed over a transport, they should be framed independently. If a framing header is used, the same framing protocol must be used for all sessions on a multiplexed transport. There would be no practical way to delimit messages with mixed framing policies.
+
+If flows are multiplexed over a transport, the transport does not imply the session. When multiplexing, the Context message expands Sequence to also specify the session being sequenced. Context is used to set the session for the remainder of the current datagram (in a datagram oriented transport) or until a new Context is passed. In a sequenced flow, Context supersedes the role of Sequence by including NextSeqNo (optimizes away the Sequence that would otherwise follow).
+
+**Context**
+
+Context message must be used in a Recoverable or Idempotent flow on a multiplexed transport.
+
+| **Field name** | Type | Required | Value    | Description |
+|----------------|------|----------|----------|-------------|
+| MessageType    | Enum | Y        | Context  |
+| SessionId      | UUID | Y        |          | Session Identifier
+| NextSeqNo      | u64  | N        |          | The sequence number of the next message after the Context message.
+
+### Context switches
+
+A change in session context ends the sequence of messages implicitly and the sender must pass a Sequence or Context message again before starting to send sequenced messages. A Sequence message must be sent if the session is not multiplexed and Context must be sent if it is multiplexed.
+
+Changes of session context include:
+
+-   Interleaving of new, real-time messages and retransmitted messages.
+
+-   Switching from one multiplexed session to another when sharing a transport.
+
+
+### Application Layer Sequencing
+
+Application-layer sequencing may be used on an Unsequenced flow as an alternative to FIXP session-layer message sequencing. If used, each application message body must contain an identifier used to sequence messages, and the application provider must specify rules for out-of-order delivery and recovery.
 
 In-band Template Delivery
 -------------------------
