@@ -43,6 +43,12 @@ To support late joiners, Topic messages should be repeated at regular intervals 
 
 Finalization ends a logical flow when there are no more application messages to send. A multicast flow should be finalized by transmitting a FinishedSending message. No further messages should be sent, and the session ID is no longer valid after that.
 
+Idempotent Flow over Multicast
+------------------------------
+The goal of an idempotent flow over multicast is to provide at-most-once delivery guarantee to each consumer. Unlike a point-to-point session, however, there is no opportunity to return a NotApplied message to the producer over a one-way transport if a sequence number gap is detected. Therefore, on a multicast, an idempotent flow provides a means to detect data loss, but no direct way to notify the producer or initiate recovery.
+
+An idempotent flow is implemented by the producer in the same way over a multicast transport as for point-to-point over UDP unicast. Each datagram must begin with either a Sequence message if non-multiplexed or a Context message if the flow is sent over a multiplexed transport.
+
 Session Heartbeat
 -----------------
 
