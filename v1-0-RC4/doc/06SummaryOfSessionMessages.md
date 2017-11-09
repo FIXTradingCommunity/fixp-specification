@@ -38,12 +38,10 @@ Summary of Protocol Violations
 
 If any of these violations by a peer is detected, the session should be terminated.
 
--   Sending a session message that is inappropriate to the flow type, such as a Sequence message on an unsequenced flow. See table above.
+- Sending a session message that is inappropriate to the flow type, such as a Sequence message on an unsequenced flow. See table above.
+- Sending an application message on a session that is not in established state.
+- Reusing the session ID of a session that was finalized. (The server may have a practical limit of session history to enforce this rule.)
+- Sending a RetransmitRequest while a retransmission is in progress.
+- Sending a RetransmitRequest with request range out of bounds. That is, it is a violation to request a retransmission of a message with a sequence number that has not been sent yet.
 
--   *Sending an application message on a session that is not in established state.*
-
--   *Reusing the session ID of a session that was finalized.*
-
--   Sending a RetransmitRequest while a retransmission is in progress.
-
--   *Sending a RetransmitRequest with request range out of bounds. That is, it is a violation to request a retransmission of a message with a sequence number that has not been sent yet.*
+It is a protocol violation to send an application message on a session after logical flow finalization or termination. Any such messages should be ignored.
