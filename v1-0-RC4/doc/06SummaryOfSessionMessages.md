@@ -42,7 +42,11 @@ If any of these violations by a peer is detected, the session should be immediat
 
 -  Sending an application message on a point-to-point session that is not in established state. That is, prior to EstablishmentAck.
 
-- Sending an application message after logical flow has been finalized with Finished Sending/Finished Receiving.
+- Sending Establish without having successfully negotiated a session. That is, a NegotiationResponse must have been received for the session.
+
+- Sending an application message after logical flow has been finalized with FinishedSending. The responder on a point-to-point session may not send an application message after sending FinishedReceiving.
+
+- Sending FinishedReceiving without having received FinishedSending from the peer.
 
 - Sending any application or session message after sending Terminate.
 
