@@ -10,11 +10,11 @@ A logical session must be created by using a Negotiation message. The session ID
 
 After negotiation is complete, the client must send an Establish message to reach the established state. Once established, exchange of application messages may proceed. The established state is concurrent with the lifetime of a connection-oriented transport such as TCP. A client may re-establish a previous session after reconnecting without any further negotiation. Thus, Establish binds the session to the new transport instance.
 
-To signal a counterparty that a disconnection is about to occur, a Terminate message should be sent. This unbinds the transport from the session, but it does not end a logical session.
+To signal a peer that a disconnection is about to occur, a Terminate message should be sent. This unbinds the transport from the session, but it does not end a logical session.
 
 A session that has a recoverable flow may be re-established by sending Establish with the same session ID, and an exchange of messages may continue until all business transactions are finished.
 
-A logical session should be ended by sending a FinishedSending message. Thereafter, no more application messages should be sent. The counterparty must respond with FinishedReceiving when it has processed the last message, and then the transport must be terminated for the final time for that session. Once a flow is finalized and the transport is unbound, a session ID is no longer valid and messages previously sent on that session are no longer recoverable.
+A logical session should be ended by sending a FinishedSending message. Thereafter, no more application messages should be sent. The peer must respond with FinishedReceiving when it has processed the last message, and then the transport must be terminated for the final time for that session. Once a flow is finalized and the transport is unbound, a session ID is no longer valid and messages previously sent on that session are no longer recoverable.
 
 Session Initiation and Negotiation
 ----------------------------------
@@ -108,7 +108,7 @@ There is no specific timeout value for the wait defined in this protocol. Experi
 | MessageType       | Enum           | Y            | Establish |                                                                                                                            |
 | SessionId         | UUID           | Y            |           | Session Identifier                                                                                                         |
 | Timestamp         | nanotime       | Y            |           | Time of request                                                                                                            |
-| KeepaliveInterval | DeltaMillisecs | Y            |           | The longest time in milliseconds the initiator should remain silent before sending a keep alive message                      |
+| KeepaliveInterval | DeltaMillisecs | Y            |           | The longest time in milliseconds the client may remain silent before sending a keep alive message                      |
 | NextSeqNo         | u64            | N            |           | For re-establishment of a recoverable server flow only, the next application sequence number to be produced by the client. |
 | Credentials       | object         | N            |           | Optional credentials to identify the client.                                                                               |
 
@@ -128,7 +128,7 @@ Used to indicate the acceptor acknowledges the session. If the communication flo
 | MessageType       | Enum           | Y            | EstablishmentAck |                                                                                                        |
 | SessionId         | UUID           | Y            |                  | SessionId is included only for robustness, as matching RequestTimestamp is enough                      |
 | RequestTimestamp  | nanotime       | Y            |                  | Must match Establish.Timestamp                                                                            |
-| KeepaliveInterval | DeltaMillisecs | Y            |                  | The longest time in milliseconds the acceptor should wait before sending a keep alive message            |
+| KeepaliveInterval | DeltaMillisecs | Y            |                  | The longest time in milliseconds the server may wait before sending a keep alive message            |
 | NextSeqNo         | u64            | N            |                  | For a recoverable server flow only, the next application sequence number to be produced by the server. |
 
 The client should evaluate NextSeqNo to determine whether it missed any messages after re-establishment of a recoverable flow. If so, it may immediately send a RetransmitRequest .
@@ -168,9 +168,9 @@ Rejection reasons:
 Transport Termination
 ---------------------
 
-Terminate is a signal to the counterparty that this side is dropping the binding between the logical session and the underlying transport. A session may terminate its transport if there are no more messages to send but it intends to restart at a later time.
+Terminate is a signal to the peer that a party intends to drop the binding between the logical session and the underlying transport. Either peer may terminate its transport if there are no more messages to send but it expects to re-establish the logical session at a later time.
 
-An established session becomes terminated (stops being established) for the following reasons:
+An established session becomes terminated (stops being established) for any of the following reasons:
 
 -   One of the peers receives a Terminate message.
 
@@ -181,6 +181,8 @@ An established session becomes terminated (stops being established) for the foll
 -   The peer violated this protocol. A specific example of protocol violation is to send a RetransmitRequest while another one is in progress.
 
 -   Additionally, a transport should be terminated if an unrecoverable error occurs in message parsing or framing.
+
+No other messages may be sent on the session after sending a Terminate message. Any messages sent after Terminate are a protocol violation and should be ignored.
 
 TerminationCode = Finished | UnspecifiedError | ReRequestOutOfBounds | ReRequestInProgress 
 
@@ -195,11 +197,19 @@ TerminationCode = Finished | UnspecifiedError | ReRequestOutOfBounds | ReRequest
 
 ### Terminate Response
 
-On a point-to-point session, either peer may initiate termination. Upon receiving a Terminate message, the acceptor must respond to the initiator with a Terminate message before disconnecting the transport.
+On a point-to-point session, the party that initiated termination should then wait for a response from its peer to permit in-flight messages to be processed. Upon receiving a Terminate message, the receiver must respond with a Terminate message. The Terminate response must be the last message sent.
 
-On a connectionless transport such as UDP, the Terminate message informs the peer that message exchange is suspended.
+If the peer is unresponsive to Terminate for a heartbeat interval, then the initiator of termination should consider the session terminated anyway.
 
-On a connection-oriented transport such as TCP, when the initiator receives the Terminate response, it must disconnect the transport from its end. When the acceptor receives the TCP peer reset signal, it completes closing of the transport.
+### Closing the Transport
+
+On a non-multiplexed transport, when the party that initiated termination receives the Terminate response from its peer, it then should close the transport immediately.
+
+On a multiplexed transport, the transport should be closed when the last session on that transport is terminated. When termination is the result of an unexpected transport disconnection, then all sessions on that transport are terminated.
+
+On a connectionless transport such as UDP, the Terminate message informs the peer that message exchange is suspended since there is no disconnection signal in the transport layer.
+
+On a connection-oriented transport such as TCP, when the last peer that initiated termination receives a Terminate response, it should disconnect the socket from its end. Both peers then complete the transport close handshake.
 
 ### Terminate Session Sequence Diagrams
 
@@ -214,7 +224,7 @@ Session Heartbeat
 
 Each party must send a heartbeat message during each interval in which no application messages were sent. A client's heartbeat timing is governed by the KeepaliveInterval value it sent in the Establish message, and a server is governed by the value it sent in EstablishAck.
 
-Each party should check whether it has received any message from its counterparty in the expected interval. Silence is taken as evidence that the transport is no longer valid, and the session should be terminated in that event.
+Each party should check whether it has received any message from its peer in the expected interval. Silence is taken as evidence that the transport is no longer valid, and the session should be terminated in that event.
 
 For recoverable or idempotent flows, the gap detection should be achieved by sending Sequence messages respecting the keepalive interval.
 
@@ -350,7 +360,7 @@ The sender of this message awaits a FinishedReceiving response. If the wait take
 | SessionId      | UUID     | Y            |                 | SessionId is redundant and included only for robustness |
 | LastSeqNo      | u64      | N            |                 | Must be populated for an idempotent or recoverable flow         |
 
-The counterparty should evaluate LastSeqNo to determine whether it has processed the flow to the end. If received on a recoverable flow, the counterparty may send a RetransmitRequest to recover any missed messages before acknowledging finalization of the flow. On an idempotent flow, it should send NotApplied to notify the sender of the gap.
+The peer should evaluate LastSeqNo to determine whether it has processed the flow to the end. If received on a recoverable flow, the peer may send a RetransmitRequest to recover any missed messages before acknowledging finalization of the flow. On an idempotent flow, it should send NotApplied to notify the sender of the gap.
 
 ### Finish Receiving
 
