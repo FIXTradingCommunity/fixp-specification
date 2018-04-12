@@ -222,7 +222,9 @@ On a connection-oriented transport such as TCP, when the last peer that initiate
 Session Heartbeat
 -----------------
 
-Each party must send a heartbeat message during each interval in which no application messages were sent. A client's heartbeat timing is governed by the KeepaliveInterval value it sent in the Establish message, and a server is governed by the value it sent in EstablishAck.
+Each peer must send a heartbeat message during each interval in which no application messages were sent. A party may send a heartbeat before its interval has expired, for example to force its peer to check for a sequence number gap prior to sending a large batch of application messages. 
+
+A client's heartbeat timing is governed by the KeepaliveInterval value it sent in the Establish message, and a server is governed by the value it sent in EstablishAck.
 
 Each party should check whether it has received any message from its peer in the expected interval. Silence is taken as evidence that the transport is no longer valid, and the session should be terminated in that event.
 
@@ -384,15 +386,17 @@ Idempotent Flow
 
 When using the idempotent flow, the protocol ensures that each application message is an idempotent operation that will be guaranteed to be applied only once.
 
-To guarantee idempotence, a unique sequential identifier must be allocated to each operation to be carried out. The response flow must identify which operations have been carried out, and is sequenced. The lack of acknowledgment of an operation should trigger the operation to be reattempted (at least once semantics). The lack of acknowledgment should be triggered by the acknowledgment of a later operation or by the expiration of a timer. The side carrying out an operation must filter out operations with a duplicate identifier (at most once semantics). If a transaction has already been applied, a duplicate request should be silently dropped. The combination of at-most-once and at-least-once semantics provide exactly-once semantics, making any operation tagged with a unique id to be idempotent.
+To guarantee idempotence, a unique sequential identifier must be allocated to each operation to be carried out. The response flow must identify which operations have been carried out, and is sequenced. The lack of acknowledgment of an operation should trigger the operation to be reattempted (at least once semantics). The lack of acknowledgment should be triggered by the acknowledgment of a later operation or by the expiration of a timer. The side carrying out an operation must filter out operations with a duplicate identifier (at most once semantics). If a transaction has already been applied, a duplicate request should be silently dropped.
 
-The sequence number is implicit and is defined using a Sequence message. The first message after Sequence has the sequence number NextSeqNo. The same lifetime rules apply for the implicit sequence number in the idempotent flow, as for the implicit sequence number in the recoverable flow.
+The start of a idempotent flow must be initiated with a Sequence message (or Context message on a multiplexed transport) that explicitly provides the sequence number  of the next application message in its field NextSeqNo. The first application message after a Sequence (or Context) message has the implicit sequence number NextSeqNo. For subsequent application messages, the sequence number is incremented implicitly. That is, the sequence number is not sent on the wire in every application message, but rather, sender and receiver each should keep track of the next expected sequence number.
 
-Unless the recoverable server return flow identifies the result of operations at the application level, implementers may opt to use the following *Applied* or *NotApplied* messages to return the status of the operation.
+As explained in section 3, a Sequence or Context message must be sent after any context switch or once per packet on a Datagram oriented transport. Additionally, as explained in [Session Heartbeat](#session-heartbeat), they must be sent as hearbeats during idle periods. After every explicit NextSeqNo, the sequence number of subsequent application messages should be tracked implicitly.
+
+The recoverable server return flow should report the result of operations at the application level. Implementers may opt to use the following *Applied* or *NotApplied* messages to return the status of the operation if a more specific application message is not provided.
 
 ### Applied
 
-This is an optional application response for non-standard messages. Standard FIX semantics provide application layer acknowledgements to requests, e.g. Execution Report in response to New Order Single. The principle is to use application specific acknowledgement messages where possible; use the Applied message where an application level acknowledgement message does not exist.
+This is an optional application response message to support an idempotent flow. Standard FIX semantics provide application layer acknowledgements to requests, e.g. Execution Report in response to New Order Single. The principle is to use application specific acknowledgement messages where possible; use the Applied message where an application level acknowledgement message does not exist.
 
 Since Applied is an application message, it will be reliably delivered if returned on a recoverable flow.
 
