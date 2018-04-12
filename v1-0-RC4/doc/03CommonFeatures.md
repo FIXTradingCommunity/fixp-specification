@@ -20,14 +20,14 @@ mapped to some datatype in the set.
 
 Actual wire format of FIXP is left to the presentation layer implementation.
 
-| **FIXP Type** | **Description**               | **General PurposeType** | **Properties**                                                                                                                                |
+| **FIXP Type** | **Description**               | **General Purpose Type** | **Properties**                                                                                                                                |
 |------------------|-------------------------|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | u8               |  Unsigned number        |   Integer              |  Ordered, exact, numeric, bounded. Range 0..2<sup>8</sup>-1                                                                                                                                      |
 | u16              |  Unsigned number        |  Integer               |  Ordered, exact, numeric, bounded. Range 0..2<sup>16</sup>-1                                                                                                                                                                     |
 | u32              |  Unsigned number        |  Integer               |  Ordered, exact, numeric, bounded. Range 0..2<sup>32</sup>-1                                                                                                                                                                 |
 | u64              |  Unsigned number        |  Integer               |  Ordered, exact, numeric, bounded. Range 0..2<sup>64</sup>-1                      
 | UUID             | RFC 4122 version 4 compliant unique identifier | Octet string   | Fixed size 16.
-| String           | Text                    | Character string                | Unordered, exact, non-numeric, denumerable. Paramterized by character set.                                                   |
+| String           | Text                    | Character string                | Unordered, exact, non-numeric, denumerable. Parameterized by character set.                                                   |
 | nanotime         | Time in nanoseconds     | Date-and-Time          |  Ordered, exact, numeric, bounded. Time-unit = nanosecond. Same range as u64.                                                                                                     |
 | DeltaMillisecs   | Number of milliseconds  | Time interval          |   Ordered, exact, numeric, bounded. Time-unit = millisecond. Same range as u32.                                                                                                                                             |
 | Object           | Unspecified data content                        | Octet string                | Unordered, exact, non-numeric, denumerable.                                                                                                        |
@@ -65,7 +65,7 @@ Each session must be identified by a unique Session ID encoded as a UUID version
 
 ### User Identification
 
-The FIX Trading Community is in the process of specifying how to authenticate counterparties. This is expected to primarily using TLS and, optionally, using TLS in conjunction with FIX credentials.  FIX credentials can be used after a TLS tranport has been established, whilst its FIXP session is being established. In any event, the security features will be specified outside of FIXP, but may make use of FIXP credentials.
+The FIX Trading Community is in the process of specifying how to authenticate counterparties. This is expected to primarily using TLS and, optionally, using TLS in conjunction with FIX credentials.  FIX credentials can be used after a TLS transport has been established, whilst its FIXP session is being established. In any event, the security features will be specified outside of FIXP, but may make use of FIXP credentials.
 
 FIXP does not dictate the format of user credentials. They are agreed between counterparties and should be documented in rules of engagement. The Credentials field in FIXP is of datatype Object (opaque data) so no restriction on its contents is imposed by the protocol.
 
@@ -79,7 +79,7 @@ A logical session is bound to a transport, but a session may outlive a transport
 
 ### Flow Types
 
-Each stream of application messages in one direction on a FIXP session is called a flow. FIXP supports configurable delivery guarantees for each flow. A birectional session may have asymetrical flows.
+Each stream of application messages in one direction on a FIXP session is called a flow. FIXP supports configurable delivery guarantees for each flow. A bidirectional session may have asymmetrical flows.
 
 From highest to lowest delivery guarantee, the flow types are:
 
@@ -120,7 +120,7 @@ Sequence message must be used only in a Recoverable or Idempotent flow on a non-
 
 ### Datagram oriented protocol considerations
 
-Using a datagram oriented transport like UDP, each datagram carrying a sequenced flow, the Sequence message is key to detecting packet loss and packet reordering and must precede any application messages in the packet.
+Using a datagram-oriented transport like UDP, each datagram carrying a sequenced flow, the Sequence message is key to detecting packet loss and packet reordering and must precede any application messages in the packet.
 
 FIXP provides no mechanism for fragmenting messages across datagrams. In other words, each application message must fit within a single datagram on UDP.
 
@@ -128,7 +128,7 @@ FIXP provides no mechanism for fragmenting messages across datagrams. In other w
 
 If sessions are multiplexed over a transport, they should be framed independently. If a framing header is used, the same framing protocol must be used for all sessions on a multiplexed transport. There would be no practical way to delimit messages with mixed framing policies.
 
-If flows are multiplexed over a transport, the transport does not imply the session. When multiplexing, the Context message expands Sequence to also specify the session being sequenced. Context is used to set the session for the remainder of the current datagram (in a datagram oriented transport) or until a new Context is passed. In a sequenced flow, Context supersedes the role of Sequence by including NextSeqNo (optimizes away the Sequence that would otherwise follow).
+If flows are multiplexed over a transport, the transport does not imply the session. When multiplexing, the Context message expands Sequence to also specify the session being sequenced. Context is used to set the session for the remainder of the current datagram (in a datagram-oriented transport) or until a new Context is passed. In a sequenced flow, Context supersedes the role of Sequence by including NextSeqNo (optimizes away the Sequence that would otherwise follow).
 
 **Context**
 

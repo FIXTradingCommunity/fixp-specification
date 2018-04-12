@@ -54,4 +54,4 @@ Session Heartbeat
 
 During the lifetime of a multicast session, its publisher should send Sequence or Context messages as a heartbeat at regular intervals when the session is otherwise inactive. This allows a receiver to tell whether a session is live and has not reached the end of its logical flow. If only a single Topic is published, then Sequence message may be used for heartbeats since there is no context switch. If multiple topics are published on a shared multicast transport, then Context must be used. See the Common Features section above for a description of sequence numbering and the Sequence and Context messages.
 
-In addition to the Sequence or Context message, it is recommend that a Topic message should be published on the heartbeat interval. This provides an opportunity for late joiners to gather session characteristics during every idle period.
+In addition to the Sequence or Context message, it is recommended that a Topic message should be published on the heartbeat interval. This provides an opportunity for late joiners to gather session characteristics during every idle period.

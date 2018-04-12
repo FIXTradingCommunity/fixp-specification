@@ -15,7 +15,7 @@ FIXP features
 
 -   Restricted to initiating, maintaining, and reestablishing a session.
 
-The idea to provide an open standard high performance session layer with SoupBinTCP as its source came from two simultaneous sources.
+The idea to provide an open-standard high-performance session layer with SoupBinTCP as its source came from two simultaneous sources.
 
 1.  The BVMF (Brazil) began investigating SoupBinTCP as a lightweight and simple alternative for market data delivery due to issues with Multicast IP infrastructure at member firms. The idea to align packet types to existing FIX message types was created during a meeting prior to the start of the High Performance Working Group.
 
@@ -26,14 +26,14 @@ Authors
 
 | Name        | Affiliation         | Contact                  | Role                                                                            
 |-----------------|-------------------------|------------------------------|--------------------------------------------------------------------------------------|
-| Anders Furuhed  | Pantor Engineering      | <anders@pantor.com>          | Protocol Designer                                                                    |
-| David Rosenborg | Pantor Engineering      | david.rosenborg@pantor.com   | Protocol Designer                                                                    |
-| Rolf Andersson  | Pantor Engineering      | <rolf@pantor.com>            | Contributor, GTC Governance Board member                                             |
-| Jim Northey     | LaSalle Technology      | <jimn@lasalletech.com>       | Editor, Working group convener                                                       |
-| Julio Monteiro  | BVMF Bovespa            | <jmonteiro@bvmf.com.br>      | Editor, Working Group convener                                                       |
-| Aditya Kapur    | CME Group, Inc          | <Aditya.kapur@cmegroup.com>  | Working Group Participant – provided document editing and input on exchange adoption |
-| Don Mendelson   | CME Group, Inc.         | <Don.Mendelson@cmegroup.com> | Working Group Participant and regular contributor                                    |
-| Li Zhu          | Shanghai Stock Exchange | <lzhu@sse.com.cn>            | Working Group Participant and regular contributor                                    |
+| Anders Furuhed  | Goldman Sachs           | <anders.furuhed@gs.com>           | Protocol Designer                                                               
+| David Rosenborg | Goldman Sachs           | <david.rosenborg@pantor.com>      | Protocol Designer                                                               
+| Rolf Andersson  | Goldman Sachs           | <david.rosenborg@gs.com>          | Contributor 
+| Jim Northey     | LaSalle Technology      | <jim.northey@fintechstandards.us> |  Global Technical Committee co-chair                                           
+| Júlio L R Monteiro  | formerly B3         | <juliolrmonteiro@gmail.com>       | Editor, Working Group convener                                                  
+| Aditya Kapur    | CME Group, Inc          | <Aditya.kapur@cmegroup.com>       | Contributor      
+| Don Mendelson   | Silver Flash LLC        | <donmendelson@silverflash.net>    | Working Group Lead                                    |
+| Li Zhu          | Shanghai Stock Exchange | <lzhu@sse.com.cn>                 | Contributor                                    |
 
 Relevant and Related Standards
 ------------------------------
@@ -85,7 +85,7 @@ Authors should provide a list of any intellectual property
 
 -   IP Owner– Entity that owns the IP
 
--   Relationship – relationship of the related standard to the technical standard being proposed. Can be: **Extends** the related standard, **Overlaps** with related standard, **Incorporates** related standard, **Inspiration** from related standard , **Uses** related standard, **Replaces** related standard.
+-   Relationship – relationship of the related standard to the technical standard being proposed. Can be: **Extends** the related standard, **Overlaps** with related standard, **Incorporates** related standard, **Inspiration** from related standard, **Uses** related standard, **Replaces** related standard.
 
 | Related Intellectual Property | Type of IP (copyright, patent) | IP Owner | Relationship to proposed standard |         
 |---------------------------------------------------------|------------------------------------|--------------------|--------------------------------------------------------------------------|

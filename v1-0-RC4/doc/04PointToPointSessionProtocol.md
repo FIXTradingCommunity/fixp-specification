@@ -253,7 +253,7 @@ Only one RetransmitRequest is allowed in-flight at a time per session. Another R
 
 The receiver on a recoverable flow should accept messages with a higher sequence number after recognizing a gap. However, the application should queue messages for in-sequence processing after a requested retransmission is received.
 
-Sending a RetransmitRequest to the sender of an Idempotent ,Unsequenced or None flow is a protocol violation. In that case, the session must be terminated.
+Sending a RetransmitRequest to the sender of an Idempotent, Unsequenced or None flow is a protocol violation. In that case, the session must be terminated.
 
 **RestransmitRequest**
 
@@ -267,7 +267,7 @@ Sending a RetransmitRequest to the sender of an Idempotent ,Unsequenced or None 
 
 ### Retransmission Responses
 
-*Retransmission* implies that the subsequent messages are sequenced without requiring that a Sequence message is passed. In a datagram oriented transport, Retransmission is passed in every single retransmission datagram.
+*Retransmission* implies that the subsequent messages are sequenced without requiring that a Sequence message is passed. In a datagram-oriented transport, Retransmission is passed in every single retransmission datagram.
 
 **Restransmission**
 
@@ -301,11 +301,11 @@ RetransmitRejectCode = OutOfRange | InvalidSession | RequestLimitExceeded
 
 Rejection reasons:
 
--   OutOfRange : NextSeqNo + Count is beyond the range of sequence numbers
+-   OutOfRange: NextSeqNo + Count is beyond the range of sequence numbers
 
 -   InvalidSession: The specified SessionId is unknown or is not authorized for the requester to access.
 
--   RequestLimiitExceeded : The message Count exceeds a local rule for maximum retransmission size.
+-   RequestLimiitExceeded: The message Count exceeds a local rule for maximum retransmission size.
 
 **RestransmitReject**
 
