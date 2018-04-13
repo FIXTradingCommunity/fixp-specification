@@ -27,8 +27,8 @@ Authors
 | Name        | Affiliation         | Contact                  | Role                                                                            
 |-----------------|-------------------------|------------------------------|--------------------------------------------------------------------------------------|
 | Anders Furuhed  | Goldman Sachs           | <anders.furuhed@gs.com>           | Protocol Designer                                                               
-| David Rosenborg | Goldman Sachs           | <david.rosenborg@pantor.com>      | Protocol Designer                                                               
-| Rolf Andersson  | Goldman Sachs           | <david.rosenborg@gs.com>          | Contributor 
+| David Rosenborg | Goldman Sachs           | <david.rosenborg@gs.com>      | Protocol Designer                                                               
+| Rolf Andersson  | Goldman Sachs           | <rolf.andersson@gs.com>          | Contributor 
 | Jim Northey     | LaSalle Technology      | <jim.northey@fintechstandards.us> |  Global Technical Committee co-chair                                           
 | Júlio L R Monteiro  | formerly B3         | <juliolrmonteiro@gmail.com>       | Editor, Working Group convener                                                  
 | Aditya Kapur    | CME Group, Inc          | <Aditya.kapur@cmegroup.com>       | Contributor      
