@@ -2,11 +2,13 @@
 
 <span id="fix-simple-binary-encoding" class="anchor"></span>
 
-High Performance Working Group
-
 # FIX Performance Session Layer
 
-Working Draft for potential Release Candidate 4
+## Technical Specification
+
+## Release Candidate 4
+
+May 2, 2018
 
 **THIS DOCUMENT IS A RELEASE CANDIDATE FOR A PROPOSED FIX TECHNICAL STANDARD. A RELEASE CANDIDATE HAS BEEN APPROVED BY THE GLOBAL TECHNICAL COMMITTEE AS AN INITIAL STEP IN CREATING A NEW FIX TECHNICAL STANDARD. POTENTIAL ADOPTERS ARE STRONGLY ENCOURAGED TO BEGIN WORKING WITH THE RELEASE CANDIDATE AND TO PROVIDE FEEDBACK TO THE GLOBAL TECHNICAL COMMITTEE AND THE WORKING GROUP THAT SUBMITTED THE PROPOSAL. THE FEEDBACK TO THE RELEASE CANDIDATE WILL DETERMINE IF ANOTHER REVISION AND RELEASE CANDIDATE IS NECESSARY OR IF THE RELEASE CANDIDATE CAN BE PROMOTED TO BECOME A FIX TECHNICAL STANDARD DRAFT.**
 
@@ -22,7 +24,7 @@ NO PERSON OR ENTITY ASSOCIATED WITH THE FIX PROTOCOL SHALL HAVE ANY LIABILITY FO
 
 No proprietary or ownership interest of any kind is granted with respect to the FIX Protocol (or any rights therein).
 
-Copyright 2013-2016 FIX Protocol Ltd., all rights reserved.
+Copyright 2013-2018 FIX Protocol Ltd., all rights reserved.
 
 <img src="media/image2.png" width="87" height="31" />
 FIX Performance Session Layer specification by [FIX Protocol Ltd.](http://www.fixtradingcommunity.org/) is licensed under a [Creative Commons Attribution-NoDerivatives 4.0 International License](http://creativecommons.org/licenses/by-nd/4.0/).

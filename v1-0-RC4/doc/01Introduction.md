@@ -15,11 +15,6 @@ FIXP features
 
 -   Restricted to initiating, maintaining, and reestablishing a session.
 
-The idea to provide an open-standard high-performance session layer with SoupBinTCP as its source came from two simultaneous sources.
-
-1.  The BVMF (Brazil) began investigating SoupBinTCP as a lightweight and simple alternative for market data delivery due to issues with Multicast IP infrastructure at member firms. The idea to align packet types to existing FIX message types was created during a meeting prior to the start of the High Performance Working Group.
-
-2.  Pantor Engineering prototyped a solution for high performance computing that used FAST datatypes (without field operators) carried over a SoupBinTCP session. Anders Furuhed presented the concept at the FIX Nordic event.
 
 Authors
 -------
@@ -35,19 +30,6 @@ Authors
 | Don Mendelson   | Silver Flash LLC        | <donmendelson@silverflash.net>    | Working Group Lead                                    |
 | Li Zhu          | Shanghai Stock Exchange | <lzhu@sse.com.cn>                 | Contributor                                    |
 
-Relevant and Related Standards
-------------------------------
-
-### Sources
-
-These standards were sources for concepts but are non-normative for FIXP.
-
-| Reference                    | Version               | Relevance                                                 | Normative |
-|----------------------------------|---------------------------|----------------------------------------------------------------|---------------|
-| UFO (UDP for Orders) NASDAQ OMX  | Version 1.0, July 3, 2008 | Basis for high performance session layer.                      | No            |
-| SoupBinTCP NASDAQ OMX                        | 3.00                      | Basis for high performance session layer.                      | No            |
-| FIXT Session Layer Specification | 1.1                       | The previous FIX session layer specification                   | No            |
-| XMIT                             | alpha15                   | High performance session protocol design by Pantor Engineering | No            |
 
 ### Related FIX Standards 
 
@@ -55,11 +37,11 @@ The FIX Simple Open Framing Header standard governs how messages are delimited a
 
 | Related Standard         | Version    | Reference location | Relationship                    | Normative |
 |------------------------------|----------------|------------------------|--------------------------------------|---------------|
-| Simple Open Framing Header | Draft Standard   |                        | Optional usage at presentation layer | Yes           |
-| FIX message specifications   | 5.0 SP 2       |                        | Presentation and application layers  | No            |
-| FIX Simple Binary Encoding   | Draft Standard |                        | Optional usage at presentation layer | No            |
-| Encoding FIX Using ASN.1     | Draft Standard |                        | Optional usage at presentation layer | No            |
-| Encoding FIX Using GPB       | RC2            |                        | Optional usage at presentation layer | No            |
+| Simple Open Framing Header | Draft Standard   | [SOFH](https://www.fixtrading.org/packages/fix-simple-open-framing-header-draft-standard-1-0/)                       | Optional usage at presentation layer | Yes           | 
+| FIX message specifications   | 5.0 SP2       | [FIX 5.0 SP2](https://www.fixtrading.org/packages/fix-5-0-service-pack-2-specification-w-20110818-errata/)                       | Presentation and application layers  | No            |
+| FIX Simple Binary Encoding   | Version 1.0    | [Simple Binary Encoding](https://www.fixtrading.org/packages/simple-binary-encoding-technical-specification-final/) | Optional usage at presentation layer | No        |
+| Encoding FIX Using ASN.1     | Draft Standard |  [ASN.1](https://www.fixtrading.org/packages/encoding-fix-using-asn-1-draft-standard/)                      | Optional usage at presentation layer | No            |
+| Encoding FIX Using GPB       | RC2            |  [GPB](https://www.fixtrading.org/packages/encoding-fix-using-google-protocol-buffers-release-candidate-2/)                      | Optional usage at presentation layer | No            |
 
 ### Dependencies on Other Specifications
 
@@ -73,25 +55,6 @@ FIXP is dependent on several industry standards. Implementations of FIXP must co
 | RFC4122 A Universally Unique Identifier (UUID) URN Namespace | N/A         | <http://tools.ietf.org/html/rfc4122> | Uses                            | Yes           |
 | UTF-8, a transformation format of ISO 10646                  | N/A         | <http://tools.ietf.org/html/rfc3629> | Uses encoding                   | Yes           |
 | Various authentication protocols                             | N/A         |                                      | Optional usage at session layer | No            |
-
-Intellectual Property Disclosure
---------------------------------
-
-Authors should provide a list of any intellectual property
-
--   Related Intellectual Property– name and or description of related intellectual property.
-
--   Type of IP: Copyright, Patent, Trademark, Trade Secret
-
--   IP Owner– Entity that owns the IP
-
--   Relationship – relationship of the related standard to the technical standard being proposed. Can be: **Extends** the related standard, **Overlaps** with related standard, **Incorporates** related standard, **Inspiration** from related standard, **Uses** related standard, **Replaces** related standard.
-
-| Related Intellectual Property | Type of IP (copyright, patent) | IP Owner | Relationship to proposed standard |         
-|---------------------------------------------------------|------------------------------------|--------------------|--------------------------------------------------------------------------|
-| Blink http://blinkprotocol.org/spec/BlinkSpec-beta3.pdf | Copyright                          | Pantor Engineering |                                                                          |
-| XMIT                                                    | Copyright                          | Pantor Engineering | Basis for design of protocol                                             |
-| Soup, SoupBinTCP, UFO (UDP for Orders), and MoldUDP     | Copyright                          | NASDAQOMX          | FIXP is intended to provide functionality equivalent to these protocols. |
 
 ## Specification terms
 
@@ -113,8 +76,6 @@ alternatives is described as "**preferred**".
 
 These terms give guidance that a practice is not recommended: "**should not**" 
 or "**not recommended**".
-
-
 
 Definitions
 -----------
