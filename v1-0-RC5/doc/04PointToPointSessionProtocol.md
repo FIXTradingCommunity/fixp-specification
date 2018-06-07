@@ -368,7 +368,7 @@ The peer should evaluate LastSeqNo to determine whether it has processed the flo
 
 Upon processing the last application message indicated by the FinishedSending message (possibly received on a retransmission), a FinishedReceving message must be sent in response.
 
-When a FinishedReceiving has been received by the party that initiated the finalization handshake, a Terminate message should sent to unbind the transport. At that point, the session is considered finalized, and its session ID is no longer valid.
+When a FinishedReceiving has been received by the party that initiated the finalization handshake, a Terminate message should be sent to unbind the transport. At that point, the session is considered finalized, and its session ID is no longer valid.
 
 **FinishedReceiving**
 
