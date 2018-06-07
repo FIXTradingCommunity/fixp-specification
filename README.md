@@ -17,6 +17,9 @@ Version 1.0 RC4 was approved for publication by the Global Technical Committee i
 
 RC4 and earlier specifications are included here for reference only. Pull requests for approved versions will no longer be accepted. However, issues for errata or proposed future enhancements may be entered.
 
+### Next version
+
+A baseline has been added for Release Candidate 5 to capture corrections to RC4. If the changes remain minor, then it may be promoted to Draft Standard. Otherwise, if substantial changes are made, then another public review will be initiated. 
  
 ## License
 FIXP specifications are © Copyright 2014-2018 FIX Protocol Ltd. 
