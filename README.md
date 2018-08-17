@@ -8,19 +8,17 @@ FIXP is part of a family of protocols created by the High Performance Working Gr
 
 ## Versions
 
-The planned lifecycle of this project is to work iteratively in a series of release candidates. After each release candidate is approved, it will be exposed to public review. Issues may be entered here in GitHub or in a discussion forum on the FIX Trading Community site. When version 1.0 is considered complete, the last release candidate will be promoted to Draft Standard.
+The planned lifecycle of this project is to work iteratively in a series of release candidates. After each release candidate is approved, it will be exposed to public review. Issues may be entered here in GitHub or in a discussion forum on the FIX Trading Community site. When version 1.0 is considered complete, the last release candidate will be promoted to Draft Standard. 
+
+Promotion to final Technical Standard is contingent on successful public review and evidence of at least two interoperable implementations. 
 
 All approved versions of the FIXP specification are available as MS Word documents at [FIX Performance Session Layer (FIXP)](https://www.fixtrading.org/standards/fixp/).
 
-### Current approved version: 1.0 Release Candidate 4
-Version 1.0 RC4 was approved for publication by the Global Technical Committee in May 2018 for 90 day public review.
+### Draft Standard
+Version 1.0 Draft Standard was approved for publication by the Global Technical Committee on August 16, 2018 for public review. Comments may be entered in the FIX public forum.
 
-RC4 and earlier specifications are included here for reference only. Pull requests for approved versions will no longer be accepted. However, issues for errata or proposed future enhancements may be entered.
+RC4 and earlier specifications are included here for reference only. Pull requests for approved versions will no longer be accepted. However, issues for errata or proposed future enhancements may be entered. 
 
-### Next version
-
-A baseline has been added for Release Candidate 5 to capture corrections to RC4. If the changes remain minor, then it may be promoted to Draft Standard. Otherwise, if substantial changes are made, then another public review will be initiated. 
- 
 ## License
 FIXP specifications are © Copyright 2014-2018 FIX Protocol Ltd. 
 
@@ -31,5 +29,8 @@ FIXP specifications are © Copyright 2014-2018 FIX Protocol Ltd.
 We will post links to open source implementations of FIXP. Implementors, contact one
 of the owners of this repository.
 
-### Reference implementation
+### Reference Implementation: silverflash
 An open-source implementation of FIXP is available in GitHub project [FIXTradingCommunity/silverflash](https://github.com/FIXTradingCommunity/silverflash). That project also demonstrates FIX standards Simple Binary Encoding (SBE) and Simple Open Framing Header (SOFH).
+
+### Project Conga
+[Project Conga](https://github.com/FIXTradingCommunity/conga) is a proof of concept of high performance FIX semantics over WebSocket with SBE and JSON encodings. At the session layer, it employs FIXP for session durability, reliability, and recoverability.
