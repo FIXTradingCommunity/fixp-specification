@@ -8,16 +8,20 @@ FIXP is part of a family of protocols created by the High Performance Working Gr
 
 ## Versions
 
-The planned lifecycle of this project is to work iteratively in a series of release candidates. After each release candidate is approved, it will be exposed to public review. Issues may be entered here in GitHub or in a discussion forum on the FIX Trading Community site. When version 1.0 is considered complete, the last release candidate will be promoted to Draft Standard. 
+The planned lifecycle of this project is to work iteratively in a series of release candidates. After each release candidate is approved, it will be exposed to public review. Issues may be entered here in GitHub or in a discussion forum on the FIX Trading Community site. When a version is considered complete, the last release candidate will be promoted to Draft Standard. 
 
 Promotion to final Technical Standard is contingent on successful public review and evidence of at least two interoperable implementations. 
 
 All approved versions of the FIXP specification are available as MS Word documents at [FIX Performance Session Layer (FIXP)](https://www.fixtrading.org/standards/fixp/).
 
-### Draft Standard
+### Version 1.0 Draft Standard
 Version 1.0 Draft Standard was approved for publication by the Global Technical Committee on August 16, 2018 for public review. Comments may be entered in the FIX public forum.
 
-RC4 and earlier specifications are included here for reference only. Pull requests for approved versions will no longer be accepted. However, issues for errata or proposed future enhancements may be entered. 
+Version 1.0 RC4 and earlier specifications are included here for reference only. Pull requests for approved versions will no longer be accepted. However, issues for errata or proposed future enhancements may be entered. 
+
+### Version 1.1 Release  Candidate 1
+
+Version 1.1 RC1 is the latest working version for enhancements. A guideline for using FIXP over Websocket transport has been proposed.
 
 ## License
 FIXP specifications are © Copyright 2014-2018 FIX Protocol Ltd. 
