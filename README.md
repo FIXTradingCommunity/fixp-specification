@@ -14,9 +14,9 @@ Promotion to final Technical Standard is contingent on successful public review 
 
 All approved versions of the FIXP specification are available as MS Word documents at [FIX Performance Session Layer (FIXP)](https://www.fixtrading.org/standards/fixp/).
 
-### Version 1.1 Release Candidate 1
+### Version 1.1 Draft Standard
 
-Version 1.1 is the latest version for enhancements. A guideline for using FIXP over Websocket transport has been added to the specification. This release candidate now enters a public comment period in which public review and feedback is encouraged. The public comment period will run for a period of 90 days beginning on the 10th of January 2019. Comments may also be entered in the FIX public forum. Pull requests and issues may be entered in this GitHub project for errata or proposed enhancements. 
+Version 1.1 was approved for publication by the Global Technical Committee on April 18, 2018 for public review. A guideline for using FIXP over Websocket transport has been added to the specification. Comments may be entered in the FIX public forum. Pull requests and issues may be entered in this GitHub project for errata or proposed enhancements. 
 
 ### Version 1.0 Draft Standard
 Version 1.0 Draft Standard was approved for publication by the Global Technical Committee on August 16, 2018 for public review. Comments may be entered in the FIX public forum. Pull requests will only be accepted for errata. 
