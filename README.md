@@ -16,7 +16,7 @@ All approved versions of the FIXP specification are available as MS Word documen
 
 ### Version 1.1 Draft Standard
 
-Version 1.1 was approved for publication by the Global Technical Committee on April 18, 2018. A guideline for using FIXP over Websocket transport has been added to the specification. Comments may be entered in the FIX discussion forum (https://forum.fixtrading.org/). Pull requests and issues may be entered in this GitHub project for errata or proposed enhancements. 
+Version 1.1 was approved for publication by the Global Technical Committee on April 18, 2019. A guideline for using FIXP over Websocket transport has been added to the specification. Comments may be entered in the FIX discussion forum (https://forum.fixtrading.org/). Pull requests and issues may be entered in this GitHub project for errata or proposed enhancements. 
 
 ### Version 1.0 Draft Standard
 Version 1.0 Draft Standard was approved for publication by the Global Technical Committee on August 16, 2018 for public review. Comments may be entered in the FIX public forum. Pull requests will only be accepted for errata.
