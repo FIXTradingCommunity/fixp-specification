@@ -33,12 +33,12 @@ The FIX Simple Open Framing Header standard governs how messages are delimited a
 
 | Related Standard | Version | Reference location | Relationship | Normative |
 |------------------|---------|--------------------|--------------|-----------|
-| Simple Open Framing Header | Draft Standard   | [SOFH](https://www.fixtrading.org/standards/fix-sofh/)                       | Optional usage at presentation layer | Yes           |
+| Simple Open Framing Header | v1.0 Draft Standard | [SOFH](https://www.fixtrading.org/standards/fix-sofh/)                       | Optional usage at presentation layer | Yes           |
 | FIX message specifications   | 5.0 SP2       | [FIX 5.0 SP2](https://www.fixtrading.org/standards/fix-5-0-sp-2/)                       | Presentation and application layers  | No            |
 | FIX Simple Binary Encoding   | Version 1.0    | [Simple Binary Encoding](https://www.fixtrading.org/standards/sbe/) | Optional usage at presentation layer | No        |
-| Encoding FIX Using ASN.1     | Draft Standard |  [ASN.1](https://www.fixtrading.org/standards/asn1/)                      | Optional usage at presentation layer | No            |
-| Encoding FIX Using GPB       | RC2            |  [GPB](https://www.fixtrading.org/standards/gpb/)                      | Optional usage at presentation layer | No            |
-|FIX-over-TLS (FIXS) | Draft Standard | [FIXS](https://www.fixtrading.org/standards/fixs/) | Security guidelines | Yes |
+| Encoding FIX Using ASN.1     | v1.0 Draft Standard |  [ASN.1](https://www.fixtrading.org/standards/asn1/)                      | Optional usage at presentation layer | No            |
+| Encoding FIX Using GPB       | v1.0 Draft Standard |  [GPB](https://www.fixtrading.org/standards/gpb/)                      | Optional usage at presentation layer | No            |
+|FIX-over-TLS (FIXS) | v1.0 Draft Standard | [FIXS](https://www.fixtrading.org/standards/fixs/) | Security guidelines | Yes |
 
 ### Dependencies on Other Specifications
 
