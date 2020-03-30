@@ -18,7 +18,7 @@ Like a point-to-point session, a multicast session is identified by a UUID. Each
 
 To associate a transient UUID to a permanent or semi-permanent classification of messages, a Topic message must be used to initiate a flow. Multiple topics may be published on a transport.
 
-FlowType = Recoverable | Idempotent 
+FlowType = Recoverable | Idempotent
 
 Valid flow types on a multicast session are:
 
@@ -30,14 +30,14 @@ Each Topic carries a Classification for the flow to associate it to a permanent 
 
 To support late joiners, Topic messages should be repeated at regular intervals on a session. This specification does not dictate a specific interval, but the shorter the interval, the less time it takes for a late joiner to identify flows. It is recommended that Topic message be sent with Session heartbeats when the session is otherwise idle. See session heartbeat section below.
 
-**Topic** 
+**Topic**
 
 | **Field name** | **Type** | **Required** | **Value** | **Description** |
 |----------------|----------|--------------|-----------|-----------------|
 | MessageType    | Enum     | Y            | Topic     |                 |
 | SessionId      | UUID     | Y            |           | Session Identifier
 | Flow           | FlowType Enum | Y       |           | Type of flow from publisher
-| Classification | Object   | Y            |           | Category of application messages that follow 
+| Classification | Object   | Y            |           | Category of application messages that follow
 
 ### Finalizing a Multicast Session
 

@@ -1,10 +1,8 @@
-Appendix A - Usage Examples (TCP)
-=================================
+# Appendix A -- Usage Examples (TCP)
 
 These use cases contain sample values for illustrative purposes only
 
-Initialization
---------------
+## Initialization
 
 ### <span id="_Toc222136886" class="anchor"><span id="_Toc272405426" class="anchor"><span id="_Toc272405494" class="anchor"><span id="_Toc353265861" class="anchor"></span></span></span></span>Session negotiation (both Recoverable)
 
@@ -518,11 +516,9 @@ While responding back to a RetransmissionRequest it is possible that the sender 
 | RetransmissionRequest                                                                                                          |                  | ABC                   | T1            | --                    | --             | --                  | --              | --              | 1000           | 100       |
 |                                                                                                                                | Retransmission   | ABC                   | --            | T1                    | 1000           | --                  | --              | --              | --             | 50        |
 | \<50 duplicate messages between 1000 and 1049 are replayed in first packet which includes Retransmission message\>             
-                                                                                                                                 
  \<Real time messages between 2000 and 2049 are queued by the sender at this time\>                                              |
 |                                                                                                                                | Sequence         | --                    | --            | --                    | 2000           | --                  | --              | --              | --             | --        |
 | \<50 original real time messages between 2000 and 2049 are sent in second packet which includes Sequence message\>             
-                                                                                                                                 
  \<Duplicate messages between 1050 and 1099 are queued by sender at this time\>                                                  |
 |                                                                                                                                | Retransmission   | ABC                   | --            | T1                    | 1050           | --                  | --              | --              | --             | 50        |
 | \<Second batch of 50 duplicate messages between 1050 and 1099 are send in third packet which includes Retransmission message\> |
