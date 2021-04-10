@@ -10,7 +10,7 @@ STYLE="FIX_TechStd_Style_MASTER.docx"
 TARGET="$SOURCE/target"
 YAML="$SOURCE/FIXP.yaml"
 FILES="01Introduction.md 02Requirements.md 03CommonFeatures.md 04PointToPointSessionProtocol.md 05MulticastSessionProtocol.md 06SummaryOfSessionMessages.md 07UsageExamples.md 08RulesOfEngagement.md"
-WPFOLDER="/wp-content/uploads/2020/03/"
+WPFOLDER="/wp-content/uploads/2021/04/"
 
 # Create document version with disclaimer
 pandoc "$DISCLAIMER" $FILES -o "$TARGET/docx/FIX_Performance_Session_Layer_V1.0.docx" --reference-doc="$STYLE" --metadata-file="$YAML" --toc --toc-depth=4
