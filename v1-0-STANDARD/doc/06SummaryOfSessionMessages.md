@@ -1,8 +1,6 @@
-Summary of Session Messages
-===========================
+# Summary of Session Messages
 
-FIXP Session Messages
----------------------
+## FIXP Session Messages
 
 | Stage          | Message Name         | Purpose                                | Recoverable   | Idempotent   | Unsequenced / None | Multicast |
 |----------------|----------------------|----------------------------------------|:-------------:|:------------:|:------------------:|:---------:|
@@ -23,8 +21,7 @@ FIXP Session Messages
 | Finalizing     | FinishedSending      | Ends a logical flow                    | •             | •            | •                  | •         |
 |                | FinishedReceiving    | Ends a logical flow                    | •             | •            | •                  | •         |
 
-Related Application Messages
-----------------------------
+## Related Application Messages
 
 These optional application messages respond to application messages on an idempotent flow.
 
@@ -47,4 +44,3 @@ If any of these violations by a peer is detected, the session should be immediat
 - Reusing the session ID of a session that was finalized. (The server may have a practical limit of session history to enforce this rule.)
 - Sending a RetransmitRequest while a retransmission is in progress.
 - Sending a RetransmitRequest with request range out of bounds. That is, it is a violation to request a retransmission of a message with a sequence number that has not been sent yet.
-

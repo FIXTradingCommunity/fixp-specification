@@ -1,8 +1,6 @@
-Requirements
-============
+# Requirements
 
-Business Requirements
----------------------
+## Business Requirements
 
 Create an enhanced session protocol that can provide reliable, highly efficient, exchange of messages to support high performance financial messaging, over a variety of transports.
 
@@ -14,8 +12,7 @@ Protocol shall support asymmetric models, such as market participant to market, 
 
 The session protocol does not require or recommend a specific authentication protocol. Counterparties are free to agree on user authentication techniques that fit their needs.
 
-Technical Requirements
-----------------------
+## Technical Requirements
 
 ### Protocol Layering
 

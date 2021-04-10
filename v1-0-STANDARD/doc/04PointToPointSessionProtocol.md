@@ -1,10 +1,8 @@
-Point-to-Point Session Protocol
-===============================
+# Point-to-Point Session Protocol
 
 A point-to-point session between a client and server must be conducted over a bidirectional transport, such as TCP or UDP unicast. Point-to-point protocol is designed for private flows of information between organizations. Optionally, multiple sessions belonging to an organization may be multiplexed over a shared transport.
 
-Summary of Messages that Control Lifetime
------------------------------------------
+## Summary of Messages that Control Lifetime
 
 A logical session must be created by using a Negotiation message. The session ID must be sent in the Negotiation message and that ID is used for the lifetime of the session.
 
@@ -16,8 +14,7 @@ A session that has a recoverable flow may be re-established by sending Establish
 
 A logical session should be ended by sending a FinishedSending message. Thereafter, no more application messages should be sent. The peer must respond with FinishedReceiving when it has processed the last message, and then the transport must be terminated for the final time for that session. Once a flow is finalized and the transport is unbound, a session ID is no longer valid and messages previously sent on that session are no longer recoverable.
 
-Session Initiation and Negotiation
-----------------------------------
+## Session Initiation and Negotiation
 
 A negotiation dialog is provided to support a session negotiation protocol that is used for a client to declare what id it will be using, without having to go out of band. There is no concept of resetting a session. Instead of starting over a session, a new session is negotiated - a SessionId in UUID form is cheap.
 
@@ -30,7 +27,7 @@ Negotiate message is sent from client to server.
 **Negotiate**
 
 
-FlowType = Recoverable | Unsequenced | Idempotent | None 
+FlowType = Recoverable | Unsequenced | Idempotent | None
 
 | **Field name** | **Type**      | **Required** | **Value** | **Description**                                                                                                      |
 |----------------|---------------|--------------|-----------|----------------------------------------------------------------------------------------------------------------------|
@@ -61,8 +58,8 @@ FlowType = Recoverable | Unsequenced | Idempotent | None
 ### Reject Session Negotiation
 
 When a session cannot be created, a server must send NegotiationReject to the client, giving the reason for the rejection. No further messages should be sent, and the transport should be terminated.
- 
-NegotiationRejectCode = Credentials | Unspecified | FlowTypeNotSupported | DuplicateId 
+
+NegotiationRejectCode = Credentials | Unspecified | FlowTypeNotSupported | DuplicateId
 
 Rejection reasons:
 
@@ -88,10 +85,9 @@ If negotiation is re-attempted after rejection, a new session ID should be gener
 
 ###  Session Negotiation Sequence Diagram
 
-![](./media/SessionNegotiation.png)
+![](media/SessionNegotiation.png)
 
-Session Establishment
----------------------
+## Session Establishment
 
 Establish attempts to bind the specified logical session to the transport that the message is passed over. The response to Establish is either EstablishmentAck or EstablishmentReject.
 
@@ -135,7 +131,7 @@ The client should evaluate NextSeqNo to determine whether it missed any messages
 
 ### Establish Reject
 
-EstablishmentRejectCode = Unnegotiated | AlreadyEstablished | SessionBlocked | KeepaliveInterval | Credentials | Unspecified 
+EstablishmentRejectCode = Unnegotiated | AlreadyEstablished | SessionBlocked | KeepaliveInterval | Credentials | Unspecified
 
 Rejection reasons:
 
@@ -163,10 +159,9 @@ Rejection reasons:
 
 ### Session Establishment Sequence Diagram
 
-![](./media/SessionEstablishment.png)
+![](media/SessionEstablishment.png)
 
-Transport Termination
----------------------
+## Transport Termination
 
 Terminate is a signal to the peer that a party intends to drop the binding between the logical session and the underlying transport. Either peer may terminate its transport if there are no more messages to send but it expects to re-establish the logical session at a later time.
 
@@ -184,7 +179,7 @@ An established session becomes terminated (stops being established) for any of t
 
 No other messages may be sent on the session after sending a Terminate message. Any messages sent after Terminate are a protocol violation and should be ignored.
 
-TerminationCode = Finished | UnspecifiedError | ReRequestOutOfBounds | ReRequestInProgress 
+TerminationCode = Finished | UnspecifiedError | ReRequestOutOfBounds | ReRequestInProgress
 
 **Terminate**
 
@@ -213,16 +208,15 @@ On a connection-oriented transport such as TCP, when the last peer that initiate
 
 ### Terminate Session Sequence Diagrams
 
-![UnbindTransport-TCP](./media/UnbindTransport-TCP.png)
+![UnbindTransport-TCP](media/UnbindTransport-TCP.png)
 
 
-![Unbind Transport-UDP](./media/UnbindTransport-UDP.png)
+![Unbind Transport-UDP](media/UnbindTransport-UDP.png)
 
 
-Session Heartbeat
------------------
+## Session Heartbeat
 
-Each peer must send a heartbeat message during each interval in which no application messages were sent. A party may send a heartbeat before its interval has expired, for example to force its peer to check for a sequence number gap prior to sending a large batch of application messages. 
+Each peer must send a heartbeat message during each interval in which no application messages were sent. A party may send a heartbeat before its interval has expired, for example to force its peer to check for a sequence number gap prior to sending a large batch of application messages.
 
 A client's heartbeat timing is governed by the KeepaliveInterval value it sent in the Establish message, and a server is governed by the value it sent in EstablishAck.
 
@@ -242,8 +236,7 @@ When a session is being finalized, but the FinishedReceiving message has not yet
 
 On TCP, it is recommended that Nagle algorithm be disabled to prevent the transmission of heartbeats and other messages from being delayed, potentially causing unnecessary session termination.
 
-Resynchronization
------------------
+## Resynchronization
 
 The following sections describe resynchronization of a recoverable flow.
 
@@ -283,7 +276,7 @@ Sending a RetransmitRequest to the sender of an Idempotent, Unsequenced or None 
 
 #### Retransmission Diagram
 
-![](./media/Retransmission.png)
+![](media/Retransmission.png)
 
 #### Interleaving and Pacing Retransmissions
 
@@ -299,7 +292,7 @@ However, when retransmission is provided through a separate recovery session wit
 
 If the provider of a recoverable flow is unable to retransmit requested messages, it responds with a RetransmitReject message.
 
-RetransmitRejectCode = OutOfRange | InvalidSession | RequestLimitExceeded 
+RetransmitRejectCode = OutOfRange | InvalidSession | RequestLimitExceeded
 
 Rejection reasons:
 
@@ -321,7 +314,7 @@ Rejection reasons:
 
 ### RetransmitReject Diagram
 
-![](./media/RetransmissionReject.png)
+![](media/RetransmissionReject.png)
 
 ### Retransmission Violations
 
@@ -329,7 +322,7 @@ For a RetransmitRequest that the requester should have known was invalid with ce
 
 ### Retransmit Violation Diagram
 
-![](./media/RetransmitViolation.png)
+![](media/RetransmitViolation.png)
 
 ### FIX Application Layer Recovery
 
@@ -343,8 +336,7 @@ See FIX application specifications for a description of the ApplicationSequenceC
 
 -   ApplicationMessageRequestAck
 
-Finalizing a Session
---------------------
+## Finalizing a Session
 
 Finalization is a handshake that ends a logical session when there are no more messages to exchange.
 
@@ -379,16 +371,15 @@ When a FinishedReceiving has been received by the party that initiated the final
 
 ### Terminating a Recoverable Session Sequence Diagram
 
-![](./media/FlowFinalization.png)
+![](media/FlowFinalization.png)
 
-Idempotent Flow
----------------
+## Idempotent Flow
 
 When using the idempotent flow, the protocol ensures that each application message is an idempotent operation that will be guaranteed to be applied only once.
 
 To guarantee idempotence, a unique sequential identifier must be allocated to each operation to be carried out. The response flow must identify which operations have been carried out, and is sequenced. The lack of acknowledgment of an operation should trigger the operation to be reattempted (at least once semantics). The lack of acknowledgment should be triggered by the acknowledgment of a later operation or by the expiration of a timer. The side carrying out an operation must filter out operations with a duplicate identifier (at most once semantics). If a transaction has already been applied, a duplicate request should be silently dropped.
 
-The start of a idempotent flow must be initiated with a Sequence message (or Context message on a multiplexed transport) that explicitly provides the sequence number  of the next application message in its field NextSeqNo. The first application message after a Sequence (or Context) message has the implicit sequence number NextSeqNo. For subsequent application messages, the sequence number is incremented implicitly. That is, the sequence number is not sent on the wire in every application message, but rather, sender and receiver each should keep track of the next expected sequence number.
+The start of an idempotent flow must be initiated with a Sequence message (or Context message on a multiplexed transport) that explicitly provides the sequence number  of the next application message in its field NextSeqNo. The first application message after a Sequence (or Context) message has the implicit sequence number NextSeqNo. For subsequent application messages, the sequence number is incremented implicitly. That is, the sequence number is not sent on the wire in every application message, but rather, sender and receiver each should keep track of the next expected sequence number.
 
 As explained in section 3, a Sequence or Context message must be sent after any context switch or once per packet on a Datagram oriented transport. Additionally, as explained in [Session Heartbeat](#session-heartbeat), they must be sent as hearbeats during idle periods. After every explicit NextSeqNo, the sequence number of subsequent application messages should be tracked implicitly.
 
@@ -430,4 +421,4 @@ Sending NotApplied for a Recoverable, Unsequenced or None flow is a protocol vio
 
 ### Idempotent Flow Sequence Diagram
 
-![](./media/Idempotent.png)
+![](media/Idempotent.png)

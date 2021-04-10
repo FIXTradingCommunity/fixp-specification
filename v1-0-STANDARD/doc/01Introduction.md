@@ -1,5 +1,4 @@
-Introduction
-============
+# Introduction
 
 FIX Performance Session Layer (FIXP) is a “lightweight point-to-point protocol” introduced to provide an open industry standard for high performance computing requirements currently encountered by the FIX Community. FIXP is a derived work. The origin and basis for FIXP are the FIX session layer protocols and the designed and implemented by NASDAQOMX, SoupTCP, SoupBinTCP, and UFO (UDP for Orders). Every attempt was made to keep FIXP as close to the functionality and behavior of SoupBinTCP and UFO as possible. Extensions and refactoring were performed as incremental improvements. Every attempt was made to limit the FIXP to establishing and maintaining a communication session between two end points in a reliable manner, regardless of the reliability of the underlying transport.
 
@@ -16,14 +15,13 @@ FIXP features
 -   Restricted to initiating, maintaining, and reestablishing a session.
 
 
-Authors
--------
+## Authors
 
 | Name        | Affiliation         | Contact                  | Role                                                                            
 |-----------------|-------------------------|------------------------------|--------------------------------------------------------------------------------------|
 | Anders Furuhed  | Goldman Sachs           | <anders.furuhed@gs.com>           | Protocol Designer                                                               
 | David Rosenborg | Goldman Sachs           | <david.rosenborg@gs.com>      | Protocol Designer                                                               
-| Rolf Andersson  | Goldman Sachs           | <rolf.andersson@gs.com>          | Contributor 
+| Rolf Andersson  | Goldman Sachs           | <rolf.andersson@gs.com>          | Contributor
 | Jim Northey     | LaSalle Technology      | <jim.northey@fintechstandards.us> |  Global Technical Committee co-chair                                           
 | Júlio L R Monteiro  | formerly B3         | <juliolrmonteiro@gmail.com>       | Editor, Working Group convener                                                  
 | Aditya Kapur    | CME Group, Inc          | <Aditya.kapur@cmegroup.com>       | Contributor      
@@ -31,13 +29,13 @@ Authors
 | Li Zhu          | Shanghai Stock Exchange | <lzhu@sse.com.cn>                 | Contributor                                    |
 
 
-### Related FIX Standards 
+### Related FIX Standards
 
 The FIX Simple Open Framing Header standard governs how messages are delimited and has a specific relationship mentioned in this specification. FIXP interoperates with the other FIX standards at application and presentation layers, but it is not dependent on them. Therefore, they are considered non-normative for FIXP.
 
 | Related Standard         | Version    | Reference location | Relationship                    | Normative |
 |------------------------------|----------------|------------------------|--------------------------------------|---------------|
-| Simple Open Framing Header | Draft Standard   | [SOFH](https://www.fixtrading.org/packages/fix-simple-open-framing-header-draft-standard-1-0/)                       | Optional usage at presentation layer | Yes           | 
+| Simple Open Framing Header | Draft Standard   | [SOFH](https://www.fixtrading.org/packages/fix-simple-open-framing-header-draft-standard-1-0/)                       | Optional usage at presentation layer | Yes           |
 | FIX message specifications   | 5.0 SP2       | [FIX 5.0 SP2](https://www.fixtrading.org/packages/fix-5-0-service-pack-2-specification-w-20110818-errata/)                       | Presentation and application layers  | No            |
 | FIX Simple Binary Encoding   | Version 1.0    | [Simple Binary Encoding](https://www.fixtrading.org/packages/simple-binary-encoding-technical-specification-final/) | Optional usage at presentation layer | No        |
 | Encoding FIX Using ASN.1     | Draft Standard |  [ASN.1](https://www.fixtrading.org/packages/encoding-fix-using-asn-1-draft-standard/)                      | Optional usage at presentation layer | No            |
@@ -74,22 +72,21 @@ These terms give guidance, recommendation or best practices:
 "**should**" or "**recommended**". A recommended choice among
 alternatives is described as "**preferred**".
 
-These terms give guidance that a practice is not recommended: "**should not**" 
+These terms give guidance that a practice is not recommended: "**should not**"
 or "**not recommended**".
 
-Definitions
------------
+## Definitions
 
-| Term    | Definition  |   
-|---------|-------------|                                                                                                                                                                            
-| Client      | Initiator of session                                                                                                                                                                        
+| Term        | Definition  |   
+|-------------|-------------|
+| Client      | Initiator of session
 | Credentials | User identification for authentication                                                                                        
-| Flow        | A unidirectional stream of messages. Each flow has one producer and one or more consumers.                                                                                              
-| Idempotence | Idempotence means that an operation that is applied multiple times does not change the outcome, the result, after the first time                                                        
+| Flow        | A unidirectional stream of messages. Each flow has one producer and one or more consumers.
+| Idempotence | Idempotence means that an operation that is applied multiple times does not change the outcome, the result, after the first time
 | Multicast   | A method of sending datagrams from one producer to multiple consumers
-| IETF        | Internet Engineering Task Force                                                                                                                                                
-| Server      | Acceptor of session                                                                                                                                                                            
-| Session     | A dialog for exchanging application messages between peers.   An established point-to-point session consists of a pair of flows, one in each direction between peers. A multicast session consists of a single flow from the producer to multiple consumers. 
-| TCP         | Transmission Control Protocol is a set of IETF standards for a reliable stream of data exchanged between peers. Since it is connection oriented, it incorporates some features of a session protocol.  
-| TLS         | Transport Layer Security is a set of IETF standards to provide security to a session. TLS is a successor to Secure Sockets Layer (SSL).                                                                                                                                                 
+| IETF        | Internet Engineering Task Force
+| Server      | Acceptor of session
+| Session     | A dialog for exchanging application messages between peers.   An established point-to-point session consists of a pair of flows, one in each direction between peers. A multicast session consists of a single flow from the producer to multiple consumers.
+| TCP         | Transmission Control Protocol is a set of IETF standards for a reliable stream of data exchanged between peers. Since it is connection oriented, it incorporates some features of a session protocol.
+| TLS         | Transport Layer Security is a set of IETF standards to provide security to a session. TLS is a successor to Secure Sockets Layer (SSL).
 | UDP         | User Datagram Protocol is a connectionless transmission for delivering packets of data. Any rules for a long-lived exchange of messages must be supplied by a session protocol.

@@ -1,12 +1,10 @@
-Appendix A - Usage Examples (TCP)
-=================================
+# Appendix A - Usage Examples (TCP)
 
 These use cases contain sample values for illustrative purposes only
 
-Initialization
---------------
+## Initialization
 
-### <span id="_Toc222136886" class="anchor"><span id="_Toc272405426" class="anchor"><span id="_Toc272405494" class="anchor"><span id="_Toc353265861" class="anchor"></span></span></span></span>Session negotiation (both Recoverable)
+### Session negotiation (both Recoverable)
 
 | **Message Received** | **Message Sent**    | **Session ID** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Server Flow** | **Credentials** |
 |----------------------|---------------------|----------------|---------------|-----------------------|-----------------|-----------------|-----------------|
@@ -238,7 +236,7 @@ For example – the session identifier and the request timestamp in the Establis
 | Negotiate                                                                                                                                         |                     | ABC        | T1        | --                | Idempotent  | --                  | --         | --          |
 |                                                                                                                                                   | NegotiationResponse | ABC        | --        | T1                | --          | --                  | --         | Recoverable |
 | Establish                                                                                                                                         |                     | ABC        | T2        | --                | --          | 10                  | --         | --          |
-|                                                                                                                                                   | Establish mentAck   | DEF        | --        | T3                | --          | 10                  | 1          | --          |
+|                                                                                                                                                   | EstablishmentAck   | DEF        | --        | T3                | --          | 10                  | 1          | --          |
 | \<Ignore EstablishmentAck message since it contains incorrect Session ID and/or RequestTimestamp and Generate Internal Alert and Possibly Retry\> |
 | Establish                                                                                                                                         |                     | ABC        | T4        | --                | --          | 10                  | --         | --          |
 | \<New Establish message should contain same Session ID\>                                                                                          |
@@ -518,11 +516,11 @@ While responding back to a RetransmissionRequest it is possible that the sender 
 | RetransmissionRequest                                                                                                          |                  | ABC                   | T1            | --                    | --             | --                  | --              | --              | 1000           | 100       |
 |                                                                                                                                | Retransmission   | ABC                   | --            | T1                    | 1000           | --                  | --              | --              | --             | 50        |
 | \<50 duplicate messages between 1000 and 1049 are replayed in first packet which includes Retransmission message\>             
-                                                                                                                                 
+
  \<Real time messages between 2000 and 2049 are queued by the sender at this time\>                                              |
 |                                                                                                                                | Sequence         | --                    | --            | --                    | 2000           | --                  | --              | --              | --             | --        |
 | \<50 original real time messages between 2000 and 2049 are sent in second packet which includes Sequence message\>             
-                                                                                                                                 
+
  \<Duplicate messages between 1050 and 1099 are queued by sender at this time\>                                                  |
 |                                                                                                                                | Retransmission   | ABC                   | --            | T1                    | 1050           | --                  | --              | --              | --             | 50        |
 | \<Second batch of 50 duplicate messages between 1050 and 1099 are send in third packet which includes Retransmission message\> |
@@ -697,5 +695,5 @@ Once one of the two parties has ceased logical flow of messages from its connect
 |                                                                                                                                                                                                                                                                                                                                                                               | ExecutionReport    | ABC                   | --            | T5                    | --             | --            | --             | --             | --                 | --                                               |
 |                                                                                                                                                                                                                                                                                                                                                                               | ExecutionReport    | ABC                   | --            | T6                    | --             | --            | --             | --             | --                 | --                                               |
 | RetransmissionRequest                                                                                                                                                                                                                                                                                                                                                         |                   | ABC                   | T7            | --                    | --             | --            | --             | --             | --                 | --                                               |
-|                                                                                                                                                                                                                                                                                                                                                                               | Terminate         | ABC                   | --            | --                    | --             | --            | --             | --             | FUnspecified Error | -- Logical Flow Cannot Resume After Finalization |
+|                                                                                                                                                                                                                                                                                                                                                                               | Terminate         | ABC                   | --            | --                    | --             | --            | --             | --             | Unspecified Error | Logical Flow Cannot Resume After Finalization |
 | Here the initiator has sent a RetransmissionRequest message after ceasing logical flow of messages from its own connection while continuing to accept message flow from acceptor and this will result in an ungraceful termination since the initiator can only respond back to a RetransmisisonRequest but cannot initiate one of its own after half-closing its connection. |
