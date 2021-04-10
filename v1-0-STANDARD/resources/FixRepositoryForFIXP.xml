@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fixRepository xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" edition="2010" copyright="Copyright (c) FIX Protocol Ltd. All Rights Reserved." generated="2001-12-17T09:30:47Z" xsi:noNamespaceSchemaLocation="FixRepository.xsd">
+	<!-- FIXP is not recognized for version attribute in 2010 edition; correct for 2016 edition -->
+	<fix version="FIX.5.0SP2" fixml="0" hasComponents="0">
+		<datatypes latestEP="0">
+			<datatype name="int" added="FIX.2.7" issue="SPEC-370" updated="FIX.5.0SP2" updatedEP="206" textId="DT_int">
+				<Example>723 in field 21 would be mapped int as |21=723|. -723 in field 12 would be mapped int as |12=-723|.</Example>
+				<XML base="xs:integer" builtin="1" textId="DT_XML_int">
+					<Example>723 in field 21 would be mapped int as |21=723|. -723 in field 12 would be mapped int as |12=-723|.</Example>
+				</XML>
+			</datatype>
+			<datatype name="Length" baseType="int" added="FIX.4.3" textId="DT_Length">
+				<XML base="xs:nonNegativeInteger" builtin="0" textId="DT_XML_Length"/>
+			</datatype>
+			<datatype name="TagNum" baseType="int" added="FIX.4.3" updated="FIX.5.0SP2" updatedEP="99" textId="DT_TagNum">
+				<XML base="xs:nonNegativeInteger" builtin="0"/>
+			</datatype>
+			<datatype name="SeqNum" baseType="int" added="FIX.4.3" textId="DT_SeqNum">
+				<XML base="xs:positiveInteger" builtin="0" textId="DT_XML_SeqNum"/>
+			</datatype>
+			<datatype name="NumInGroup" baseType="int" added="FIX.4.3" textId="DT_NumInGroup"/>
+			<datatype name="DayOfMonth" baseType="int" added="FIX.4.1" textId="DT_DayOfMonth"/>
+			<datatype name="float" added="FIX.2.7" updated="FIX.5.0SP2" updatedEP="206" textId="DT_float">
+				<XML base="xs:decimal" builtin="1" textId="DT_XML_float"/>
+			</datatype>
+			<datatype name="Qty" baseType="float" added="FIX.4.2" textId="DT_Qty">
+				<XML base="xs:decimal" builtin="0" textId="DT_XML_Qty"/>
+			</datatype>
+			<datatype name="Price" baseType="float" added="FIX.4.2" textId="DT_Price">
+				<Example>Strk="47.50"</Example>
+				<XML base="xs:decimal" builtin="0" textId="DT_XML_Price"/>
+			</datatype>
+			<datatype name="PriceOffset" baseType="float" added="FIX.4.2" textId="DT_PriceOffset">
+				<XML base="xs:decimal" builtin="0" textId="DT_XML_PriceOffset"/>
+			</datatype>
+			<datatype name="Amt" baseType="float" added="FIX.4.2" textId="DT_Amt">
+				<Example>Amt="6847.00"</Example>
+				<XML base="xs:decimal" builtin="0" textId="DT_XML_Amt"/>
+			</datatype>
+			<datatype name="Percentage" baseType="float" added="FIX.4.3" textId="DT_Percentage">
+				<XML base="xs:decimal" builtin="0" textId="DT_XML_Percentage"/>
+			</datatype>
+			<datatype name="char" added="FIX.2.7" updated="FIX.5.0SP2" updatedEP="206" textId="DT_char">
+				<XML base="xs:string" builtin="0" textId="DT_XML_char"/>
+			</datatype>
+			<datatype name="Boolean" baseType="char" added="FIX.4.2" textId="DT_Boolean">
+				<XML base="xs:string" builtin="0" pattern="[YN]{1}" textId="DT_XML_Boolean"/>
+			</datatype>
+			<datatype name="String" added="FIX.4.2" textId="DT_String">
+				<XML base="xs:string" builtin="1" textId="DT_XML_String"/>
+			</datatype>
+			<datatype name="MultipleCharValue" baseType="String" added="FIX.4.4" textId="DT_MultipleCharValue">
+				<XML base="xs:string" builtin="0" pattern="[A-Za-z0-9](\s[A-Za-z0-9])*" textId="DT_XML_MultipleCharValue"/>
+			</datatype>
+			<datatype name="MultipleStringValue" baseType="String" added="FIX.4.2" textId="DT_MultipleStringValue">
+				<XML base="xs:string" builtin="0" pattern=".+(\s.+)*" textId="DT_XML_MultipleStringValue"/>
+			</datatype>
+			<datatype name="Country" baseType="String" added="FIX.4.4" textId="DT_Country">
+				<XML base="xs:string" builtin="0" pattern=".{2}" textId="DT_XML_Country"/>
+			</datatype>
+			<datatype name="Currency" baseType="String" added="FIX.4.2" textId="DT_Currency">
+				<Example>StrkCcy="USD"</Example>
+				<XML base="xs:string" builtin="0" pattern=".{3}" textId="DT_XML_Currency"/>
+			</datatype>
+			<datatype name="Exchange" baseType="String" added="FIX.4.2" textId="DT_Exchange">
+				<XML base="xs:string" builtin="0" pattern=".*" textId="DT_XML_Exchange"/>
+			</datatype>
+			<datatype name="MonthYear" baseType="String" added="FIX.4.1" textId="DT_MonthYear">
+				<Example>MonthYear="200303",  MonthYear="20030320", MonthYear="200303w2"</Example>
+				<XML base="xs:string" builtin="0" pattern="\d{4}(0|1)\d([0-3wW]\d)?" textId="DT_XML_MonthYear">
+					<Example>MonthYear="200303",  MonthYear="20030320", MonthYear="200303w2"</Example>
+				</XML>
+			</datatype>
+			<datatype name="UTCTimestamp" baseType="String" added="FIX.4.2" updated="FIX.5.0SP2" updatedEP="206" textId="DT_UTCTimestamp">
+				<Example>TransactTime(60)="20011217-09:30:47.123" millisecond
+TransactTime(60)="20011217-09:30:47.123456" microseconds
+TransactTime(60)="20011217-09:30:47.123456789" nanoseconds
+TransactTime(60)="20011217-09:30:47.123456789123" picoseconds
+</Example>
+				<XML base="xs:dateTime" builtin="0" textId="DT_XML_UTCTimestamp">
+					<Example>TxnTm="2001-12-17T09:30:47" seconds
+TxnTm="20011217-09:30:47.123" milliseconds
+TxnTm="20011217-09:30:47.123456" microseconds
+TxnTm="20011217-09:30:47.123456789" nanoseconds
+TxnTm="20011217-09:30:47.123456789123" picoseconds
+</Example>
+				</XML>
+			</datatype>
+			<datatype name="UTCTimeOnly" baseType="String" added="FIX.4.2" updated="FIX.5.0SP2" updatedEP="206" textId="DT_UTCTimeOnly">
+				<Example>MDEntryTime(273)="13:20:00.123"milliseconds
+MDEntryTime(273)="13:20:00.123456" microseconds
+MDEntryTime(273)="13:20:00.123456789" nanoseconds
+MDEntryTime(273)="13:20:00.123456789123" picoseconds
+</Example>
+				<XML base="xs:time" builtin="0" textId="DT_XML_UTCTimeOnly">
+					<Example>Tm="13:20:00.000" seconds
+Tm="13:20:00.123"milliseconds
+Tm="13:20:00.123456" microseconds
+Tm="13:20:00.123456789" nanoseconds
+Tm="13:20:00.123456789123" picoseconds</Example>
+				</XML>
+			</datatype>
+			<datatype name="UTCDateOnly" baseType="String" added="FIX.4.4" textId="DT_UTCDateOnly">
+				<Example>MDEntryDate="20030910"</Example>
+				<XML base="xs:date" builtin="0" textId="DT_XML_UTCDateOnly">
+					<Example>MDEntryDate="2003-09-10"</Example>
+				</XML>
+			</datatype>
+			<datatype name="LocalMktDate" baseType="String" added="FIX.4.2" updated="FIX.5.0SP2" updatedEP="206" textId="DT_LocalMktDate">
+				<Example>MaturityDate(541)="20150724"</Example>
+				<XML base="xs:date" builtin="0" textId="DT_XML_LocalMktDate">
+					<Example>MaturityDate(541)=”2015-07-24"</Example>
+				</XML>
+			</datatype>
+			<datatype name="TZTimeOnly" baseType="String" added="FIX.4.4" addedEP="-1" updated="FIX.5.0SP2" updatedEP="206" textId="DT_TZTimeOnly">
+				<Example>"07:39Z" is 07:39 UTC
+"02:39-05" is five hours behind UTC, thus Eastern Time
+"15:39+08" is eight hours ahead of UTC, Hong Kong/Singapore time
+"13:09+05:30" is 5.5 hours ahead of UTC, India time</Example>
+				<XML base="xs:time" builtin="1" textId="DT_XML_TZTimeOnly">
+					<Example>MatTm="07:39Z" is 07:39 UTC
+MatTm="02:39-05" is five hours behind UTC, Eastern Time
+MatTm="15:39+08" is eight hours ahead of UTC, Hong Kong/Singapore time
+MatTm="13:09+05:30" is 5.5 hours ahead of UTC, India time</Example>
+				</XML>
+			</datatype>
+			<datatype name="TZTimestamp" baseType="String" added="FIX.4.4" addedEP="-1" updated="FIX.5.0SP2" updatedEP="206" textId="DT_TZTimestamp">
+				<Example>"20060901-07:39Z" is 07:39 UTC on 1st of September 2006
+"20060901-02:39-05" is five hours behind UTC, thus Eastern Time on 1st of September 2006
+"20060901-15:39+08" is eight hours ahead of UTC, Hong Kong/Singapore time on 1st of September 2006
+"20060901-13:09+05:30" is 5.5 hours ahead of UTC, India time on 1st of September 2006
+Using decimal seconds:
+"20060901-13:09.123+05:30" milliseconds
+"20060901-13:09.123456+05:30" microseconds
+"20060901-13:09.123456789+05:30" nanoseconds
+"20060901-13:09.123456789123+05:30" picoseconds
+"20060901-13:09.123456789Z" nanoseconds UTC timezone
+</Example>
+				<XML base="xs:dateTime" builtin="1" textId="DT_XML_TZTimestamp">
+					<Example>"2006-09-01-T07:39Z" is 07:39 UTC on 1st of September 2006
+"2006-09-01-T02:39-05" is five hours behind UTC, Eastern Time on 1st of September 2006
+"2006-09-01-T15:39+08" is eight hours ahead of UTC, Hong Kong/Singapore time on 1st of September 2006
+"2006-09-01-T13:09+05:30" is 5.5 hours ahead of UTC, India time on 1st of September 2006
+Using decimal seconds:
+"2006-09-01T13:09.123+05:30" milliseconds
+"2006-09-01T13:09.123456+05:30" microseconds
+"2006-09-01T13:09.123456789+05:30" nanoseconds
+"2006-09-01T13:09.123456789123+05:30" picoseconds
+"2006-09-01T13:09.123456789Z" nanoseconds UTC timezone</Example>
+				</XML>
+			</datatype>
+			<datatype name="data" baseType="String" added="FIX.2.7" updated="FIX.5.0SP2" updatedEP="208" textId="DT_data">
+				<XML base="xs:base64Binary" builtin="1" textId="DT_XML_data"/>
+			</datatype>
+			<datatype name="Pattern" added="FIX.4.4" addedEP="-1" textId="DT_Pattern"/>
+			<datatype name="Tenor" baseType="Pattern" added="FIX.4.4" addedEP="-1" textId="DT_Tenor">
+				<XML base="xs:string" builtin="0" pattern="[DMWY](\d)+" textId="DT_XML_Tenor"/>
+			</datatype>
+			<datatype name="Reserved100Plus" baseType="Pattern" added="FIX.4.4" addedEP="-1" textId="DT_Reserved100Plus">
+				<XML base="xs:integer" builtin="0" minInclusive="100" textId="DT_XML_Reserved100Plus"/>
+			</datatype>
+			<datatype name="Reserved1000Plus" baseType="Pattern" added="FIX.4.4" addedEP="-1" textId="DT_Reserved1000Plus">
+				<XML base="xs:integer" builtin="0" minInclusive="1000" textId="DT_XML_Reserved1000Plus"/>
+			</datatype>
+			<datatype name="Reserved4000Plus" baseType="Pattern" added="FIX.4.4" addedEP="-1" textId="DT_Reserved4000Plus">
+				<XML base="xs:integer" builtin="0" minInclusive="4000" textId="DT_XML_Reserved4000Plus"/>
+			</datatype>
+			<datatype name="XMLData" baseType="String" added="FIX.5.0" addedEP="-1" textId="DT_XMLData">
+				<XML base="xs:string" builtin="0"/>
+			</datatype>
+			<datatype name="Language" baseType="String" added="FIX.5.0SP1" addedEP="90" textId="DT_Language">
+				<Example>en (English), es (spanish), etc.</Example>
+				<XML base="xs:language" builtin="1"/>
+			</datatype>
+			<datatype name="LocalMktTime" baseType="String" added="FIX.5.0SP2" addedEP="161" textId="DT_LocalMktTime">
+				<Example>Example: 07:00:00</Example>
+				<XML base="xs:time" builtin="1" textId="DT_XML_LocalMktTime">
+					<Example>07:00:00</Example>
+				</XML>
+			</datatype>
+			<datatype name="XID" baseType="String" added="FIX.5.0SP2" addedEP="161" textId="DT_XID">
+				<XML base="xs:ID" builtin="1" textId="DT_XML_XID"/>
+			</datatype>
+			<datatype name="XIDREF" baseType="String" added="FIX.5.0SP2" addedEP="161" textId="DT_XIDREF">
+				<XML base="xs:IDREF" builtin="1" textId="DT_XML_XIDREF"/>
+			</datatype>
+		</datatypes>
+		<categories latestEP="208">
+			<category id="Session" notReqXML="1" componentType="Message" section="Session" volume="?"/>
+		</categories>
+		<sections latestEP="208">
+			<section id="Session" name="Session" volume="?" notReqXML="1"/>
+		</sections>
+		<fields latestEP="208">
+			<field name="SessionId" id="1" type="String"/>
+			<field name="Timestamp" id="2" type="int"/>
+			<field name="ClientFlow" id="3" type="int">
+				<enum name="Recoverable" value="0"/>
+				<enum name="Idempotent" value="1"/>
+				<enum name="Unsequenced" value="2"/>
+				<enum name="None" value="3"/>
+			</field>
+			<field name="Credentials" id="4" type="data"/>
+			<field name="RequestTimestamp" id="5" type="int"/>
+			<field name="ServerFlow" id="6" type="int" enumDatatype="3"/>
+			<field name="NegotiationRejectCode" id="7" type="int">
+				<enum name="Credentials" value="0"/>
+				<enum name="FlowTypeNotSupported" value="1"/>
+				<enum name="DuplicateId" value="2"/>
+				<enum name="Unspecified" value="3"/>
+			</field>
+			<field name="Reason" id="8" type="String"/>
+			<field name="KeepaliveInterval" id="9" type="int"/>
+			<field name="Classification" id="10" type="data"/>
+			<field name="NextSeqNo" id="11" type="int"/>
+			<field name="EstablishmentRejectCode" id="12" type="int">
+				<enum name="Unnegotiated" value="0"/>
+				<enum name="AlreadyEstablished" value="1"/>
+				<enum name="SessionBlocked" value="2"/>
+				<enum name="KeepaliveInterval" value="3"/>
+				<enum name="Credentials" value="4"/>
+				<enum name="Unspecified" value="5"/>
+			</field>
+			<field name="FromSeqNo" id="13" type="int"/>
+			<field name="Count" id="14" type="int"/>
+			<field name="RetransmitRejectCode" id="15" type="int">
+				<enum name="OutOfRange" value="0"/>
+				<enum name="InvalidSession" value="1"/>
+				<enum name="RequestLimitExceeded" value="2"/>
+			</field>
+			<field name="TerminationCode" id="16" type="int">
+				<enum name="Finished" value="0"/>
+				<enum name="UnspecifiedError" value="1"/>
+				<enum name="ReRequestOutOfBounds" value="2"/>
+				<enum name="ReRequestInProgress" value="3"/>
+			</field>
+			<field name="LastSeqNo" id="17" type="int"/>
+			<field name="Flow" id="18" type="int">
+				<enum name="Recoverable" value="0"/>
+				<enum name="Idempotent" value="1"/>
+			</field>
+			<field id="18" name="EncodingType" type="int"/>
+			<field id="19" name="EffectiveTime" type="int"/>
+			<field id="20" name="Version" type="data"/>
+			<field id="21" name="Template" type="data"/>
+		</fields>
+		<components latestEP="208">
+		</components>
+		<messages latestEP="208">
+			<message id="1" name="Negotiate" msgType="XX" category="Session" section="Session" notReqXML="1">
+				<fieldRef id="1" name="SessionId" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="2" name="Timestamp" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="3" name="ClientFlow" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="4" name="Credentials" required="0" legacyPosition="0" legacyIndent="0"/>
+			</message>
+			<message id="2" name="NegotiationResponse" msgType="XX" category="Session" section="Session" notReqXML="1">
+				<fieldRef id="1" name="SessionId" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="5" name="RequestTimestamp" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="6" name="ServerFlow" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="4" name="Credentials" required="0" legacyPosition="0" legacyIndent="0"/>
+			</message>
+			<message id="3" name="NegotiationReject" msgType="XX" category="Session" section="Session" notReqXML="1">
+				<fieldRef id="1" name="SessionId" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="5" name="RequestTimestamp" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="7" name="NegotiationRejectCode" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="8" name="Reason" required="0" legacyPosition="0" legacyIndent="0"/>
+			</message>
+			<message id="4" name="Topic" msgType="XX" category="Session" section="Session" notReqXML="1">
+				<fieldRef id="1" name="SessionId" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="18" name="Flow" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="9" name="KeepaliveInterval" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="10" name="Classification" required="1" legacyPosition="0" legacyIndent="0"/>
+			</message>
+			<message id="5" name="Establish" msgType="XX" category="Session" section="Session" notReqXML="1">
+				<fieldRef id="1" name="SessionId" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="2" name="Timestamp" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="9" name="KeepaliveInterval" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="11" name="NextSeqNo" required="0" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="4" name="Credentials" required="0" legacyPosition="0" legacyIndent="0"/>
+			</message>
+			<message id="6" name="EstablishmentAck" msgType="XX" category="Session" section="Session" notReqXML="1">
+				<fieldRef id="1" name="SessionId" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="5" name="RequestTimestamp" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="9" name="KeepaliveInterval" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="11" name="NextSeqNo" required="0" legacyPosition="0" legacyIndent="0"/>
+			</message>
+			<message id="7" name="EstablishmentReject" msgType="XX" category="Session" section="Session" notReqXML="1">
+				<fieldRef id="1" name="SessionId" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="5" name="RequestTimestamp" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="12" name="EstablishmentRejectCode" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="8" name="Reason" required="0" legacyPosition="0" legacyIndent="0"/>
+			</message>
+			<message id="8" name="Sequence" msgType="XX" category="Session" section="Session" notReqXML="1">
+				<fieldRef id="11" name="NextSeqNo" required="1" legacyPosition="0" legacyIndent="0"/>
+			</message>
+			<message id="9" name="Context" msgType="XX" category="Session" section="Session" notReqXML="1">
+				<fieldRef id="1" name="SessionId" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="11" name="NextSeqNo" required="1" legacyPosition="0" legacyIndent="0"/>
+			</message>
+			<message id="10" name="UnsequencedHeartbeat" msgType="XX" category="Session" section="Session" notReqXML="1"/>
+			<message id="11" name="RetransmitRequest" msgType="XX" category="Session" section="Session" notReqXML="1">
+				<fieldRef id="1" name="SessionId" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="2" name="Timestamp" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="13" name="FromSeqNo" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="14" name="Count" required="1" legacyPosition="0" legacyIndent="0"/>
+			</message>
+			<message id="12" name="Retransmission" msgType="XX" category="Session" section="Session" notReqXML="1">
+				<fieldRef id="1" name="SessionId" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="5" name="RequestTimestamp" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="11" name="NextSeqNo" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="14" name="Count" required="1" legacyPosition="0" legacyIndent="0"/>
+			</message>
+			<message id="13" name="RestransmitReject" msgType="XX" category="Session" section="Session" notReqXML="1">
+				<fieldRef id="1" name="SessionId" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="5" name="RequestTimestamp" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="15" name="RetransmitRejectCode" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="8" name="Reason" required="0" legacyPosition="0" legacyIndent="0"/>
+			</message>
+			<message id="14" name="Terminate" msgType="XX" category="Session" section="Session" notReqXML="1">
+				<fieldRef id="1" name="SessionId" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="16" name="TerminationCode" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="8" name="Reason" required="0" legacyPosition="0" legacyIndent="0"/>
+			</message>
+			<message id="15" name="FinishedSending" msgType="XX" category="Session" section="Session" notReqXML="1">
+				<fieldRef id="1" name="SessionId" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="17" name="LastSeqNo" required="1" legacyPosition="0" legacyIndent="0"/>
+			</message>
+			<message id="16" name="FinishedReceiving" msgType="XX" category="Session" section="Session" notReqXML="1">
+				<fieldRef id="1" name="SessionId" required="1" legacyPosition="0" legacyIndent="0"/>
+			</message>
+			<message id="17" name="Applied" msgType="XX" category="Session" section="Session" notReqXML="1">
+				<fieldRef id="13" name="FromSeqNo" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="14" name="Count" required="1" legacyPosition="0" legacyIndent="0"/>
+			</message>
+			<message id="18" name="NotApplied" msgType="XX" category="Session" section="Session" notReqXML="1">
+				<fieldRef id="13" name="FromSeqNo" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="14" name="Count" required="1" legacyPosition="0" legacyIndent="0"/>
+			</message>
+			<message id="19" name="MessageTemplate" msgType="XX" category="Session" section="Session" notReqXML="1">
+				<fieldRef id="18" name="EncodingType" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="19" name="EffectiveTime" required="0" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="20" name="Version" required="0" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="21" name="Template" required="1" legacyPosition="0" legacyIndent="0"/>
+			</message>
+		</messages>
+	</fix>
+</fixRepository>
