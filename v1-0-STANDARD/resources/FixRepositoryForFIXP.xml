@@ -239,10 +239,10 @@ Using decimal seconds:
 				<enum name="Recoverable" value="0"/>
 				<enum name="Idempotent" value="1"/>
 			</field>
-			<field id="18" name="EncodingType" type="int"/>
-			<field id="19" name="EffectiveTime" type="int"/>
-			<field id="20" name="Version" type="data"/>
-			<field id="21" name="Template" type="data"/>
+			<field id="19" name="EncodingType" type="int"/>
+			<field id="20" name="EffectiveTime" type="int"/>
+			<field id="21" name="Version" type="data"/>
+			<field id="22" name="Template" type="data"/>
 		</fields>
 		<components latestEP="208">
 		</components>
@@ -337,10 +337,10 @@ Using decimal seconds:
 				<fieldRef id="14" name="Count" required="1" legacyPosition="0" legacyIndent="0"/>
 			</message>
 			<message id="19" name="MessageTemplate" msgType="XX" category="Session" section="Session" notReqXML="1">
-				<fieldRef id="18" name="EncodingType" required="1" legacyPosition="0" legacyIndent="0"/>
-				<fieldRef id="19" name="EffectiveTime" required="0" legacyPosition="0" legacyIndent="0"/>
-				<fieldRef id="20" name="Version" required="0" legacyPosition="0" legacyIndent="0"/>
-				<fieldRef id="21" name="Template" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="19" name="EncodingType" required="1" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="20" name="EffectiveTime" required="0" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="21" name="Version" required="0" legacyPosition="0" legacyIndent="0"/>
+				<fieldRef id="22" name="Template" required="1" legacyPosition="0" legacyIndent="0"/>
 			</message>
 		</messages>
 	</fix>
