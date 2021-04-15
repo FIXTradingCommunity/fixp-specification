@@ -300,7 +300,7 @@ Rejection reasons:
 
 -   InvalidSession: The specified SessionId is unknown or is not authorized for the requester to access.
 
--   RequestLimiitExceeded: The message Count exceeds a local rule for maximum retransmission size.
+-   RequestLimitExceeded: The message Count exceeds a local rule for maximum retransmission size.
 
 **RestransmitReject**
 
