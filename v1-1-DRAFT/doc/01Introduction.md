@@ -59,7 +59,7 @@ FIXP is dependent on several industry standards. Implementations of FIXP must co
 
 | Related Standard  | Version | Reference location | Relationship  | Normative |
 |-------------------|---------|--------------------|---------------|-----------|
-| RFC 793 Transmission Control Program (TCP)                   | N/A         | <http://tools.ietf.org/html/rfc793> and related standards                 | Uses transport                  | Yes           |
+| RFC 793 Transmission Control Protocol (TCP)                   | N/A         | <http://tools.ietf.org/html/rfc793> and related standards                 | Uses transport                  | Yes           |
 | RFC 6455 WebSocket Protocol                   | N/A         | <http://tools.ietf.org/html/rfc6455>                | Uses transport                  | Yes           |
 | RFC 768 User Datagram Protocol (UDP)                         | N/A         | <http://tools.ietf.org/html/rfc768>  | Uses transport                  | Yes           |
 | RFC4122 A Universally Unique Identifier (UUID) URN Namespace | N/A         | <http://tools.ietf.org/html/rfc4122> | Uses                            | Yes           |
