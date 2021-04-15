@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fixr:repository xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fixr="http://fixprotocol.io/2020/orchestra/repository" xmlns:functx="http://www.functx.com" hasComponents="0" name="FIXP" version="1.0">
+<fixr:repository xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fixr="http://fixprotocol.io/2020/orchestra/repository" xmlns:functx="http://www.functx.com" name="FIXP" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://fixprotocol.io/2020/orchestra/repository ../../../fix-orchestra/repository/src/main/resources/xsd/repository.xsd">
 	<fixr:metadata>
-		<dc:title>Orchestra</dc:title>
+		<dc:title>FIXP session messages</dc:title>
 		<dc:creator>unified2orchestra.xslt script</dc:creator>
 		<dc:publisher>FIX Trading Community</dc:publisher>
 		<dc:date>2021-04-08T13:18:34-05:00</dc:date>
@@ -641,13 +641,13 @@ Using decimal seconds:
 		<fixr:field name="SessionId" id="1" type="String"/>
 		<fixr:field name="Timestamp" id="2" type="int"/>
 		<fixr:field name="ClientFlow" id="3" type="ClientFlowCodeSet"/>
-		<fixr:field name="Credentials" id="4" type="data" lengthId=""/>
+		<fixr:field name="Credentials" id="4" type="data"/>
 		<fixr:field name="RequestTimestamp" id="5" type="int"/>
 		<fixr:field name="ServerFlow" id="6" type="ClientFlowCodeSet"/>
 		<fixr:field name="NegotiationRejectCode" id="7" type="NegotiationRejectCodeCodeSet"/>
 		<fixr:field name="Reason" id="8" type="String"/>
 		<fixr:field name="KeepaliveInterval" id="9" type="int"/>
-		<fixr:field name="Classification" id="10" type="data" lengthId=""/>
+		<fixr:field name="Classification" id="10" type="data"/>
 		<fixr:field name="NextSeqNo" id="11" type="int"/>
 		<fixr:field name="EstablishmentRejectCode" id="12" type="EstablishmentRejectCodeCodeSet"/>
 		<fixr:field name="FromSeqNo" id="13" type="int"/>
@@ -656,15 +656,13 @@ Using decimal seconds:
 		<fixr:field name="TerminationCode" id="16" type="TerminationCodeCodeSet"/>
 		<fixr:field name="LastSeqNo" id="17" type="int"/>
 		<fixr:field name="Flow" id="18" type="FlowCodeSet"/>
-		<fixr:field id="18" name="EncodingType" type="int"/>
-		<fixr:field id="19" name="EffectiveTime" type="int"/>
-		<fixr:field id="20" name="Version" type="data" lengthId=""/>
-		<fixr:field id="21" name="Template" type="data" lengthId=""/>
+		<fixr:field name="EncodingType" id="19" type="int"/>
+		<fixr:field name="EffectiveTime" id="20" type="int"/>
+		<fixr:field name="Version" id="21" type="data"/>
+		<fixr:field name="Template" id="22" type="data"/>
 	</fixr:fields>
-	<fixr:components latestEP="208"/>
-	<fixr:groups latestEP="208"/>
 	<fixr:messages latestEP="208">
-		<fixr:message id="1" name="Negotiate" msgType="XX" category="Session">
+		<fixr:message id="1" name="Negotiate" category="Session">
 			<fixr:structure>
 				<fixr:fieldRef id="1" presence="required"/>
 				<fixr:fieldRef id="2" presence="required"/>
@@ -672,7 +670,7 @@ Using decimal seconds:
 				<fixr:fieldRef id="4"/>
 			</fixr:structure>
 		</fixr:message>
-		<fixr:message id="2" name="NegotiationResponse" msgType="XX" category="Session">
+		<fixr:message id="2" name="NegotiationResponse" category="Session">
 			<fixr:structure>
 				<fixr:fieldRef id="1" presence="required"/>
 				<fixr:fieldRef id="5" presence="required"/>
@@ -680,7 +678,7 @@ Using decimal seconds:
 				<fixr:fieldRef id="4"/>
 			</fixr:structure>
 		</fixr:message>
-		<fixr:message id="3" name="NegotiationReject" msgType="XX" category="Session">
+		<fixr:message id="3" name="NegotiationReject" category="Session">
 			<fixr:structure>
 				<fixr:fieldRef id="1" presence="required"/>
 				<fixr:fieldRef id="5" presence="required"/>
@@ -688,7 +686,7 @@ Using decimal seconds:
 				<fixr:fieldRef id="8"/>
 			</fixr:structure>
 		</fixr:message>
-		<fixr:message id="4" name="Topic" msgType="XX" category="Session">
+		<fixr:message id="4" name="Topic" category="Session">
 			<fixr:structure>
 				<fixr:fieldRef id="1" presence="required"/>
 				<fixr:fieldRef id="18" presence="required"/>
@@ -696,7 +694,7 @@ Using decimal seconds:
 				<fixr:fieldRef id="10" presence="required"/>
 			</fixr:structure>
 		</fixr:message>
-		<fixr:message id="5" name="Establish" msgType="XX" category="Session">
+		<fixr:message id="5" name="Establish" category="Session">
 			<fixr:structure>
 				<fixr:fieldRef id="1" presence="required"/>
 				<fixr:fieldRef id="2" presence="required"/>
@@ -705,7 +703,7 @@ Using decimal seconds:
 				<fixr:fieldRef id="4"/>
 			</fixr:structure>
 		</fixr:message>
-		<fixr:message id="6" name="EstablishmentAck" msgType="XX" category="Session">
+		<fixr:message id="6" name="EstablishmentAck" category="Session">
 			<fixr:structure>
 				<fixr:fieldRef id="1" presence="required"/>
 				<fixr:fieldRef id="5" presence="required"/>
@@ -713,7 +711,7 @@ Using decimal seconds:
 				<fixr:fieldRef id="11"/>
 			</fixr:structure>
 		</fixr:message>
-		<fixr:message id="7" name="EstablishmentReject" msgType="XX" category="Session">
+		<fixr:message id="7" name="EstablishmentReject" category="Session">
 			<fixr:structure>
 				<fixr:fieldRef id="1" presence="required"/>
 				<fixr:fieldRef id="5" presence="required"/>
@@ -721,21 +719,21 @@ Using decimal seconds:
 				<fixr:fieldRef id="8"/>
 			</fixr:structure>
 		</fixr:message>
-		<fixr:message id="8" name="Sequence" msgType="XX" category="Session">
+		<fixr:message id="8" name="Sequence" category="Session">
 			<fixr:structure>
 				<fixr:fieldRef id="11" presence="required"/>
 			</fixr:structure>
 		</fixr:message>
-		<fixr:message id="9" name="Context" msgType="XX" category="Session">
+		<fixr:message id="9" name="Context" category="Session">
 			<fixr:structure>
 				<fixr:fieldRef id="1" presence="required"/>
 				<fixr:fieldRef id="11" presence="required"/>
 			</fixr:structure>
 		</fixr:message>
-		<fixr:message id="10" name="UnsequencedHeartbeat" msgType="XX" category="Session">
+		<fixr:message id="10" name="UnsequencedHeartbeat" category="Session"/>
 			<fixr:structure/>
 		</fixr:message>
-		<fixr:message id="11" name="RetransmitRequest" msgType="XX" category="Session">
+		<fixr:message id="11" name="RetransmitRequest" category="Session">
 			<fixr:structure>
 				<fixr:fieldRef id="1" presence="required"/>
 				<fixr:fieldRef id="2" presence="required"/>
@@ -743,7 +741,7 @@ Using decimal seconds:
 				<fixr:fieldRef id="14" presence="required"/>
 			</fixr:structure>
 		</fixr:message>
-		<fixr:message id="12" name="Retransmission" msgType="XX" category="Session">
+		<fixr:message id="12" name="Retransmission" category="Session">
 			<fixr:structure>
 				<fixr:fieldRef id="1" presence="required"/>
 				<fixr:fieldRef id="5" presence="required"/>
@@ -751,7 +749,7 @@ Using decimal seconds:
 				<fixr:fieldRef id="14" presence="required"/>
 			</fixr:structure>
 		</fixr:message>
-		<fixr:message id="13" name="RestransmitReject" msgType="XX" category="Session">
+		<fixr:message id="13" name="RestransmitReject" category="Session">
 			<fixr:structure>
 				<fixr:fieldRef id="1" presence="required"/>
 				<fixr:fieldRef id="5" presence="required"/>
@@ -759,42 +757,42 @@ Using decimal seconds:
 				<fixr:fieldRef id="8"/>
 			</fixr:structure>
 		</fixr:message>
-		<fixr:message id="14" name="Terminate" msgType="XX" category="Session">
+		<fixr:message id="14" name="Terminate" category="Session">
 			<fixr:structure>
 				<fixr:fieldRef id="1" presence="required"/>
 				<fixr:fieldRef id="16" presence="required"/>
 				<fixr:fieldRef id="8"/>
 			</fixr:structure>
 		</fixr:message>
-		<fixr:message id="15" name="FinishedSending" msgType="XX" category="Session">
+		<fixr:message id="15" name="FinishedSending" category="Session">
 			<fixr:structure>
 				<fixr:fieldRef id="1" presence="required"/>
 				<fixr:fieldRef id="17" presence="required"/>
 			</fixr:structure>
 		</fixr:message>
-		<fixr:message id="16" name="FinishedReceiving" msgType="XX" category="Session">
+		<fixr:message id="16" name="FinishedReceiving" category="Session">
 			<fixr:structure>
 				<fixr:fieldRef id="1" presence="required"/>
 			</fixr:structure>
 		</fixr:message>
-		<fixr:message id="17" name="Applied" msgType="XX" category="Session">
+		<fixr:message id="17" name="Applied" category="Session">
 			<fixr:structure>
 				<fixr:fieldRef id="13" presence="required"/>
 				<fixr:fieldRef id="14" presence="required"/>
 			</fixr:structure>
 		</fixr:message>
-		<fixr:message id="18" name="NotApplied" msgType="XX" category="Session">
+		<fixr:message id="18" name="NotApplied" category="Session">
 			<fixr:structure>
 				<fixr:fieldRef id="13" presence="required"/>
 				<fixr:fieldRef id="14" presence="required"/>
 			</fixr:structure>
 		</fixr:message>
-		<fixr:message id="19" name="MessageTemplate" msgType="XX" category="Session">
+		<fixr:message id="19" name="MessageTemplate" category="Session">
 			<fixr:structure>
-				<fixr:fieldRef id="18" presence="required"/>
-				<fixr:fieldRef id="19"/>
+				<fixr:fieldRef id="19" presence="required"/>
 				<fixr:fieldRef id="20"/>
-				<fixr:fieldRef id="21" presence="required"/>
+				<fixr:fieldRef id="21"/>
+				<fixr:fieldRef id="22" presence="required"/>
 			</fixr:structure>
 		</fixr:message>
 	</fixr:messages>
