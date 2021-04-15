@@ -387,7 +387,7 @@ The recoverable server return flow should report the result of operations at the
 
 ### Applied
 
-This is an optional application response message to support an idempotent flow. Standard FIX semantics provide application layer acknowledgements to requests, e.g. Execution Report in response to New Order Single. The principle is to use application specific acknowledgement messages where possible; use the Applied message where an application level acknowledgement message does not exist.
+This is an optional application response message to support an idempotent flow. Standard FIX semantics provide application layer acknowledgements to requests, e.g. ExecutionReport in response to NewOrderSingle. The principle is to use application specific acknowledgement messages where possible; use the Applied message where an application level acknowledgement message does not exist.
 
 Since Applied is an application message, it will be reliably delivered if returned on a recoverable flow.
 
