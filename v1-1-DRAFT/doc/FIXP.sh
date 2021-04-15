@@ -12,9 +12,20 @@ YAML="$SOURCE/FIXP.yaml"
 FILES="01Introduction.md 02Requirements.md 03CommonFeatures.md 04PointToPointSessionProtocol.md 05MulticastSessionProtocol.md 06SummaryOfSessionMessages.md 07UsageExamples.md 08RulesOfEngagement.md"
 WPFOLDER="/wp-content/uploads/2021/04/"
 
-# Create document version with disclaimer
-pandoc "$DISCLAIMER" $FILES -o "$TARGET/docx/FIX Performance Session Layer V1.1.docx" --reference-doc="$STYLE" --metadata-file="$YAML" --toc --toc-depth=4
-echo FIXP document version created
+# Create FIX document version with disclaimer
+pandoc "$DISCLAIMER" $FILES -o "$TARGET/docx/FIX_Performance_Session_Layer_V1.1.docx" --reference-doc="$STYLE" --metadata-file="$YAML" --toc --toc-depth=4
+echo FIXP document version created for FIX
+
+# Create ISO document version with copyright etc.
+ISOYAML="$SOURCE/FIXP_ISO.yaml"
+ISOSTYLE="ISO_TechStd_Style_MASTER.docx"
+ISOCOPYRIGHT="ISOCopyright.md"
+ISOFOREWORD="ISOForeword.md"
+ISOINTRO="ISOIntro.md"
+# set ISOBIBLIO=ISOBiblio.md
+
+pandoc $ISOCOPYRIGHT $ISOFOREWORD $ISOINTRO $FILES -o "$TARGET/docx/ISO_FIX_Performance_Session_Layer_V1.1.docx" --reference-doc=$ISOSTYLE --metadata-file=$ISOYAML --filter pandoc-plantuml --toc --toc-depth=3
+echo FIXP document version created for ISO
 
 # Create base online version without disclaimer
 pandoc $FILES -s -o "$TARGET/debug/FIXPONLINE.html" -s --metadata-file="$YAML" --toc --toc-depth=2
