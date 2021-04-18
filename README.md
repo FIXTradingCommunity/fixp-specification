@@ -12,7 +12,7 @@ The planned lifecycle of this project is to work iteratively in a series of rele
 
 Promotion to final Technical Standard is contingent on successful public review and evidence of at least two interoperable implementations.
 
-All approved versions of the FIXP specification are available as MS Word documents at [FIX Performance Session Layer (FIXP)](https://www.fixtrading.org/standards/fixp/).
+All approved versions of the FIXP specification are available as PDF documents at [FIX Performance Session Layer (FIXP)](https://www.fixtrading.org/standards/fixp/).
 
 ### Version 1.1 Draft Standard
 
