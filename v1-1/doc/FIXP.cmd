@@ -8,7 +8,7 @@ set STYLE=FIX_TechStd_Style_MASTER.docx
 set TARGET=%SOURCE%\target
 set YAML=%SOURCE%\FIXP.yaml
 set FILES=01Introduction.md 02Requirements.md 03CommonFeatures.md 04PointToPointSessionProtocol.md 05MulticastSessionProtocol.md 06SummaryOfSessionMessages.md 07UsageExamples.md 08RulesOfEngagement.md
-set WPFOLDER=\wp-content\uploads\2020/03\
+set WPFOLDER=\wp-content\uploads\2021/04\
 
 :: Create FIX document version with disclaimer
 pandoc "%DISCLAIMER%" %FILES% -o "%TARGET%\docx\FIX_Performance_Session_Layer_V1.1.docx" --reference-doc="%STYLE%" --metadata-file="%YAML%" --toc --toc-depth=4

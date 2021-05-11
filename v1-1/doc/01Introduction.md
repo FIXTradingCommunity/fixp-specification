@@ -1,5 +1,4 @@
-Introduction
-============
+# Introduction
 
 FIX Performance Session Layer (FIXP) is a “lightweight point-to-point protocol” introduced to provide an open industry standard for high performance computing requirements currently encountered by the FIX Community. FIXP is a derived work. The origin and basis for FIXP are the FIX session layer protocols and protocols designed and implemented by NASDAQ OMX, i.e. SoupTCP, SoupBinTCP, and UFO (UDP for Orders). Every attempt was made to keep FIXP as close to the functionality and behavior of SoupBinTCP and UFO as possible. Extensions and refactoring were performed as incremental improvements. Every attempt was made to limit FIXP to establishing and maintaining a communication session between two end points in a reliable manner, regardless of the reliability of the underlying transport.
 
@@ -24,8 +23,7 @@ The Technical Specification is split into the following sections:
 - Negotiable delivery guarantees that may be asymmetrical
 
 
-Authors
--------
+## Authors
 
 | Name        | Affiliation         | Contact                  | Role                                                                            
 |-----------------|-------------------------|------------------------------|--------------------------------------------------------------------------------------|
@@ -87,11 +85,10 @@ alternatives is described as "**preferred**".
 These terms give guidance that a practice is not recommended: "**should not**"
 or "**not recommended**".
 
-Definitions
------------
+## Definitions
 
-| Term    | Definition  |   
-|---------|-------------|                                                                                                                                                                            
+| Term        | Definition  |   
+|-------------|-------------|                                                                                                                                                                            
 | Client      | Initiator of session                                                                                                                                                                        
 | Credentials | User identification for authentication                                                                                        
 | Flow        | A unidirectional stream of messages. Each flow has one producer and one or more consumers.                                                                                              

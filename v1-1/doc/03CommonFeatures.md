@@ -1,19 +1,16 @@
-Common Features
-===============
-Usage and Naming Conventions
-----------------------------
+# Common Features
+
+## Usage and Naming Conventions
 
 All symbolic names for messages and fields in this protocol must follow the same naming convention as other FIX specifications: alphanumeric characters plus underscores without spaces.
 
-Data Types
-----------
+## Data Types
 
 Data types used in this standard are abstract. 
 The terminology used to define them are to be interpreted as described in international standard
 [ISO/IEC 11404 Information technology -- General-Purpose Datatypes ](http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=39479). 
 
-> It defines a set
-of datatypes, independent of any particular programming language specification or implementation, that is rich
+It defines a set of datatypes, independent of any particular programming language specification or implementation, that is rich
 enough so that any common datatype in a standard programming language or service package can be
 mapped to some datatype in the set. 
 
@@ -22,10 +19,10 @@ Actual wire format of FIXP is left to the presentation layer implementation.
 
 | **FIXP Type** | **Description**               | **General Purpose Type** | **Properties**                                                                                                                                |
 |------------------|-------------------------|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| u8               |  Unsigned number        |   Integer              |  Ordered, exact, numeric, bounded. Range 0..2<sup>8</sup>-1                                                                                                                                      |
-| u16              |  Unsigned number        |  Integer               |  Ordered, exact, numeric, bounded. Range 0..2<sup>16</sup>-1                                                                                                                                                                     |
-| u32              |  Unsigned number        |  Integer               |  Ordered, exact, numeric, bounded. Range 0..2<sup>32</sup>-1                                                                                                                                                                 |
-| u64              |  Unsigned number        |  Integer               |  Ordered, exact, numeric, bounded. Range 0..2<sup>64</sup>-1                      
+| u8               |  Unsigned number        |   Integer              |  Ordered, exact, numeric, bounded. Range 0..2^8^-1                                                                                                                                      |
+| u16              |  Unsigned number        |  Integer               |  Ordered, exact, numeric, bounded. Range 0..2^16^-1                                                                                                                                                                     |
+| u32              |  Unsigned number        |  Integer               |  Ordered, exact, numeric, bounded. Range 0..2^32^-1                                                                                                                                                                 |
+| u64              |  Unsigned number        |  Integer               |  Ordered, exact, numeric, bounded. Range 0..2^64^-1                      
 | UUID             | RFC 4122 version 4 compliant unique identifier | Octet string   | Fixed size 16.
 | String           | Text                    | Character string                | Unordered, exact, non-numeric, denumerable. Parameterized by character set.                                                   |
 | nanotime         | Time in nanoseconds     | Date-and-Time          |  Ordered, exact, numeric, bounded. Time-unit = nanosecond. Same range as u64.                                                                                                     |
@@ -33,8 +30,7 @@ Actual wire format of FIXP is left to the presentation layer implementation.
 | Object           | Unspecified data content                        | Octet string                | Unordered, exact, non-numeric, denumerable.                                                                                                        |
 | Enumeration      | A finite set of values. Error and message type identifiers are enumerated by symbolic name in this specification.  |  State   | Unordered, exact, non-numeric. The value space of a state datatype is the set comprising exactly the named values in the state-value-list, each of which is designated by a unique state-literal. |
 
-FIXP Session Messages
----------------------
+## FIXP Session Messages
 
 The FIXP protocol defines several messages that are used to establish and tear down sessions and control sequencing of messages for delivery. Message layouts are specified in this document by symbolic names and the abstract data types listed above. Wire format details are provided by supplements to this specification for each of the supported FIX encodings.
 
@@ -58,8 +54,7 @@ Optionally, application messages may be delimited by use of the Simple Open Fram
 
 Message-oriented protocols such as WebSocket obviate the need for additional framing protocol.
 
-Session Properties
-------------------
+## Session Properties
 
 ### Session Identification
 
@@ -100,8 +95,7 @@ By agreement between counterparties, only certain of these flow types may be sup
 
 A multicast session only supports one flow from producer to consumers, and it is restricted to the Idempotent type, possibly with out-of-band recovery.
 
-Message Sequencing
-------------------
+## Message Sequencing
 
 ### Sequence Numbering
 
@@ -157,10 +151,9 @@ Changes of session context include:
 
 Application-layer sequencing may be used on an Unsequenced flow as an alternative to FIXP session-layer message sequencing. If used, each application message body must contain an identifier used to sequence messages, and the application provider must specify rules for out-of-order delivery and recovery.
 
-In-band Template Delivery
--------------------------
+## In-band Template Delivery
 
-FIXP is independent of the wire format of session and application messages. However, some message encodings are controlled by templates that must be shared between peers in order to interoperate. Therefore, FIXP provides a means to deliver templates or message schemas. 
+FIXP is independent of the wire format of session and application messages. However, some message encodings are controlled by templates that must be shared between peers in order to interoperate. Therefore, FIXP provides a means to deliver templates or message schemas.
 
 All FIX encodings that use a template or message schema are supported. They are identified by the same code registered for Simple Open Framing Header (SOFH).
 
@@ -170,7 +163,7 @@ Templates may be delivered either over a point-to-point or multicast session. Me
 **MessageTemplate**
 
 | **Field name** | Type     | Required | Value           | Description |
-|----------------|----------|----------|-----------------|-------------|
+|----------------|----------|:--------:|-----------------|-------------|
 | MessageType    | Enum     | Y        | MessageTemplate |
 | EncodingType   | u32      | Y        |                 | Identifier registered for SOFH
 | EffectiveTime  | nanotime | N        |                 | Date-time that the template becomes effective. If not present, effective immediately.
