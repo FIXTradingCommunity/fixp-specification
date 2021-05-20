@@ -1,4 +1,4 @@
-EstablishmentReject # Appendix A - Usage Examples (TCP)
+# Appendix A -- Usage Examples (TCP)
 
 These use cases contain sample values for illustrative purposes only
 

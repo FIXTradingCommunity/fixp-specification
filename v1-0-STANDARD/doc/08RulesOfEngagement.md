@@ -1,4 +1,4 @@
-# Appendix B – FIXP Rules of Engagement
+# Appendix B -- FIXP Rules of Engagement
 
 This checklist is an aid to specifying a full protocol stack to be used for communication between counterparties.
 
