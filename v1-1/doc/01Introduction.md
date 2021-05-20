@@ -1,75 +1,100 @@
-# Introduction
+# Scope
 
 FIX Performance Session Layer (FIXP) is a “lightweight point-to-point protocol” introduced to provide an open industry standard for high performance computing requirements currently encountered by the FIX Community. FIXP is a derived work. The origin and basis for FIXP are the FIX session layer protocols and protocols designed and implemented by NASDAQ OMX, i.e. SoupTCP, SoupBinTCP, and UFO (UDP for Orders). Every attempt was made to keep FIXP as close to the functionality and behavior of SoupBinTCP and UFO as possible. Extensions and refactoring were performed as incremental improvements. Every attempt was made to limit FIXP to establishing and maintaining a communication session between two end points in a reliable manner, regardless of the reliability of the underlying transport.
 
-The Technical Specification is split into the following sections:
-
-1. [Introduction](#introduction)
-2. [Requirements](#requirements)
-3. [Common Features](#common-features)
-4. [Point-to-Point Session Protocol](#point-to-point-session-protocol)
-5. [Multicast Session Protocol](#multicast-session-protocol)
-6. [Summary of Session Messages](#summary-of-session-messages)
-7. [Appendix A - Usage Examples (TCP)](#appendix-a-usage-examples-tcp)
-8. [Appendix B - FIXP Rules of Engagement](#appendix-b-fixp-rules-of-engagement)
-
-
-## FIXP features
-
+FIXP features:
 - Very lightweight session layer with no restrictions on the application layer
 - Encoding independent supporting binary protocols
 - Transport independent supporting both stream, datagram, and message oriented protocols
 - Point-to-point as well as multicast patterns, sharing common primitives
 - Negotiable delivery guarantees that may be asymmetrical
 
+# Normative references
 
-## Authors
-
-| Name        | Affiliation         | Contact                  | Role                                                                            
-|-----------------|-------------------------|------------------------------|--------------------------------------------------------------------------------------|
-| Anders Furuhed  | Goldman Sachs           | <anders.furuhed@gs.com>           | Protocol Designer                                                               
-| David Rosenborg | Goldman Sachs           | <david.rosenborg@gs.com>      | Protocol Designer                                                               
-| Rolf Andersson  | Goldman Sachs           | <rolf.andersson@gs.com>          | Contributor
-| Jim Northey     | LaSalle Technology      | <jim.northey@fintechstandards.us> |  Global Technical Committee co-chair                                           
-| Júlio L R Monteiro  | formerly B3         | <juliolrmonteiro@gmail.com>       | Editor, Working Group convener                                                  
-| Aditya Kapur    | CME Group, Inc          | <Aditya.kapur@cmegroup.com>       | Contributor      
-| Don Mendelson   | Silver Flash LLC        | <donmendelson@silverflash.net>    | Working Group Lead                                    |
-| Li Zhu          | Shanghai Stock Exchange | <lzhu@sse.com.cn>                 | Contributor                                    |
-
+The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.
 
 ### Related FIX Standards
 
-The FIX Simple Open Framing Header standard governs how messages are delimited and has a specific relationship mentioned in this specification. FIXP interoperates with the other FIX standards at application and presentation layers, but it is not dependent on them. Therefore, they are considered non-normative for FIXP.
+The FIX Simple Open Framing Header standard governs how messages are delimited and has a specific relationship mentioned in this specification. FIXP interoperates with the other FIX standards at the application and presentation layers, but it is not dependent on them. Therefore, they are considered non-normative for FIXP.
 
-| Related Standard | Version | Reference location | Relationship | Normative |
-|------------------|---------|--------------------|--------------|-----------|
-| Simple Open Framing Header | v1.0 Draft Standard | [SOFH](https://www.fixtrading.org/standards/fix-sofh/)                       | Optional usage at presentation layer | Yes           |
-| FIX message specifications   | 5.0 SP2       | [FIX 5.0 SP2](https://www.fixtrading.org/standards/fix-5-0-sp-2/)                       | Presentation and application layers  | No            |
-| FIX Simple Binary Encoding   | Version 1.0    | [Simple Binary Encoding](https://www.fixtrading.org/standards/sbe/) | Optional usage at presentation layer | No        |
-| Encoding FIX Using ASN.1     | v1.0 Draft Standard |  [ASN.1](https://www.fixtrading.org/standards/asn1/)                      | Optional usage at presentation layer | No            |
-| Encoding FIX Using GPB       | v1.0 Draft Standard |  [GPB](https://www.fixtrading.org/standards/gpb/)                      | Optional usage at presentation layer | No            |
-|FIX-over-TLS (FIXS) | v1.0 Draft Standard | [FIXS](https://www.fixtrading.org/standards/fixs/) | Security guidelines | Yes |
+[Simple Open Framing Header (SOFH)](https://www.fixtrading.org/standards/fix-sofh/), technical specification of a message framing standard for FIX messages.
 
-### Dependencies on Other Specifications
+[FIX Latest](https://www.fixtrading.org/online-specification/), normative specification of the application layer of the FIX protocol.
+
+[FIX Simple Binary Encoding](https://www.fixtrading.org/standards/sbe/), optional specification for the presentation layer of the FIX protocol.
+
+[Abstract Syntax Notation (ASN.1)](https://www.fixtrading.org/standards/asn1/), optional specification for the presentation layer of the FIX protocol.
+
+[Google Protocol Buffers(GPB)](https://www.fixtrading.org/standards/gpb/), optional specification for the presentation layer of the FIX protocol.
+
+[FIX-over-TLS (FIXS)](https://www.fixtrading.org/standards/fixs-online/), security guidelines for using Transport Layer Security (TLS) with FIX.
+
+### Dependencies on Other Standards
 
 FIXP is dependent on several industry standards. Implementations of FIXP must conform to these standards to interoperate. Therefore, they are normative for FIXP. Other protocols may be used by agreement between counterparties.
 
+[IEEE 754-2019](https://ieeexplore.ieee.org/document/8766229) *IEEE Standard for Binary Floating-Point Arithmetic*
 
-| Related Standard  | Version | Reference location | Relationship  | Normative |
-|-------------------|---------|--------------------|---------------|-----------|
-| RFC 793 Transmission Control Protocol (TCP)                   | N/A         | <http://tools.ietf.org/html/rfc793> and related standards                 | Uses transport                  | Yes           |
-| RFC 6455 WebSocket Protocol                   | N/A         | <http://tools.ietf.org/html/rfc6455>                | Uses transport                  | Yes           |
-| RFC 768 User Datagram Protocol (UDP)                         | N/A         | <http://tools.ietf.org/html/rfc768>  | Uses transport                  | Yes           |
-| RFC4122 A Universally Unique Identifier (UUID) URN Namespace | N/A         | <http://tools.ietf.org/html/rfc4122> | Uses                            | Yes           |
-| UTF-8, a transformation format of ISO 10646                  | N/A         | <http://tools.ietf.org/html/rfc3629> | Uses encoding                   | Yes           |
-| Various authentication protocols                             | N/A         |                                      | Optional usage at session layer | No            |
+[IETF RFC 793](https://tools.ietf.org/html/rfc793) *Transmission Control Protocol (TCP)*
+
+[IETF RFC 768](https://tools.ietf.org/html/rfc768) *User Datagram Protocol (UDP)*
+
+[IETF RFC 4122](https://tools.ietf.org/html/rfc4122) *A Universally Unique IDentifier (UUID) URN Namespace* 
+
+[IETF RFC 3629](https://tools.ietf.org/html/rfc3629) *UTF-8, a transformation format of ISO 10646* 
+
+[IETF RFC 6455](https://tools.ietf.org/html/rfc6455) *The WebSocket Protocol* 
+
+# Terms and definitions
+
+For the purposes of this document, the terms and definitions given in [Internet Engineering Task Force RFC2119](http://www.apps.ietf.org/rfc/rfc2119.html) and the following apply.
+
+ISO and IEC maintain terminology databases for use in standardization at the following addresses:
+--- ISO Online browsing platform: available at https://www.iso.org/obp
+--- IEC Electropedia: available at https://www.electropedia.org
+
+### session
+A dialog for exchanging application messages between peers. An established point-to-point session consists of a pair of flows, one in each direction between peers. A multicast session consists of a single flow from the producer to multiple consumers.
+
+### flow
+A unidirectional stream of messages. Each flow has one producer and one or more consumers.
+
+### multicast
+A method of sending datagrams from one producer to multiple consumers.
+
+### client
+Initiator of session
+
+### server
+Acceptor of session
+
+### credentials 
+User identification for authentication
+
+### idempotence 
+Idempotence means that an operation that is applied multiple times does not change the outcome, the result, after the first time.
+
+### IETF
+Internet Engineering Task Force
+
+### TCP
+Transmission Control Protocol is a set of IETF standards for a reliable stream of data exchanged between peers. Since it is connection oriented, it incorporates some features of a session protocol.
+
+### TLS
+Transport Layer Security is a set of IETF standards to provide security to a session. TLS is a successor to Secure Sockets Layer (SSL).
+
+### UDP
+User Datagram Protocol is a connectionless transmission for delivering packets of data. Any rules for a long-lived exchange of messages must be supplied by a session protocol.
+
+### WebSocket
+An IETF protocol that consists of an opening handshake followed by basic message framing, layered over TCP. May be used with TLS.
 
 ## Specification terms
 
 These key words in this document are to be interpreted as described in
-[Internet Engineering Task Force RFC2119](http://www.apps.ietf.org/rfc/rfc2119.html). These terms indicate
-an absolute requirement for implementations of the standard: "**must**",
-or "**required**".
+[Internet Engineering Task Force RFC2119](http://www.apps.ietf.org/rfc/rfc2119.html). 
+
+These terms indicate an absolute requirement for implementations of the standard: "**must**", or "**required**".
 
 This term indicates an absolute prohibition: "**must not**".
 
@@ -84,20 +109,3 @@ alternatives is described as "**preferred**".
 
 These terms give guidance that a practice is not recommended: "**should not**"
 or "**not recommended**".
-
-## Definitions
-
-| Term        | Definition  |   
-|-------------|-------------|                                                                                                                                                                            
-| Client      | Initiator of session                                                                                                                                                                        
-| Credentials | User identification for authentication                                                                                        
-| Flow        | A unidirectional stream of messages. Each flow has one producer and one or more consumers.                                                                                              
-| Idempotence | Idempotence means that an operation that is applied multiple times does not change the outcome, the result, after the first time                                                        
-| Multicast   | A method of sending datagrams from one producer to multiple consumers
-| IETF        | Internet Engineering Task Force                                                                                                                                                
-| Server      | Acceptor of session                                                                                                                                                                            
-| Session     | A dialog for exchanging application messages between peers.   An established point-to-point session consists of a pair of flows, one in each direction between peers. A multicast session consists of a single flow from the producer to multiple consumers.
-| TCP         | Transmission Control Protocol is a set of IETF standards for a reliable stream of data exchanged between peers. Since it is connection oriented, it incorporates some features of a session protocol.  
-| TLS         | Transport Layer Security is a set of IETF standards to provide security to a session. TLS is a successor to Secure Sockets Layer (SSL).                                                                                                                                                 
-| UDP         | User Datagram Protocol is a connectionless transmission for delivering packets of data. Any rules for a long-lived exchange of messages must be supplied by a session protocol.
-| WebSocket   | An IETF protocol that consists of an opening handshake followed by basic message framing, layered over TCP. May be used with TLS.
