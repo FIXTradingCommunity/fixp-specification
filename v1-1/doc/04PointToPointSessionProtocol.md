@@ -1,8 +1,8 @@
-# Point-to-Point Session Protocol
+# Point-to-point session protocol
 
 A point-to-point session between a client and server must be conducted over a bidirectional transport, such as TCP or UDP unicast. Point-to-point protocol is designed for private flows of information between organizations. Optionally, multiple sessions belonging to an organization may be multiplexed over a shared transport.
 
-## Summary of Messages that Control Lifetime
+## Summary of messages that control lifetime
 
 A logical session must be created by using a Negotiation message. The session ID must be sent in the Negotiation message and that ID is used for the lifetime of the session.
 
@@ -14,13 +14,13 @@ A session that has a recoverable flow may be re-established by sending Establish
 
 A logical session should be ended by sending a FinishedSending message. Thereafter, no more application messages should be sent. The peer must respond with FinishedReceiving when it has processed the last message, and then the transport must be terminated for the final time for that session. Once a flow is finalized and the transport is unbound, a session ID is no longer valid and messages previously sent on that session are no longer recoverable.
 
-## Session Initiation and Negotiation
+## Session initiation and negotiation
 
 A negotiation dialog is provided to support a session negotiation protocol that is used for a client to declare what id it will be using, without having to go out of band. There is no concept of resetting a session. Instead of starting over a session, a new session is negotiated - a SessionId in UUID form is cheap.
 
 The negotiation dialog declares the types of message flow in each direction of a session.
 
-### Initiate Session Negotiation
+### Initiate session negotiation
 
 Negotiate message is sent from client to server.
 
@@ -37,7 +37,7 @@ FlowType = Recoverable | Unsequenced | Idempotent | None
 | ClientFlow     | FlowType Enum | Y            |           | Type of flow from client to server                                                                                   |
 | Credentials    | Object        | N            |           | Optional credentials to identify the client. Format to be determined by agreement between counterparties. |
 
-### Accept Session Negotiation
+### Accept session negotiation
 
 When a session is accepted by a server, it must send a NegotiationResponse in response to a Negotiate message.
 
@@ -55,7 +55,7 @@ FlowType = Recoverable | Unsequenced | Idempotent | None
 | ServerFlow       | FlowType Enum | Y            |                     | Type of flow from server to client |
 | Credentials    | Object        | N            |           | Optional credentials to identify the server. Format to be determined by agreement between counterparties. |
 
-### Reject Session Negotiation
+### Reject session negotiation
 
 When a session cannot be created, a server must send NegotiationReject to the client, giving the reason for the rejection. No further messages should be sent, and the transport should be terminated.
  
@@ -83,11 +83,39 @@ If negotiation is re-attempted after rejection, a new session ID should be gener
 | Code             | NegotiationRejectCode Enum | Y            |                   |                             |
 | Reason           | string                     | N            |                   | Reject reason details       |
 
-###  Session Negotiation Sequence Diagram
+###  Session negotiation sequence diagram
 
-![](media/SessionNegotiation.png)
+```plantuml
+@startuml
+skinparam {
+  minClassWidth 80
+  monochrome true
+  RoundCorner 3
+  Shadowing false
+  ArrowColor Black
+  ArrowFontSize 12
+  Padding 8
+  WrapWidth 500
+  note {
+    BackgroundColor OldLace
+    BorderColor BurlyWood
+    FontSize 12
+  }
+}
+Client -> Server : Negotiate
+alt Successful negotiation
+Client <<-- Server : NegotiationResponse
+else Failed negotiation
+Client <<-- Server : NegotiationReject
+end
+@enduml
+```
 
-## Session Establishment
+::: {custom-style="Image Caption"}
+Sequence diagram for session negotiation
+:::
+
+## Session establishment
 
 Establish attempts to bind the specified logical session to the transport that the message is passed over. The response to Establish is either EstablishmentAck or EstablishmentReject.
 
@@ -113,7 +141,7 @@ Counterparties may agree on a valid range for KeepaliveInterval.
 
 The server should evaluate NextSeqNo to determine whether it missed any messages after re-establishment of a recoverable flow. If so, it may immediately send a RetransmitRequest after sending EstablishAck.
 
-### Establish Acknowledgment
+### Establish acknowledgment
 
 Used to indicate the acceptor acknowledges the session. If the communication flow from this endpoint is recoverable, it should fill the NextSeqNo field, allowing the initiator to start requesting the replay of messages that it has not received.
 
@@ -129,7 +157,7 @@ Used to indicate the acceptor acknowledges the session. If the communication flo
 
 The client should evaluate NextSeqNo to determine whether it missed any messages after re-establishment of a recoverable flow. If so, it may immediately send a RetransmitRequest .
 
-### Establish Reject
+### Establish reject
 
 EstablishmentRejectCode = Unnegotiated | AlreadyEstablished | SessionBlocked | KeepaliveInterval | Credentials | Unspecified
 
@@ -157,11 +185,39 @@ Rejection reasons:
 | Code             | EstablishmentRejectCode Enum | Y            |                     |                                                         |
 | Reason           | string                       | N            |                     | Reject reason details                                   |
 
-### Session Establishment Sequence Diagram
+### Session establishment sequence diagram
 
-![](media/SessionEstablishment.png)
+```plantuml
+@startuml
+skinparam {
+  minClassWidth 80
+  monochrome true
+  RoundCorner 3
+  Shadowing false
+  ArrowColor Black
+  ArrowFontSize 12
+  Padding 8
+  WrapWidth 500
+  note {
+    BackgroundColor OldLace
+    BorderColor BurlyWood
+    FontSize 12
+  }
+}
+Client -> Server : Establish
+alt Successful establishment
+Client <<-- Server : EstablishmentAck
+else Failed establishment
+Client <<-- Server : EstablishmentReject
+end
+@enduml
+```
 
-## Transport Termination
+::: {custom-style="Image Caption"}
+Sequence diagram for session establishment
+:::
+
+## Transport termination
 
 Terminate is a signal to the peer that a party intends to drop the binding between the logical session and the underlying transport. Either peer may terminate its transport if there are no more messages to send but it expects to re-establish the logical session at a later time.
 
@@ -190,13 +246,13 @@ TerminationCode = Finished | UnspecifiedError | ReRequestOutOfBounds | ReRequest
 | Code           | TerminationCode Enum | Y            |           |                                                         |
 | Reason         | string               | N            |           | Reject reason details                                   |
 
-### Terminate Response
+### Terminate response
 
 On a point-to-point session, the party that initiated termination should then wait for a response from its peer to permit in-flight messages to be processed. Upon receiving a Terminate message, the receiver must respond with a Terminate message. The Terminate response must be the last message sent.
 
 If the peer is unresponsive to Terminate for a heartbeat interval, then the initiator of termination should consider the session terminated anyway.
 
-### Closing the Transport
+### Closing the transport
 
 On a non-multiplexed transport, when the party that initiated termination receives the Terminate response from its peer, it then should close the transport immediately.
 
@@ -207,19 +263,67 @@ On a connectionless transport such as UDP, the Terminate message informs the pee
 On a connection-oriented transport such as TCP, when the last peer that initiated termination receives a Terminate response, it should disconnect the socket from its end. Both peers then complete the transport close handshake.
 
 
-### WebSocket Termination
+### WebSocket termination
 
 On a WebSocket transport, a Close frame is used instead of a Terminate message. See [WebSocket Usage](#websocketusage) below.
 
-### Terminate Session Sequence Diagrams
+### Terminate session sequence diagrams
 
-![UnbindTransport-TCP](media/UnbindTransport-TCP.png)
+```plantuml
+@startuml
+skinparam {
+  minClassWidth 80
+  monochrome true
+  RoundCorner 3
+  Shadowing false
+  ArrowColor Black
+  ArrowFontSize 12
+  Padding 8
+  WrapWidth 500
+  note {
+    BackgroundColor OldLace
+    BorderColor BurlyWood
+    FontSize 12
+  }
+}
+Peer1 -> Peer2 : Terminate
+Peer1 <<-- Peer2 : Terminate
+Peer1 ->> NetworkConnection !! : Terminate network connection
+Peer2 ->> NetworkConnection !! : Terminate network connection
+@enduml
+```
 
+::: {custom-style="Image Caption"}
+Sequence diagram for Unbind Transport--Connection-oriented transport, TCP
+:::
 
-![Unbind Transport-UDP](media/UnbindTransport-UDP.png)
+```plantuml
+@startuml
+skinparam {
+  minClassWidth 80
+  monochrome true
+  RoundCorner 3
+  Shadowing false
+  ArrowColor Black
+  ArrowFontSize 12
+  Padding 8
+  WrapWidth 500
+  note {
+    BackgroundColor OldLace
+    BorderColor BurlyWood
+    FontSize 12
+  }
+}
+Peer1 -> Peer2 : Terminate
+Peer1 <<-- Peer2 : Terminate
+@enduml
+```
 
+::: {custom-style="Image Caption"}
+Sequence diagram for Unbind Transport--Datagram-oriented transport, UDP
+:::
 
-## Session Heartbeat
+## Session heartbeat
 
 Each peer must send a heartbeat message during each interval in which no application messages were sent. A party may send a heartbeat before its interval has expired, for example to force its peer to check for a sequence number gap prior to sending a large batch of application messages. 
 
@@ -245,7 +349,7 @@ On TCP, it is recommended that Nagle algorithm be disabled to prevent the transm
 
 The following sections describe resynchronization of a recoverable flow.
 
-### Retransmission Request
+### Retransmission request
 
 When receiving a recoverable message flow, a peer may request sequenced messages to be retransmitted by sending a *RetransmitRequest* message, which should be answered by one or more *Retransmission* messages (or with a *Terminate* message if the request is invalid).
 
@@ -255,35 +359,65 @@ The receiver on a recoverable flow should accept messages with a higher sequence
 
 Sending a RetransmitRequest to the sender of an Idempotent, Unsequenced or None flow is a protocol violation. In that case, the session must be terminated.
 
-**RestransmitRequest**
+**RetransmitRequest**
 
 | **Field name** | **Type** | **Required** | **Value**          | **Description**                                      |
 |----------------|----------|--------------|--------------------|------------------------------------------------------|
-| MessageType    | Enum     | Y            | RestransmitRequest |                                                      |
+| MessageType    | Enum     | Y            | RetransmitRequest |                                                      |
 | SessionId      | UUID     | Y            |                    |                                                      |
 | Timestamp      | nanotime | Y            |                    | Timestamp used as a unique identifier of the request |
 | FromSeqNo      | u64      | Y            |                    | Sequence number of the first message requested       |
 | Count          | u32      | Y            |                    | Count of messages requested                          |
 
-### Retransmission Responses
+### Retransmission responses
 
 *Retransmission* implies that the subsequent messages are sequenced without requiring that a Sequence message is passed. In a datagram-oriented transport, Retransmission is passed in every single retransmission datagram.
 
-**Restransmission**
+**Retransmission**
 
 | **Field name**   | **Type** | **Required** | **Value**       | **Description**                                                                    |
 |------------------|----------|--------------|-----------------|------------------------------------------------------------------------------------|
-| MessageType      | Enum     | Y            | Restransmission |                                                                                    |
+| MessageType      | Enum     | Y            | Retransmission |                                                                                    |
 | SessionId        | UUID     | Y            |                 | Defeats the need for Context when multiplexing                                     |
 | RequestTimestamp | nanotime | Y            |                 | Value from RetransmitRequest Timestamp field. Used to match responses to requests. |
 | NextSeqNo        | u64      | Y            |                 | Sequence number of the next message to be retransmitted                            |
 | Count            | u32      | Y            |                 | Count of messages to be retransmitted in a batch                                   |
 
-#### Retransmission Diagram
+#### Retransmission diagram
 
-![](media/Retransmission.png)
+```plantuml
+@startuml
+skinparam {
+  minClassWidth 80
+  monochrome true
+  RoundCorner 3
+  Shadowing false
+  ArrowColor Black
+  ArrowFontSize 12
+  Padding 8
+  WrapWidth 500
+  note {
+    BackgroundColor OldLace
+    BorderColor BurlyWood
+    FontSize 12
+  }
+}
+note right of Consumer
+While NextSeqNo + Count < Expected SeqNo
+end note
+loop
+Consumer -> Producer : RetransmitRequest
+Consumer <<-- Producer : Retransmission
+Consumer <<-- Producer : //retransmitted messages//
+end
+@enduml
+```
 
-#### Interleaving and Pacing Retransmissions
+::: {custom-style="Image Caption"}
+Sequence diagram for Retransmission
+:::
+
+#### Interleaving and pacing retransmissions
 
 This protocol does *not* require real-time messages to be held by the sender until retransmission of a range of messages is complete. Rather, ranges of retransmitted and real-time messages may be interleaved. Each time some messages are retransmitted, they must be preceded by a Retransmission message with a count of messages. Each time real-time flow resumes, a Sequence message (or Context message on a multiplexed flow) must be sent.
 
@@ -293,7 +427,7 @@ Pacing is the responsibility of the retransmitter. It is managed by controlling 
 
 However, when retransmission is provided through a separate recovery session without interleaving real-time messages, then the retransmitter may choose to fulfill requests in a single batch.
 
-#### Retransmit Rejection
+#### Retransmit rejection
 
 If the provider of a recoverable flow is unable to retransmit requested messages, it responds with a RetransmitReject message.
 
@@ -307,29 +441,89 @@ Rejection reasons:
 
 -   RequestLimitExceeded: The message Count exceeds a local rule for maximum retransmission size.
 
-**RestransmitReject**
+**RetransmitReject**
 
 | **Field name**   | **Type**                  | **Required** | **Value**         | **Description**                                                                    |
 |------------------|---------------------------|--------------|-------------------|------------------------------------------------------------------------------------|
-| MessageType      | Enum                      | Y            | RestransmitReject |                                                                                    |
+| MessageType      | Enum                      | Y            | RetransmitReject |                                                                                    |
 | SessionId        | UUID                      | Y            |                   | Session identifier                                                                 |
 | RequestTimestamp | nanotime                  | Y            |                   | Value from RetransmitRequest Timestamp field. Used to match responses to requests. |
 | Code             | RetransmitRejectCode Enum | Y            |                   |                                                                                    |
 | Reason           | string                    | N            |                   | Reject reason details                                                              |
 
-### RetransmitReject Diagram
+### RetransmitReject diagram
 
-![](media/RetransmissionReject.png)
+```plantuml
+@startuml
+skinparam {
+  minClassWidth 80
+  monochrome true
+  RoundCorner 3
+  Shadowing false
+  ArrowColor Black
+  ArrowFontSize 12
+  Padding 8
+  WrapWidth 500
+  note {
+    BackgroundColor OldLace
+    BorderColor BurlyWood
+    FontSize 12
+  }
+}
+Consumer -> Producer : RetransmitRequest
+alt Retransmission accepted
+Consumer <<-- Producer : Retransmission
+Consumer <<-- Producer : //retransmitted messages//
+else Invalid retransmission request
+Consumer <<-- Producer : RetransmitReject
+Consumer <<-- Producer : RetransmitRejectCode = OutOfRange | InvalidSession | RequestLimitExceeded
+end
+@enduml
+```
 
-### Retransmission Violations
+::: {custom-style="Image Caption"}
+Sequence diagram for RetransmitReject
+:::
+
+### Retransmission violations
 
 For a RetransmitRequest that the requester should have known was invalid with certainty, the sender should terminate the session. Terminate message with **ReRequestInProgress** code should be sent if it sees a premature retransmit request.
 
-### Retransmit Violation Diagram
+### Retransmit violation diagram
 
-![](media/RetransmitViolation.png)
+```plantuml
+@startuml
+skinparam {
+  minClassWidth 80
+  monochrome true
+  RoundCorner 3
+  Shadowing false
+  ArrowColor Black
+  ArrowFontSize 12
+  Padding 8
+  WrapWidth 500
+  note {
+    BackgroundColor OldLace
+    BorderColor BurlyWood
+    FontSize 12
+  }
+}
+Consumer -> Producer : RetransmitRequest
+alt Retransmission accepted
+Consumer <<-- Producer : Retransmission
+Consumer <<-- Producer : //retransmitted messages//
+else Invalid retransmission request
+Consumer <<-- Producer : Terminate
+Consumer <<-- Producer : TerminationCode = ReRequestOutOfBounds |ReRequestInProgress
+end
+@enduml
+```
 
-### FIX Application Layer Recovery
+::: {custom-style="Image Caption"}
+Sequence diagram for Retransmit violation
+:::
+
+### FIX application layer recovery
 
 As an alternative to a FIXP recoverable flow, application layer sequencing and recovery may be used. To avoid duplication of effort in two layers of the protocol stack, application layer sequencing should be used with a FIXP Unsequenced flow.
 
@@ -341,11 +535,11 @@ See FIX application specifications for a description of the ApplicationSequenceC
 
 -   ApplicationMessageRequestAck
 
-## Finalizing a Session
+## Finalizing a session
 
 Finalization is a handshake that ends a logical session when there are no more messages to exchange.
 
-### Finish Sending
+### Finish sending
 
 A FinishedSending message should be sent to begin finalizing a logical session when the last application message in a flow has been sent.
 
@@ -361,7 +555,7 @@ The sender of this message awaits a FinishedReceiving response. If the wait take
 
 The peer should evaluate LastSeqNo to determine whether it has processed the flow to the end. If received on a recoverable flow, the peer may send a RetransmitRequest to recover any missed messages before acknowledging finalization of the flow. On an idempotent flow, it should send NotApplied to notify the sender of the gap.
 
-### Finish Receiving
+### Finish receiving
 
 Upon processing the last application message indicated by the FinishedSending message (possibly received on a retransmission), a FinishedReceving message must be sent in response.
 
@@ -374,11 +568,51 @@ When a FinishedReceiving has been received by the party that initiated the final
 | MessageType    | Enum     | Y            | FinishedReceiving |                                                         |
 | SessionId      | UUID     | Y            |                   | SessionId is redundant and included only for robustness |
 
-### Terminating a Recoverable Session Sequence Diagram
+### Terminating a recoverable session sequence diagram
 
-![](media/FlowFinalization.png)
+```plantuml
+@startuml
+skinparam {
+  minClassWidth 80
+  monochrome true
+  RoundCorner 3
+  Shadowing false
+  ArrowColor Black
+  ArrowFontSize 12
+  Padding 8
+  WrapWidth 500
+  note {
+    BackgroundColor OldLace
+    BorderColor BurlyWood
+    FontSize 12
+  }
+}
+Producer -> Consumer : FinishedSending
+note right of Producer
+Optionally fill a message gap before 
+acknowledging flow finalization.
+end note
+loop
+Producer <<-- Consumer : RetransmitRequest
+Producer -> Consumer : Retransmission
+Producer -> Consumer : //retransmitted messages//
+end
+note right of Producer
+All real-time messages and retransmissions 
+have been received.
+end note
+Producer <<-- Consumer : FinishedReceiving
+note right of Producer
+Unbind transport--see //Terminate//
+end note
+@enduml
+```
 
-## Idempotent Flow
+::: {custom-style="Image Caption"}
+Sequence diagram for terminating a recoverable session
+:::
+
+## Idempotent flow
 
 When using the idempotent flow, the protocol ensures that each application message is an idempotent operation that will be guaranteed to be applied only once.
 
@@ -388,11 +622,11 @@ The start of an idempotent flow must be initiated with a Sequence message (or Co
 
 As explained in section 3, a Sequence or Context message must be sent after any context switch or once per packet on a Datagram oriented transport. Additionally, as explained in [Session Heartbeat](#session-heartbeat), they must be sent as hearbeats during idle periods. After every explicit NextSeqNo, the sequence number of subsequent application messages should be tracked implicitly.
 
-The recoverable server return flow should report the result of operations at the application level. Implementers may opt to use the following *Applied* or *NotApplied* messages to return the status of the operation if a more specific application message is not provided.
+The recoverable server return flow should report the result of operations at the application layer. Implementers may opt to use the following *Applied* or *NotApplied* messages to return the status of the operation if a more specific application message is not provided.
 
 ### Applied
 
-This is an optional application response message to support an idempotent flow. Standard FIX semantics provide application layer acknowledgements to requests, e.g. ExecutionReport in response to NewOrderSingle. The principle is to use application specific acknowledgement messages where possible; use the Applied message where an application level acknowledgement message does not exist.
+This is an optional application response message to support an idempotent flow. Standard FIX semantics provide application layer acknowledgements to requests, e.g. ExecutionReport in response to NewOrderSingle. The principle is to use application specific acknowledgement messages where possible; use the Applied message where an application layer acknowledgement message does not exist.
 
 Since Applied is an application message, it will be reliably delivered if returned on a recoverable flow.
 
@@ -424,21 +658,49 @@ Sending NotApplied for a Recoverable, Unsequenced or None flow is a protocol vio
 | FromSeqNo      | u64      | Y            |            | The first not applied sequence number  |
 | Count          | u32      | Y            |            | How many messages haven't been applied |
 
-### Idempotent Flow Sequence Diagram
+### Idempotent flow sequence diagram
 
-![](media/Idempotent.png)
+```plantuml
+@startuml
+skinparam {
+  minClassWidth 80
+  monochrome true
+  RoundCorner 3
+  Shadowing false
+  ArrowColor Black
+  ArrowFontSize 12
+  Padding 8
+  WrapWidth 500
+  note {
+    BackgroundColor OldLace
+    BorderColor BurlyWood
+    FontSize 12
+  }
+}
+Producer -> Consumer : //Application message//
+alt Message applied
+Producer <<-- Consumer : Applied, //or an application-specific acknowledgment//
+else Message not applied
+Producer <<-- Consumer : NotApplied
+end
+@enduml
+```
 
-## WebSocket Usage
+::: {custom-style="Image Caption"}
+Sequence diagram for idempotent flow
+:::
+
+## WebSocket usage
 
 WebSocket runs over TCP, so FIXP usage with WebSocket is largely the same as regular point-to-point session usage, with a few exceptions listed below.
 
-### Message Framing
+### Message framing
 
 WebSocket is a message-oriented protocol. That is, it performs message framing, so an additional framing protocol such as SOFH is unnecessary.
 
 WebSocket has two defined subprotocols, text and binary. The appropriate subprotocol should be used depending on whether message encoding is character-oriented or binary.
 
-### Session Initiation
+### Session initiation
 
 A WebSocket session is initiated by a client with an HTTP request and optionally, a TLS handshake. See the FIX-over-TLS (FIXS) standard, referenced in section 1, for recommendations about authentication and cipher suite selection.
 
