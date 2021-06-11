@@ -13,7 +13,7 @@ FIXP features:
 
 The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.
 
-### Related FIX Standards
+### Related FIX standards
 
 The FIX Simple Open Framing Header standard governs how messages are delimited and has a specific relationship mentioned in this specification. FIXP interoperates with the other FIX standards at the application and presentation layers, but it is not dependent on them. Therefore, they are considered non-normative for FIXP.
 
@@ -29,21 +29,21 @@ The FIX Simple Open Framing Header standard governs how messages are delimited a
 
 [FIX-over-TLS (FIXS)](https://www.fixtrading.org/standards/fixs-online/), security guidelines for using Transport Layer Security (TLS) with FIX.
 
-### Dependencies on Other Standards
+### Dependencies on other standards
 
 FIXP is dependent on several industry standards. Implementations of FIXP must conform to these standards to interoperate. Therefore, they are normative for FIXP. Other protocols may be used by agreement between counterparties.
 
-[IEEE 754-2019](https://ieeexplore.ieee.org/document/8766229) *IEEE Standard for Binary Floating-Point Arithmetic*
+[IEEE 754-2019](https://ieeexplore.ieee.org/document/8766229), *IEEE Standard for Binary Floating-Point Arithmetic*
 
-[IETF RFC 793](https://tools.ietf.org/html/rfc793) *Transmission Control Protocol (TCP)*
+[IETF RFC 793](https://tools.ietf.org/html/rfc793), *Transmission Control Protocol (TCP)*
 
-[IETF RFC 768](https://tools.ietf.org/html/rfc768) *User Datagram Protocol (UDP)*
+[IETF RFC 768](https://tools.ietf.org/html/rfc768), *User Datagram Protocol (UDP)*
 
-[IETF RFC 4122](https://tools.ietf.org/html/rfc4122) *A Universally Unique IDentifier (UUID) URN Namespace* 
+[IETF RFC 4122](https://tools.ietf.org/html/rfc4122), *A Universally Unique IDentifier (UUID) URN Namespace* 
 
-[IETF RFC 3629](https://tools.ietf.org/html/rfc3629) *UTF-8, a transformation format of ISO 10646* 
+[IETF RFC 3629](https://tools.ietf.org/html/rfc3629), *UTF-8, a transformation format of ISO 10646* 
 
-[IETF RFC 6455](https://tools.ietf.org/html/rfc6455) *The WebSocket Protocol* 
+[IETF RFC 6455](https://tools.ietf.org/html/rfc6455), *The WebSocket Protocol* 
 
 # Terms and definitions
 
@@ -63,19 +63,19 @@ A unidirectional stream of messages. Each flow has one producer and one or more 
 A method of sending datagrams from one producer to multiple consumers.
 
 ### client
-Initiator of session
+Initiator of session.
 
 ### server
-Acceptor of session
+Acceptor of session.
 
 ### credentials 
-User identification for authentication
+User identification for authentication.
 
 ### idempotence 
 Idempotence means that an operation that is applied multiple times does not change the outcome, the result, after the first time.
 
 ### IETF
-Internet Engineering Task Force
+Internet Engineering Task Force.
 
 ### TCP
 Transmission Control Protocol is a set of IETF standards for a reliable stream of data exchanged between peers. Since it is connection oriented, it incorporates some features of a session protocol.

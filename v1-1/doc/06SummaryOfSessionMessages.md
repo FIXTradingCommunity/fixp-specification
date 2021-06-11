@@ -1,6 +1,6 @@
-# Summary of Session Messages
+# Summary of session messages
 
-## FIXP Session Messages
+## FIXP session messages
 
 | Stage          | Message Name         | Purpose                                | Recoverable   | Idempotent   | Unsequenced / None | Multicast |
 |----------------|----------------------|----------------------------------------|:-------------:|:------------:|:------------------:|:---------:|
@@ -23,7 +23,7 @@
 
 \* On WebSocket transport, Close frame is used instead of the Terminate message.
 
-## Related Application Messages
+## Related application messages
 
 These optional application messages respond to application messages on an idempotent flow.
 
@@ -32,7 +32,7 @@ These optional application messages respond to application messages on an idempo
 | Transferring | Applied      | Acknowledge idempotent operations                 |
 |              | NotApplied   | Negative acknowledgement of idempotent operations |
 
-## Summary of Protocol Violations
+## Summary of protocol violations
 
 If any of these violations by a peer is detected, the session should be immediately terminated. Any application messages that cause a violation, such as a message sent after FinishedSending, should be ignored.
 
