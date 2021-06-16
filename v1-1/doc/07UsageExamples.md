@@ -128,7 +128,7 @@ For example – the Negotiate message is neither accepted nor rejected and one K
 | Negotiate            |                     | ABC            | T1            | --                    | Unsequenced     | --                      | --             | --              |
 |                      | NegotiationResponse | ABC            | --            | T1                    | --              | --                      | --             | Unsequenced     |
 | Establish            |                     | ABC            | T2            | --                    | --              | 10                      | --             | --              |
-|                      | Establish mentAck   | ABC            | --            | T2                    | --              | 10                      | --             | --              |
+|                      | EstablishmentAck    | ABC            | --            | T2                    | --              | 10                      | --             | --              |
 
 ### Establishment (idempotent)
 
@@ -137,7 +137,7 @@ For example – the Negotiate message is neither accepted nor rejected and one K
 | Negotiate            |                     | ABC            | T1            | --                    | Idempotent      | --                      | --             | --              |
 |                      | NegotiationResponse | ABC            | --            | T1                    | --              | --                      | --             | Recoverable     |
 | Establish            |                     | ABC            | T2            | --                    | --              | 10                      | 1              | --              |
-|                      | Establish mentAck   | ABC            | --            | T2                    | --              | 10                      | 1              | --              |
+|                      | EstablishmentAck    | ABC            | --            | T2                    | --              | 10                      | 1              | --              |
 
 ### Establishment (none)
 
@@ -146,7 +146,7 @@ For example – the Negotiate message is neither accepted nor rejected and one K
 | Negotiate            |                     | ABC            | T1            | --                    | None            | --                      | --             | --              |
 |                      | NegotiationResponse | ABC            | --            | T1                    | --              | --                      | --             | None            |
 | Establish            |                     | ABC            | T2            | --                    | --              | 10                      | --             | --              |
-|                      | Establish mentAck   | ABC            | --            | T2                    | --              | 10                      | --             | --              |
+|                      | EstablishmentAck    | ABC            | --            | T2                    | --              | 10                      | --             | --              |
 
 ### Establishment rejects
 
@@ -157,7 +157,7 @@ For example – Trying to send an Establish message without first Negotiating th
 | **Message Received** | **Message Sent**      | **Session ID** | **Timestamp** | **Request Timestamp** | **Code**     | **Reason**                                    | **Keep Alive Interval** |
 |----------------------|-----------------------|----------------|---------------|-----------------------|--------------|-----------------------------------------------|-------------------------|
 | Establish            |                       | ABC            | T2            | --                    | --           | --                                            | 10                      |
-|                      | Establish ment Reject | ABC            | --            | T2                    | Unnegotiated | Establishment Not Allowed Without Negotiation | --                      |
+|                      | Establishment Reject  | ABC            | --            | T2                    | Unnegotiated | Establishment Not Allowed Without Negotiation | --                      |
 
 #### Already established
 
@@ -168,9 +168,9 @@ For example – Trying to send an Establish message when the session itself is a
 | Negotiate            |                      | ABC            | T1            | --                    | --                  | --                             | --                      |
 |                      | Negotiation Response | ABC            | --            | T1                    | --                  | --                             | --                      |
 | Establish            |                      | ABC            | T2            | --                    | --                  | --                             | 10                      |
-|                      | Establish mentAck    | ABC            | --            | T2                    | --                  | --                             | 10                      |
+|                      | EstablishmentAck     | ABC            | --            | T2                    | --                  | --                             | 10                      |
 | Establish            |                      | ABC            | T3            | --                    | --                  | --                             | 10                      |
-|                      | Establish mentReject | ABC            | --            | T3                    | Already Established | Session is Already Established | --                      |
+|                      | EstablishmentReject  | ABC            | --            | T3                    | Already Established | Session is Already Established | --                      |
 
 #### Session blocked
 
@@ -203,7 +203,7 @@ For example – Session ID does not follow UUID or GUID semantics as per RFC 412
 | Negotiate            |                      | ABC            | T1            | --                    | --          | --                        | --                      |
 |                      | Negotiation Response | ABC            | --            | T1                    | --          | --                        | --                      |
 | Establish            |                      | 000            | T2            | --                    | --          | --                        | 10                      |
-|                      | Establish mentReject | 000            | --            | T2                    | Unspecified | Invalid Session ID Format | 10                      |
+|                      | EstablishmentReject  | 000            | --            | T2                    | Unspecified | Invalid Session ID Format | 10                      |
 
 #### Invalid request timestamp
 
@@ -214,7 +214,7 @@ For example – Timestamp follows Unix Epoch semantics and is to be sent with na
 | Negotiate            |                      | ABC            | T1            | --                    | --          | --                       | --                      |
 |                      | Negotiation Response | ABC            | --            | T1                    | --          | --                       | --                      |
 | Establish            |                      | ABC            | 86400         | --                    | --          | --                       | 10                      |
-|                      | Establish mentReject | ABC            | --            | 86400                 | Unspecified | Invalid Timestamp Format | 10                      |
+|                      | EstablishmentReject  | ABC            | --            | 86400                 | Unspecified | Invalid Timestamp Format | 10                      |
 
 #### Bad credentials
 
@@ -266,11 +266,11 @@ When the KeepAliveInterval has expired and no keep alive message is received the
 | Negotiate                                                                                        |                     | ABC            | T1            | --                    | Idempotent      | --                      | --        | --                             |
 |                                                                                                  | NegotiationResponse | ABC            | --            | T1                    | --              | --                      | --        | --                             |
 | Establish                                                                                        |                     | ABC            | T2            | --                    | --              | 10                      | --        | --                             |
-|                                                                                                  | Establish mentAck   | ABC            | --            | T2                    | --              | 10                      | --        | --                             |
+|                                                                                                  | EstablishmentAck    | ABC            | --            | T2                    | --              | 10                      | --        | --                             |
 | \<Time Interval Greater Than Keep Alive Interval Has Lapsed Without Any Message Being Received\> |
 |                                                                                                  | Terminate           | ABC            | --            | --                    | --              | --                      | Timed Out | Keep Alive Interval Has Lapsed |
 | Establish                                                                                        |                     | ABC            | T3            | --                    | --              | 10                      | --        | --                             |
-|                                                                                                  | Establish mentAck   | ABC            | --            | T3                    | --              | 10                      | --        | --                             |
+|                                                                                                  | EstablishmentAck    | ABC            | --            | T3                    | --              | 10                      | --        | --                             |
 | \<New Establish message should be sent with same Session ID\>                                    |
 
 ### Ungraceful termination (sequence message received with lower sequence number)
@@ -282,14 +282,14 @@ The session could also be deliberately terminated due to Sequence message receiv
 | Negotiate                                                     |                      | ABC            | T1            | --                    | --             | --                | Idempotent      | --              | --                | --                |
 |                                                               | Negotiation Response | ABC            | --            | T1                    | --             | --                |                 | Recoverable     | --                | --                |
 | Establish                                                     |                      | ABC            | T2            | --                    | 200            | --                | --              | --              | --                | --                |
-|                                                               | Establish mentAck    | ABC            | --            | T2                    | 1000           | --                | --              | --              | --                | --                |
+|                                                               | EstablishmentAck     | ABC            | --            | T2                    | 1000           | --                | --              | --              | --                | --                |
 | Sequence                                                      |                      | --             | --            | --                    | 100            | --                | --              | --              | --                | --                |
 |                                                               | Terminate            | ABC            | --            | --                    | --             | --                | --              | --              | Unspecified Error | Invalid NextSeqNo |
 | Establish                                                     |                      | ABC            | T4            | --                    | 200            | --                | Idempotent      | --              | --                | --                |
-|                                                               | Establish mentAck    | ABC            | --            | T4                    | 1001           | --                | --              | Recoverable     | --                | --                |
+|                                                               | EstablishmentAck     | ABC            | --            | T4                    | 1001           | --                | --              | Recoverable     | --                | --                |
 | \<New Establish message should be sent with same Session ID\> |
 
-### Ungraceful termination (establishment ack received with lower sequence number)
+### Ungraceful termination (EstablishmentAck received with lower sequence number)
 
 The session could also be deliberately terminated due to EstablishmentAck message received with lower than expected sequence number and then it will need to be re-established. The transport layer connection is still open (TCP socket) therefore Negotiation is not required. Termination due to error does not require the sender to wait for corresponding Terminate response from counterparty.
 
@@ -298,11 +298,11 @@ The session could also be deliberately terminated due to EstablishmentAck messag
 | Negotiate                                                    |                      | ABC            | T1            | --                    | --             | --                | Idempotent      | --              | --                | --                |
 |                                                              | Negotiation Response | ABC            | --            | T1                    | --             | --                |                 | Recoverable     | --                | --                |
 | Establish                                                    |                      | ABC            | T2            | --                    | 200            | --                | --              | --              | --                | --                |
-|                                                              | Establish mentAck    | ABC            | --            | T2                    | 1000           | --                | --              | --              | --                | --                |
+|                                                              | EstablishmentAck     | ABC            | --            | T2                    | 1000           | --                | --              | --              | --                | --                |
 | Sequence                                                     |                      | --             | --            | --                    | 100            | --                | --              | --              | --                | --                |
 |                                                              | Terminate            | ABC            | --            | --                    | --             | --                | --              | --              | Unspecified Error | Invalid NextSeqNo |
 | Establish                                                    |                      | ABC            | T4            | --                    | 200            | --                | Idempotent      | --              | --                | --                |
-|                                                              | Establish mentAck    | ABC            | --            | T4                    | 1001           | --                | --              | Recoverable     | --                | --                |
+|                                                              | EstablishmentAck     | ABC            | --            | T4                    | 1001           | --                | --              | Recoverable     | --                | --                |
 | \<New Establish message could be sent with same Session ID\> |
 
 ### Graceful termination
@@ -314,13 +314,13 @@ Graceful termination is possible when there are no more messages to be sent for 
 | Negotiate                                                    |                      | ABC            | T1            | --                    | --             | --                | Idempotent      | --              | --       | --         |
 |                                                              | Negotiation Response | ABC            | --            | T1                    | --             | --                |                 | Recoverable     | --       | --         |
 | Establish                                                    |                      | ABC            | T2            | --                    | 200            | --                | --              | --              | --       | --         |
-|                                                              | Establish mentAck    | ABC            | --            | T2                    | 1000           | --                | --              | --              | --       | --         |
+|                                                              | EstablishmentAck     | ABC            | --            | T2                    | 1000           | --                | --              | --              | --       | --         |
 | Sequence                                                     |                      | --             | --            | --                    | 201            | --                | --              | --              | --       | --         |
 | Terminate                                                    |                      | ABC            | --            | --                    | --             | --                | --              | --              | Finished | --         |
 |                                                              | Terminate            | ABC            | --            | --                    | --             | --                | --              | --              | Finished | --         |
 | \<TCP socket connection is disconnected by sender\>          |
 | Establish                                                    |                      | ABC            | T4            | --                    | 200            | --                | Idempotent      | --              | --       | --         |
-|                                                              | Establish mentAck    | ABC            | --            | T4                    | 1001           | --                | --              | Recoverable     | --       | --         |
+|                                                              | EstablishmentAck     | ABC            | --            | T4                    | 1001           | --                | --              | Recoverable     | --       | --         |
 | \<New Establish message could be sent with same Session ID\> |
 
 ### Disconnection
@@ -332,12 +332,12 @@ When the transport layer session itself (TCP socket) has been disconnected then 
 | Negotiate                                         |                     | ABC                   | T1            | --                    | Idempotent      | --                      | --              | --         |
 |                                                   | NegotiationResponse | ABC                   | --            | T1                    | --              | --                      | Recoverable     | --         |
 | Establish                                         |                     | ABC                   | T2            | --                    | --              | 10                      | --              | --         |
-|                                                   | Establish mentAck   | ABC                   | --            | T2                    | --              | 10                      | --              | --         |
+|                                                   | EstablishmentAck    | ABC                   | --            | T2                    | --              | 10                      | --              | --         |
 | \<TCP socket connection is disconnected\>         |
 | Negotiate                                         |                     | DEF                   | T3            | --                    | Idempotent      | --                      | --              | --         |
 |                                                   | NegotiationResponse | DEF                   | --            | T3                    | --              | --                      | Recoverable     | --         |
 | Establish                                         |                     | DEF                   | T4            | --                    | --              | 10                      | --              | --         |
-|                                                   | Establish mentAck   | DEF                   | --            | T4                    | --              | 10                      | --              | --         |
+|                                                   | EstablishmentAck    | DEF                   | --            | T4                    | --              | 10                      | --              | --         |
 | \<New Negotiate message requires new Session ID\> |
 
 <span id="_sequence" class="anchor"><span id="_Toc429639527" class="anchor"></span></span>Transferring
@@ -370,14 +370,14 @@ For example – here the second Sequence message is increasing the NextSeqNo eve
 | Negotiate            |                      | ABC                   | T1            | --                    | --             | --                  | Idempotent      | --              | --             | --        |
 |                      | Negotiation Response | ABC                   | --            | T1                    | --             | --                  | --              | Recoverable     | --             | --        |
 | Establish            |                      | ABC                   | T2            | --                    | 100            | --                  | --              | --              | --             | --        |
-|                      | Establishment Ack    | ABC                   | --            | T2                    | 1000           | --                  | --              | --              | --             | --        |
+|                      | EstablishmentAck     | ABC                   | --            | T2                    | 1000           | --                  | --              | --              | --             | --        |
 | Sequence             |                      | --                    | --            | --                    | 100            | --                  | --              | --              | --             | --        |
 | NewOrderSingle       |                      | ABC                   | T3            | --                    | --             | 100                 | --              | --              | --             | --        |
-|                      | Execution Report     | ABC                   | T4            | --                    | --             | 1000                | --              | --              | --             | --        |
+|                      | ExecutionReport      | ABC                   | T4            | --                    | --             | 1000                | --              | --              | --             | --        |
 | Sequence             |                      | --                    | --            | --                    | 200            | --                  | --              | --              | --             | --        |
 | NewOrderSingle       |                      | ABC                   | T5            | --                    | --             | 200                 | --              | --              | --             | --        |
 |                      | NotApplied           | --                    | --            | --                    | --             | --                  | --              | --              | 101            | 100       |
-|                      | Execution Report     | ABC                   | T6            | --                    | --             | 1001                | --              | --              | --             | --        |
+|                      | ExecutionReport      | ABC                   | T6            | --                    | --             | 1001                | --              | --              | --             | --        |
 
 #### Sequence (lower sequence number)
 
@@ -495,11 +495,11 @@ More than one RetransmissionRequest is not allowed at a time and subsequent in-f
 | **Message Received**                                            | **Message Sent**     | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | ** Implicit SeqNo** | **Client Flow** | **Server Flow** | **From SeqNo** | **Count** |
 |-----------------------------------------------------------------|----------------------|-----------------------|---------------|-----------------------|----------------|---------------------|-----------------|-----------------|----------------|-----------|
 | Negotiate                                                       |                      | ABC                   | T1            | --                    | --             | --                  | Idempotent      | --              | --             | --        |
-|                                                                 | Negotiation Response | ABC                   | --            | T1                    | --             | --                  | --              | Recoverable     | --             | --        |
+|                                                                 | NegotiationResponse  | ABC                   | --            | T1                    | --             | --                  | --              | Recoverable     | --             | --        |
 | Establish                                                       |                      | ABC                   | T2            | --                    | 100            | --                  | --              | --              | --             | --        |
-|                                                                 | Establishment Ack    | ABC                   | --            | T2                    | 1000           | --                  | --              | --              | --             | --        |
+|                                                                 | EstablishmentAck     | ABC                   | --            | T2                    | 1000           | --                  | --              | --              | --             | --        |
 |                                                                 | Sequence             | --                    | --            | --                    | 1000           | --                  | --              | --              | --             | --        |
-|                                                                 | Execution Report     | ABC                   | T3            | --                    | --             | 1100                | --              | --              | --             | --        |
+|                                                                 | ExecutionReport      | ABC                   | T3            | --                    | --             | 1100                | --              | --              | --             | --        |
 | RetransmissionRequest                                           |                      | ABC                   | T4            | --                    | --             | --                  | --              | --              | 1000           | 100       |
 |                                                                 | Retransmission       | ABC                   | --            | T4                    | 1000           | --                  | --              | --              | --             | 100       |
 | \<50 messages between 1000 and 1099 are replayed\>              |
@@ -534,9 +534,9 @@ RetransmissionRequest could be rejected if the messages being requested (FromSeq
 | **Message Received**                                                   | **Message Sent**     | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | ** Implicit SeqNo** | **Code**   | **Reason**        | **From SeqNo** | **Count** |
 |------------------------------------------------------------------------|----------------------|-----------------------|---------------|-----------------------|----------------|---------------------|------------|-------------------|----------------|-----------|
 | Negotiate                                                              |                      | ABC                   | T1            | --                    | --             | --                  | Idempotent | --                | --             | --        |
-|                                                                        | Negotiation Response | ABC                   | --            | T1                    | --             | --                  | --         | Recoverable       | --             | --        |
+|                                                                        | NegotiationResponse  | ABC                   | --            | T1                    | --             | --                  | --         | Recoverable       | --             | --        |
 | Establish                                                              |                      | ABC                   | T2            | --                    | 100            | --                  | --         | --                | --             | --        |
-|                                                                        | Establishment Ack    | ABC                   | --            | T2                    | 1000           | --                  | --         | --                | --             | --        |
+|                                                                        | EstablishmentAck     | ABC                   | --            | T2                    | 1000           | --                  | --         | --                | --             | --        |
 |                                                                        | Sequence             | --                    | --            | --                    | 1000           | --                  | --         | --                | --             | --        |
 | RetransmissionRequest                                                  |                      | ABC                   | T3            | --                    | --             | --                  | --         | --                | 2000           | 100       |
 |                                                                        | RetransmitReject     | ABC                   | --            | T3                    | --             | --                  | OutOfRange | Invalid FromSeqNo | --             | --        |
@@ -549,9 +549,9 @@ RetransmissionRequest could be rejected if the messages being requested (FromSeq
 | **Message Received**                                                           | **Message Sent**     | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | ** Implicit SeqNo** | **Code**   | **Reason**    | **From SeqNo** | **Count** |
 |--------------------------------------------------------------------------------|----------------------|-----------------------|---------------|-----------------------|----------------|---------------------|------------|---------------|----------------|-----------|
 | Negotiate                                                                      |                      | ABC                   | T1            | --                    | --             | --                  | Idempotent | --            | --             | --        |
-|                                                                                | Negotiation Response | ABC                   | --            | T1                    | --             | --                  | --         | Recoverable   | --             | --        |
+|                                                                                | NegotiationResponse  | ABC                   | --            | T1                    | --             | --                  | --         | Recoverable   | --             | --        |
 | Establish                                                                      |                      | ABC                   | T2            | --                    | 100            | --                  | --         | --            | --             | --        |
-|                                                                                | Establishment Ack    | ABC                   | --            | T2                    | 1000           | --                  | --         | --            | --             | --        |
+|                                                                                | EstablishmentAck     | ABC                   | --            | T2                    | 1000           | --                  | --         | --            | --             | --        |
 |                                                                                | Sequence             | --                    | --            | --                    | 1000           | --                  | --         | --            | --             | --        |
 | RetransmissionRequest                                                          |                      | ABC                   | T3            | --                    | --             | --                  | --         | --            | 900            | 175       |
 |                                                                                | RetransmitReject     | ABC                   | --            | T3                    | --             | --                  | OutOfRange | Invalid Range | --             | --        |
@@ -564,9 +564,9 @@ RetransmissionRequest could be rejected if the messages are being requested with
 | **Message Received**                                                                        | **Message Sent**     | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | ** Implicit SeqNo** | **Code**        | **Reason**         | **From SeqNo** | **Count** |
 |---------------------------------------------------------------------------------------------|----------------------|-----------------------|---------------|-----------------------|----------------|---------------------|-----------------|--------------------|----------------|-----------|
 | Negotiate                                                                                   |                      | ABC                   | T1            | --                    | --             | --                  | Idempotent      | --                 | --             | --        |
-|                                                                                             | Negotiation Response | ABC                   | --            | T1                    | --             | --                  | --              | Recoverable        | --             | --        |
+|                                                                                             | NegotiationResponse  | ABC                   | --            | T1                    | --             | --                  | --              | Recoverable        | --             | --        |
 | Establish                                                                                   |                      | ABC                   | T2            | --                    | 100            | --                  | --              | --                 | --             | --        |
-|                                                                                             | Establishment Ack    | ABC                   | --            | T2                    | 1000           | --                  | --              | --                 | --             | --        |
+|                                                                                             | EstablishmentAck     | ABC                   | --            | T2                    | 1000           | --                  | --              | --                 | --             | --        |
 |                                                                                             | Sequence             | --                    | --            | --                    | 1000           | --                  | --              | --                 | --             | --        |
 | RetransmissionRequest                                                                       |                      | DEF                   | T3            | --                    | --             | --                  | --              | --                 | 850            | 50        |
 |                                                                                             | RetransmitReject     | DEF                   | --            | T3                    | --             | --                  | Invalid Session | Unknown Session ID | --             | --        |
@@ -594,9 +594,9 @@ RetransmissionRequest asking to replay messages which are no longer available (f
 | **Message Received**                                                   | **Message Sent**     | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **ImplicitSeqNo** | **From SeqNo** | **Count** | **Code**             | **Reason**                   |
 |------------------------------------------------------------------------|----------------------|-----------------------|---------------|-----------------------|----------------|-------------------|----------------|-----------|----------------------|------------------------------|
 | Negotiate                                                              |                      | ABC                   | T1            | --                    | --             | --                | --             | --        | --                   | --                           |
-|                                                                        | Negotiation Response | ABC                   | --            | T1                    | --             | --                | --             | --        | --                   | --                           |
+|                                                                        | NegotiationResponse  | ABC                   | --            | T1                    | --             | --                | --             | --        | --                   | --                           |
 | Establish                                                              |                      | ABC                   | T2            | --                    | 200            | --                | --             | --        | --                   | --                           |
-|                                                                        | Establish mentAck    | ABC                   | --            | T2                    | 1000           | --                | --             | --        | --                   | --                           |
+|                                                                        | EstablishmentAck     | ABC                   | --            | T2                    | 1000           | --                | --             | --        | --                   | --                           |
 | RetransmitRequest                                                      |                      | ABC                   | T3            | --                    | --             | --                | 1              | 175       | --                   | --                           |
 |                                                                        | RetransmitReject     | ABC                   | --            | T3                    | --             | --                | --             | --        | ReRequestOutOfBounds | Messages No Longer Available |
 | \<Here the messages being requested (1-175) were older than 72 hours\> |
@@ -613,7 +613,7 @@ The FinishedReceiving message is used to confirm that the FinishedSending messag
 | **Message Received**                                                                                                                                                                                                                                                    | **Message Sent**     | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **LastSeqNo** | **ClientFlow** | **ServerFlow** | **Code** | **Reason** |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|-----------------------|---------------|-----------------------|----------------|---------------|----------------|----------------|----------|------------|
 | Negotiate                                                                                                                                                                                                                                                               |                      | ABC                   | T1            | --                    | --             | --            | Idempotent     | --             | --       | --         |
-|                                                                                                                                                                                                                                                                         | Negotiation Response | ABC                   | --            | T1                    | --             | --            | --             | Recoverable    | --       | --         |
+|                                                                                                                                                                                                                                                                         | NegotiationResponse  | ABC                   | --            | T1                    | --             | --            | --             | Recoverable    | --       | --         |
 | Establish                                                                                                                                                                                                                                                               |                      | ABC                   | T2            | --                    | 200            | --            | ---            | --             | --       | --         |
 |                                                                                                                                                                                                                                                                         | EstablishmentAck    | ABC                   | --            | T2                    | 1000           | --            | --             | --             | --       | --         |
 | NewOrderSingle                                                                                                                                                                                                                                                          |                      | ABC                   | T3            | --                    | --             | --            | --             | --             | --       | --         |
@@ -678,7 +678,10 @@ The party which wishes to cease logical flow of messages from its connection at 
 | Sequence                                                                                                                                                  |                   | ABC                   | --            | --                    | 202            | --            | --            | --        | --                | --                                            |
 |                                                                                                                                                           | Terminate         | ABC                   | --            | --                    | --             | --            | --            | --        | Unspecified Error | Logical Flow Cannot Resume After Finalization |
 | Here a Sequence message was sent after the counterparty responded back with a Finished Receiving message and it led to an ungraceful termination          |
-| Message Received                                                                                                                                          | Message Sent      | Session ID (UUID)     | Timestamp     | Request Timestamp     | Next SeqNo     | LastSeqNo     | FromSeqNo     | Count     | Code              | Reason                                        |
+---------------------------------------------------------------------------------------------------
+
+| **Message Received**                                                                                                                                      | **Message Sent**  | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **LastSeqNo** | **FromSeqNo** | **Count** | **Code**          | **Reason**                                    |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------|-----------------------|---------------|-----------------------|----------------|---------------|---------------|-----------|-------------------|-----------------------------------------------|
 | FinishedSending                                                                                                                                           |                   | ABC                   | --            | --                    | --             | 201           | --            | --        | --                | --                                            |
 | Sequence                                                                                                                                                  |                   | ABC                   | --            | --                    | 202            | --            | --            | --        | --                | --                                            |
 |                                                                                                                                                           | Terminate         | ABC                   | --            | --                    | --             | --            | --            | --        | Unspecified Error | Logical Flow Cannot Resume After Finalization |
