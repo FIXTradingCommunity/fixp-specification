@@ -87,6 +87,7 @@ If negotiation is re-attempted after rejection, a new session ID should be gener
 
 ```plantuml
 @startuml
+scale 0.6
 skinparam {
   minClassWidth 80
   monochrome true
@@ -189,6 +190,7 @@ Rejection reasons:
 
 ```plantuml
 @startuml
+scale 0.6
 skinparam {
   minClassWidth 80
   monochrome true
@@ -271,6 +273,7 @@ On a WebSocket transport, a Close frame is used instead of a Terminate message. 
 
 ```plantuml
 @startuml
+scale 0.6
 skinparam {
   minClassWidth 80
   monochrome true
@@ -299,6 +302,7 @@ Sequence diagram for Unbind Transport--Connection-oriented transport, TCP
 
 ```plantuml
 @startuml
+scale 0.6
 skinparam {
   minClassWidth 80
   monochrome true
@@ -387,6 +391,7 @@ Sending a RetransmitRequest to the sender of an Idempotent, Unsequenced or None 
 
 ```plantuml
 @startuml
+scale 0.6
 skinparam {
   minClassWidth 80
   monochrome true
@@ -455,6 +460,7 @@ Rejection reasons:
 
 ```plantuml
 @startuml
+scale 0.7
 skinparam {
   minClassWidth 80
   monochrome true
@@ -493,6 +499,7 @@ For a RetransmitRequest that the requester should have known was invalid with ce
 
 ```plantuml
 @startuml
+scale 0.7
 skinparam {
   minClassWidth 80
   monochrome true
@@ -572,6 +579,7 @@ When a FinishedReceiving has been received by the party that initiated the final
 
 ```plantuml
 @startuml
+scale 0.6
 skinparam {
   minClassWidth 80
   monochrome true
@@ -662,6 +670,7 @@ Sending NotApplied for a Recoverable, Unsequenced or None flow is a protocol vio
 
 ```plantuml
 @startuml
+scale 0.6
 skinparam {
   minClassWidth 80
   monochrome true
