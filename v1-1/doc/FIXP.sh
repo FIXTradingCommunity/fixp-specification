@@ -13,7 +13,7 @@ FILES="01Introduction.md 02Requirements.md 03CommonFeatures.md 04PointToPointSes
 WPFOLDER="/wp-content/uploads/2021/04/"
 
 # Create FIX document version with disclaimer
-pandoc "$DISCLAIMER" $FILES -o "$TARGET/docx/FIX_Performance_Session_Layer_V1.1.docx" --reference-doc="$STYLE" --metadata-file="$YAML" --toc --toc-depth=4
+pandoc "$DISCLAIMER" $FILES -o "$TARGET/docx/FIX_Performance_Session_Layer_V1.1.docx" --reference-doc="$STYLE" --metadata-file="$YAML" --filter pandoc-plantuml --toc --toc-depth=4
 echo FIXP document version created for FIX
 
 # Create ISO document version with copyright etc.
