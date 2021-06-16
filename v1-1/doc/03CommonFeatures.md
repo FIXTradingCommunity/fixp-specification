@@ -40,7 +40,7 @@ Those supplements also explain how to distinguish session messages from applicat
 
 Message types are listed in this document as an enumeration of symbolic names. Each FIX encoding tells how message type identifiers are encoded on the wire.
 
-See section 4 below for an enumeration of message types.
+See [Point-to-point session protocol](#point-to-point-session-protocol) below for an enumeration of message types.
 
 ### Fields
 
