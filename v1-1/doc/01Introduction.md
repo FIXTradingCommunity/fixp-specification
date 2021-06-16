@@ -3,6 +3,7 @@
 FIX Performance Session Layer (FIXP) is a “lightweight point-to-point protocol” introduced to provide an open industry standard for high performance computing requirements currently encountered by the FIX Community. FIXP is a derived work. The origin and basis for FIXP are the FIX session layer protocols and protocols designed and implemented by NASDAQ OMX, i.e. SoupTCP, SoupBinTCP, and UFO (UDP for Orders). Every attempt was made to keep FIXP as close to the functionality and behavior of SoupBinTCP and UFO as possible. Extensions and refactoring were performed as incremental improvements. Every attempt was made to limit FIXP to establishing and maintaining a communication session between two end points in a reliable manner, regardless of the reliability of the underlying transport.
 
 FIXP features:
+
 - Very lightweight session layer with no restrictions on the application layer
 - Encoding independent supporting binary protocols
 - Transport independent supporting both stream, datagram, and message oriented protocols
@@ -50,8 +51,10 @@ FIXP is dependent on several industry standards. Implementations of FIXP must co
 For the purposes of this document, the terms and definitions given in [Internet Engineering Task Force RFC2119](http://www.apps.ietf.org/rfc/rfc2119.html) and the following apply.
 
 ISO and IEC maintain terminology databases for use in standardization at the following addresses:
---- ISO Online browsing platform: available at https://www.iso.org/obp
---- IEC Electropedia: available at https://www.electropedia.org
+
+--- ISO Online browsing platform: available at [https://www.iso.org/obp](https://www.iso.org/obp)
+
+--- IEC Electropedia: available at [https://www.electropedia.org](https://www.electropedia.org)
 
 ### session
 A dialog for exchanging application messages between peers. An established point-to-point session consists of a pair of flows, one in each direction between peers. A multicast session consists of a single flow from the producer to multiple consumers.
