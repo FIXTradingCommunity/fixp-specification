@@ -265,7 +265,7 @@ On a connection-oriented transport such as TCP, when the last peer that initiate
 
 ### WebSocket termination
 
-On a WebSocket transport, a Close frame is used instead of a Terminate message. See [WebSocket Usage](#websocketusage) below.
+On a WebSocket transport, a Close frame is used instead of a Terminate message. See [WebSocket Usage](#websocket-usage) below.
 
 ### Terminate session sequence diagrams
 
@@ -620,7 +620,7 @@ To guarantee idempotence, a unique sequential identifier must be allocated to ea
 
 The start of an idempotent flow must be initiated with a Sequence message (or Context message on a multiplexed transport) that explicitly provides the sequence number  of the next application message in its field NextSeqNo. The first application message after a Sequence (or Context) message has the implicit sequence number NextSeqNo. For subsequent application messages, the sequence number is incremented implicitly. That is, the sequence number is not sent on the wire in every application message, but rather, sender and receiver each should keep track of the next expected sequence number.
 
-As explained in section 3, a Sequence or Context message must be sent after any context switch or once per packet on a Datagram oriented transport. Additionally, as explained in [Session Heartbeat](#session-heartbeat), they must be sent as hearbeats during idle periods. After every explicit NextSeqNo, the sequence number of subsequent application messages should be tracked implicitly.
+As explained in [Common features](#common-features), a Sequence or Context message must be sent after any context switch or once per packet on a Datagram oriented transport. Additionally, as explained in [Session heartbeat](#session-heartbeat), they must be sent as hearbeats during idle periods. After every explicit NextSeqNo, the sequence number of subsequent application messages should be tracked implicitly.
 
 The recoverable server return flow should report the result of operations at the application layer. Implementers may opt to use the following *Applied* or *NotApplied* messages to return the status of the operation if a more specific application message is not provided.
 
@@ -702,7 +702,7 @@ WebSocket has two defined subprotocols, text and binary. The appropriate subprot
 
 ### Session initiation
 
-A WebSocket session is initiated by a client with an HTTP request and optionally, a TLS handshake. See the FIX-over-TLS (FIXS) standard, referenced in section 1, for recommendations about authentication and cipher suite selection.
+A WebSocket session is initiated by a client with an HTTP request and optionally, a TLS handshake. See the [FIX-over-TLS (FIXS)](https://www.fixtrading.org/standards/fixs-online/) standard for recommendations about authentication and cipher suite selection.
 
 ### Heartbeats
 
