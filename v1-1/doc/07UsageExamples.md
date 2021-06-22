@@ -6,42 +6,42 @@ These use cases contain sample values for illustrative purposes only
 
 ### Session negotiation (both recoverable)
 
-| **Message Received** | **Message Sent**    | **Session ID** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Server Flow** | **Credentials** |
+| **Message Received** | **Message Sent**    | **Session Id** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Server Flow** | **Credentials** |
 |----------------------|---------------------|----------------|---------------|-----------------------|-----------------|-----------------|-----------------|
 | Negotiate            |                     | ABC            | T1            | --                    | Recoverable     | --              | **123**         |
 |                      | NegotiationResponse | ABC            | --            | T1                    | --              | Recoverable     | **--**          |
 
 ### Session negotiation (both unsequenced)
 
-| **Message Received** | **Message Sent**    | **Session ID** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Server Flow** | **Credentials** |
+| **Message Received** | **Message Sent**    | **Session Id** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Server Flow** | **Credentials** |
 |----------------------|---------------------|----------------|---------------|-----------------------|-----------------|-----------------|-----------------|
 | Negotiate            |                     | ABC            | T1            | --                    | Unsequenced     | --              | 123             |
 |                      | NegotiationResponse | ABC            | --            | T1                    | --              | Unsequenced     | --              |
 
 ### Session negotiation (client idempotent and server recoverable – highly recommended)
 
-| **Message Received** | **Message Sent**    | **Session ID** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Server Flow** | **Credentials** |
+| **Message Received** | **Message Sent**    | **Session Id** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Server Flow** | **Credentials** |
 |----------------------|---------------------|----------------|---------------|-----------------------|-----------------|-----------------|-----------------|
 | Negotiate            |                     | ABC            | T1            | --                    | Idempotent      | --              | 123             |
 |                      | NegotiationResponse | ABC            | --            | T1                    | --              | Recoverable     | --              |
 
 ### Session negotiation (client none and server recoverable)
 
-| **Message Received** | **Message Sent**    | **Session ID** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Server Flow** | **Credentials** |
+| **Message Received** | **Message Sent**    | **Session Id** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Server Flow** | **Credentials** |
 |----------------------|---------------------|----------------|---------------|-----------------------|-----------------|-----------------|-----------------|
 | Negotiate            |                     | ABC            | T1            | --                    | None            | --              | 123             |
 |                      | NegotiationResponse | ABC            | --            | T1                    | --              | Unsequenced     | --              |
 
 ### Session negotiation (client unsequenced and server recoverable)
 
-| **Message Received** | **Message Sent**    | **Session ID** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Server Flow** | **Credentials** |
+| **Message Received** | **Message Sent**    | **Session Id** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Server Flow** | **Credentials** |
 |----------------------|---------------------|----------------|---------------|-----------------------|-----------------|-----------------|-----------------|
 | Negotiate            |                     | ABC            | T1            | --                    | Unsequenced     | --              | 123             |
 |                      | NegotiationResponse | ABC            | --            | T1                    | --              | Recoverable     | --              |
 
 ### Session negotiation (client none and server unsequenced)
 
-| **Message Received** | **Message Sent**    | **Session ID** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Server Flow** | **Credentials** |
+| **Message Received** | **Message Sent**    | **Session Id** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Server Flow** | **Credentials** |
 |----------------------|---------------------|----------------|---------------|-----------------------|-----------------|-----------------|-----------------|
 | Negotiate            |                     | ABC            | T1            | --                    | None            | --              | 123             |
 |                      | NegotiationResponse | ABC            | --            | T1                    | --              | Unsequenced     | --              |
@@ -50,45 +50,45 @@ These use cases contain sample values for illustrative purposes only
 
 #### Bad credentials
 
-For example – Valid Credentials are 123 but Negotiate message is sent with Credentials as 456 then it will be rejected.
+For example – if Valid Credentials are 123 but Negotiate message is sent with Credentials as 456, then it will be rejected.
 
-| **Message Received** | **Message Sent**  | **Session ID** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Code**        | **Reason**        | **Credentials** |
+| **Message Received** | **Message Sent**  | **Session Id** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Code**        | **Reason**        | **Credentials** |
 |----------------------|-------------------|----------------|---------------|-----------------------|-----------------|-----------------|-------------------|-----------------|
 | Negotiate            |                   | ABC            | T1            | --                    | Idempotent      |                 | --                | 456             |
 |                      | NegotiationReject | ABC            | --            | T1                    | --              | Bad Credentials | Invalid Trader ID | --              |
 
 #### Flow type not supported
 
-For example – Recoverable flow from Client is not supported but Negotiate message is sent with Client Flow as Recoverable then it will be rejected.
+For example – if Recoverable flow from Client is not supported but Negotiate message is sent with Client Flow as Recoverable, then it will be rejected.
 
-| **Message Received** | **Message Sent**  | **Session ID** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Code**             | **Reason**                         | **Credentials** |
+| **Message Received** | **Message Sent**  | **Session Id** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Code**             | **Reason**                         | **Credentials** |
 |----------------------|-------------------|----------------|---------------|-----------------------|-----------------|----------------------|------------------------------------|-----------------|
 | Negotiate            |                   | ABC            | T1            | --                    | Recoverable     | --                   | --                                 | 123             |
 |                      | NegotiationReject | ABC            | --            | T1                    | --              | FlowTypeNotSupported | Client Recoverable Flow Prohibited | --              |
 
 #### Invalid session ID
 
-For example – Session ID does not follow UUID or GUID semantics as per RFC 4122 and Negotiate message is sent with Session ID as all zeros then it will be rejected.
+For example – if Session ID does not follow UUID or GUID semantics as per RFC 4122 and Negotiate message is sent with Session ID as all zeros, then it will be rejected.
 
-| **Message Received** | **Message Sent**  | **Session ID** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Code**    | **Reason**               | **Credentials** |
+| **Message Received** | **Message Sent**  | **Session Id** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Code**    | **Reason**               | **Credentials** |
 |----------------------|-------------------|----------------|---------------|-----------------------|-----------------|-------------|--------------------------|-----------------|
 | Negotiate            |                   | 000            | 0             | --                    | Idempotent      | --          | --                       | 123             |
 |                      | NegotiationReject | 000            | --            | 0                     | --              | Unspecified | Invalid SessionID Format | --              |
 
 #### Invalid request timestamp
 
-For example – Timestamp follows Unix Epoch semantics and is to be sent with nanosecond-level precision but Negotiate message is sent with Timestamp as Unix Epoch but expressed as number of seconds then it will be rejected.
+For example – if Timestamp follows Unix Epoch semantics and is to be sent with nanosecond-level precision but Negotiate message is sent with Timestamp as Unix Epoch but expressed as number of seconds, then it will be rejected.
 
-| **Message Received** | **Message Sent**  | **Session ID** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Code**    | **Reason**               | **Credentials** |
+| **Message Received** | **Message Sent**  | **Session Id** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Code**    | **Reason**               | **Credentials** |
 |----------------------|-------------------|----------------|---------------|-----------------------|-----------------|-------------|--------------------------|-----------------|
 | Negotiate            |                   | ABC            | 86400         | --                    | Idempotent      | --          | --                       | 123             |
 |                      | NegotiationReject | ABC            | --            | 86400                 | --              | Unspecified | Invalid Timestamp Format | --              |
 
 #### Mismatch of sessionID/RequestTimestamp
 
-For example – the session identifier and the request timestamp in the NegotiationResponse do not match with the Negotiate message then the acknowledgment MUST be ignored and an internal alert may be generated followed by a new Negotiate message
+For example – if the session identifier and the request timestamp in the NegotiationResponse do not match with the Negotiate message, then the acknowledgment MUST be ignored and an internal alert may be generated followed by a new Negotiate message.
 
-| **Message Received**                                                                                                                                 | **Message Sent**    | **Session ID** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Server Flow** | **Credentials** |
+| **Message Received**                                                                                                                                 | **Message Sent**    | **Session Id** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Server Flow** | **Credentials** |
 |------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|----------------|---------------|-----------------------|-----------------|-----------------|-----------------|
 | Negotiate                                                                                                                                            |                     | ABC            | T1            | --                    | Recoverable     | --              | 123             |
 |                                                                                                                                                      | NegotiationResponse | DEF            | --            | T2                    | --              | Recoverable     | --              |
@@ -98,9 +98,9 @@ For example – the session identifier and the request timestamp in the Negotiat
 
 #### NegotiationResponse or reject not received
 
-For example – the Negotiate message is neither accepted nor rejected and one KeepAliveInterval\* has lapsed then an internal alert may be generated followed by a new Negotiate message.
+For example – if the Negotiate message is neither accepted nor rejected and one KeepAliveInterval\* has lapsed, then an internal alert may be generated followed by a new Negotiate message.
 
-| **Message Received**                                      | **Message Sent** | **Session ID** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Server Flow** | **Credentials** |
+| **Message Received**                                      | **Message Sent** | **Session Id** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Server Flow** | **Credentials** |
 |-----------------------------------------------------------|------------------|----------------|---------------|-----------------------|-----------------|-----------------|-----------------|
 | Negotiate                                                 |                  | ABC            | T1            | --                    | Recoverable     | --              | 123             |
 | \<One KeepAliveInterval has lapsed without any response\> |
@@ -109,12 +109,11 @@ For example – the Negotiate message is neither accepted nor rejected and one K
 
 \*Even though the KeepAliveInterval is part of the Establish message, generally speaking there will be a recommended value or range agreed to by the counterparties which can serve as a catch-all for these types of scenarios.
 
-<span id="_ESTABLISHMENT_&_REESTABLISHMENT" class="anchor"><span id="_Toc429639525" class="anchor"></span></span>Binding
-------------------------------------------------------------------------------------------------------------------------
+## Binding
 
 ### Establishment (recoverable)
 
-| **Message Received** | **Message Sent**    | **Session ID** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Keep Alive Interval** | **Next SeqNo** | **Server Flow** |
+| **Message Received** | **Message Sent**    | **Session Id** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Keep Alive Interval** | **Next SeqNo** | **Server Flow** |
 |----------------------|---------------------|----------------|---------------|-----------------------|-----------------|-------------------------|----------------|-----------------|
 | Negotiate            |                     | ABC            | T1            | --                    | Recoverable     | --                      | --             | --              |
 |                      | NegotiationResponse | ABC            | --            | T1                    | --              | --                      | --             | Recoverable     |
@@ -123,7 +122,7 @@ For example – the Negotiate message is neither accepted nor rejected and one K
 
 ### Establishment (unsequenced)
 
-| **Message Received** | **Message Sent**    | **Session ID** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Keep Alive Interval** | **Next SeqNo** | **Server Flow** |
+| **Message Received** | **Message Sent**    | **Session Id** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Keep Alive Interval** | **Next SeqNo** | **Server Flow** |
 |----------------------|---------------------|----------------|---------------|-----------------------|-----------------|-------------------------|----------------|-----------------|
 | Negotiate            |                     | ABC            | T1            | --                    | Unsequenced     | --                      | --             | --              |
 |                      | NegotiationResponse | ABC            | --            | T1                    | --              | --                      | --             | Unsequenced     |
@@ -132,7 +131,7 @@ For example – the Negotiate message is neither accepted nor rejected and one K
 
 ### Establishment (idempotent)
 
-| **Message Received** | **Message Sent**    | **Session ID** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Keep Alive Interval** | **Next SeqNo** | **Server Flow** |
+| **Message Received** | **Message Sent**    | **Session Id** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Keep Alive Interval** | **Next SeqNo** | **Server Flow** |
 |----------------------|---------------------|----------------|---------------|-----------------------|-----------------|-------------------------|----------------|-----------------|
 | Negotiate            |                     | ABC            | T1            | --                    | Idempotent      | --                      | --             | --              |
 |                      | NegotiationResponse | ABC            | --            | T1                    | --              | --                      | --             | Recoverable     |
@@ -141,7 +140,7 @@ For example – the Negotiate message is neither accepted nor rejected and one K
 
 ### Establishment (none)
 
-| **Message Received** | **Message Sent**    | **Session ID** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Keep Alive Interval** | **Next SeqNo** | **Server Flow** |
+| **Message Received** | **Message Sent**    | **Session Id** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Keep Alive Interval** | **Next SeqNo** | **Server Flow** |
 |----------------------|---------------------|----------------|---------------|-----------------------|-----------------|-------------------------|----------------|-----------------|
 | Negotiate            |                     | ABC            | T1            | --                    | None            | --                      | --             | --              |
 |                      | NegotiationResponse | ABC            | --            | T1                    | --              | --                      | --             | None            |
@@ -154,7 +153,7 @@ For example – the Negotiate message is neither accepted nor rejected and one K
 
 For example – Trying to send an Establish message without first Negotiating the session will result in the Establishment message being rejected.
 
-| **Message Received** | **Message Sent**      | **Session ID** | **Timestamp** | **Request Timestamp** | **Code**     | **Reason**                                    | **Keep Alive Interval** |
+| **Message Received** | **Message Sent**      | **Session Id** | **Timestamp** | **Request Timestamp** | **Code**     | **Reason**                                    | **Keep Alive Interval** |
 |----------------------|-----------------------|----------------|---------------|-----------------------|--------------|-----------------------------------------------|-------------------------|
 | Establish            |                       | ABC            | T2            | --                    | --           | --                                            | 10                      |
 |                      | Establishment Reject  | ABC            | --            | T2                    | Unnegotiated | Establishment Not Allowed Without Negotiation | --                      |
@@ -163,10 +162,10 @@ For example – Trying to send an Establish message without first Negotiating th
 
 For example – Trying to send an Establish message when the session itself is already Negotiated and Established will result in the Establishment message being rejected.
 
-| **Message Received** | **Message Sent**     | **Session ID** | **Timestamp** | **Request Timestamp** | **Code**            | **Reason**                     | **Keep Alive Interval** |
+| **Message Received** | **Message Sent**     | **Session Id** | **Timestamp** | **Request Timestamp** | **Code**            | **Reason**                     | **Keep Alive Interval** |
 |----------------------|----------------------|----------------|---------------|-----------------------|---------------------|--------------------------------|-------------------------|
 | Negotiate            |                      | ABC            | T1            | --                    | --                  | --                             | --                      |
-|                      | Negotiation Response | ABC            | --            | T1                    | --                  | --                             | --                      |
+|                      | NegotiationResponse  | ABC            | --            | T1                    | --                  | --                             | --                      |
 | Establish            |                      | ABC            | T2            | --                    | --                  | --                             | 10                      |
 |                      | EstablishmentAck     | ABC            | --            | T2                    | --                  | --                             | 10                      |
 | Establish            |                      | ABC            | T3            | --                    | --                  | --                             | 10                      |
@@ -176,7 +175,7 @@ For example – Trying to send an Establish message when the session itself is a
 
 For example – if a particular Session ID has been blocked for bad behavior and is not allowed to establish a session with the counterparty then also the Establishment message will be rejected.
 
-| **Message Received** | **Message Sent**    | **Session ID** | **Timestamp** | **Request Timestamp** | **Code**        | **Reason**                                                 | **Keep Alive Interval** |
+| **Message Received** | **Message Sent**    | **Session Id** | **Timestamp** | **Request Timestamp** | **Code**        | **Reason**                                                 | **Keep Alive Interval** |
 |----------------------|---------------------|----------------|---------------|-----------------------|-----------------|------------------------------------------------------------|-------------------------|
 | Negotiate            |                     | ABC            | T1            | --                    | --              | --                                                         | --                      |
 |                      | NegotiationResponse | ABC            | --            | T1                    | --              | --                                                         | --                      |
@@ -187,32 +186,32 @@ For example – if a particular Session ID has been blocked for bad behavior and
 
 For example – if the bilateral rules of engagement permit a KeepAliveInterval no smaller than 10 milliseconds then an Establishment message sent with a KeepAliveInterval of 1 millisecond will be rejected.
 
-| **Message Received** | **Message Sent**    | **Session ID** | **Timestamp** | **Request Timestamp** | **Code**           | **Reason**                 | **Keep Alive Interval** |
+| **Message Received** | **Message Sent**    | **Session Id** | **Timestamp** | **Request Timestamp** | **Code**           | **Reason**                 | **Keep Alive Interval** |
 |----------------------|---------------------|----------------|---------------|-----------------------|--------------------|----------------------------|-------------------------|
 | Negotiate            |                     | ABC            | T1            | --                    | --                 | --                         | --                      |
 |                      | NegotiationResponse | ABC            | --            | T1                    | --                 | --                         | --                      |
 | Establish            |                     | ABC            | T2            | --                    | --                 | --                         | 1                       |
 |                      | EstablishmentReject | ABC            | --            | T2                    | KeepAlive Interval | Invalid KeepAlive Interval | 1                       |
 
-#### Invalid session ID
+#### Invalid session identifier
 
 For example – Session ID does not follow UUID or GUID semantics as per RFC 4122 and Establishment message is sent with Session ID as all zeros then it will be rejected.
 
-| **Message Received** | **Message Sent**     | **Session ID** | **Timestamp** | **Request Timestamp** | **Code**    | **Reason**                | **Keep Alive Interval** |
+| **Message Received** | **Message Sent**     | **Session Id** | **Timestamp** | **Request Timestamp** | **Code**    | **Reason**                | **Keep Alive Interval** |
 |----------------------|----------------------|----------------|---------------|-----------------------|-------------|---------------------------|-------------------------|
 | Negotiate            |                      | ABC            | T1            | --                    | --          | --                        | --                      |
-|                      | Negotiation Response | ABC            | --            | T1                    | --          | --                        | --                      |
+|                      | NegotiationResponse  | ABC            | --            | T1                    | --          | --                        | --                      |
 | Establish            |                      | 000            | T2            | --                    | --          | --                        | 10                      |
-|                      | EstablishmentReject  | 000            | --            | T2                    | Unspecified | Invalid Session ID Format | 10                      |
+|                      | EstablishmentReject  | 000            | --            | T2                    | Unspecified | Invalid SessionId  Format | 10                      |
 
 #### Invalid request timestamp
 
 For example – Timestamp follows Unix Epoch semantics and is to be sent with nanosecond-level precision but Establishment message is sent with Timestamp as Unix Epoch but expressed as number of seconds then it will be rejected.
 
-| **Message Received** | **Message Sent**     | **Session ID** | **Timestamp** | **Request Timestamp** | **Code**    | **Reason**               | **Keep Alive Interval** |
+| **Message Received** | **Message Sent**     | **Session Id** | **Timestamp** | **Request Timestamp** | **Code**    | **Reason**               | **Keep Alive Interval** |
 |----------------------|----------------------|----------------|---------------|-----------------------|-------------|--------------------------|-------------------------|
 | Negotiate            |                      | ABC            | T1            | --                    | --          | --                       | --                      |
-|                      | Negotiation Response | ABC            | --            | T1                    | --          | --                       | --                      |
+|                      | NegotiationResponse  | ABC            | --            | T1                    | --          | --                       | --                      |
 | Establish            |                      | ABC            | 86400         | --                    | --          | --                       | 10                      |
 |                      | EstablishmentReject  | ABC            | --            | 86400                 | Unspecified | Invalid Timestamp Format | 10                      |
 
@@ -220,16 +219,16 @@ For example – Timestamp follows Unix Epoch semantics and is to be sent with na
 
 For example – Valid Credentials are 123 but Establishment message is sent with Credentials as 456 then it will be rejected.
 
-| **Message Received** | **Message Sent**    | **Session ID** | **Timestamp** | **Request Timestamp** | **Code**        | **Reason**        | **Credentials** |
+| **Message Received** | **Message Sent**    | **Session Id** | **Timestamp** | **Request Timestamp** | **Code**        | **Reason**        | **Credentials** |
 |----------------------|---------------------|----------------|---------------|-----------------------|-----------------|-------------------|-----------------|
 | Negotiate            |                     | ABC            | T1            | --                    | --              | --                | 123             |
 |                      | NegotiationResponse | ABC            | --            | T1                    | --              | --                | --              |
 | Establish            |                     | ABC            | T2            | --                    | --              | --                | 456             |
 |                      | EstablishmentReject | ABC            | --            | T2                    | Bad Credentials | Invalid Trader ID | --              |
 
-#### Mismatch of SessionID/RequestTimestamp
+#### Mismatch of SessionId/RequestTimestamp
 
-For example – the session identifier and the request timestamp in the EstablishmentAck do not match with the Establishment message then the acknowledgment MUST be ignored and an internal alert may be generated.
+For example – if the session identifier and the request timestamp in the EstablishmentAck message do not match with those in the Establishment message, then the acknowledgment MUST be ignored and an internal alert may be generated.
 
 | **Message Received**                                                                                                                              | **Message Sent**    | Session ID | Timestamp | Request Timestamp | Client Flow | Keep Alive Interval | Next SeqNo | Server Flow |
 |---------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|------------|-----------|-------------------|-------------|---------------------|------------|-------------|
@@ -237,15 +236,15 @@ For example – the session identifier and the request timestamp in the Establis
 |                                                                                                                                                   | NegotiationResponse | ABC        | --        | T1                | --          | --                  | --         | Recoverable |
 | Establish                                                                                                                                         |                     | ABC        | T2        | --                | --          | 10                  | --         | --          |
 |                                                                                                                                                   | EstablishmentAck    | DEF        | --        | T3                | --          | 10                  | 1          | --          |
-| \<Ignore EstablishmentAck message since it contains incorrect Session ID and/or RequestTimestamp and Generate Internal Alert and Possibly Retry\> |
+| \<Ignore EstablishmentAck message since it contains incorrect SessionId and/or RequestTimestamp and Generate Internal Alert and Possibly Retry\>  |
 | Establish                                                                                                                                         |                     | ABC        | T4        | --                | --          | 10                  | --         | --          |
 | \<New Establish message should contain same Session ID\>                                                                                          |
 
-#### EstablishmentAck or Reject Not Received
+#### EstablishmentAck or reject not received
 
-For example – the Establish message is neither accepted nor rejected and one KeepAliveInterval has lapsed then an internal alert may be generated followed by a new Establish message.
+For example – if the Establish message is neither accepted nor rejected and one KeepAliveInterval has lapsed, then an internal alert may be generated followed by a new Establish message.
 
-| **Message Received**                                      | **Message Sent**    | **Session ID** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Server Flow** | **Credentials** | **KeepAliveInterval** |
+| **Message Received**                                      | **Message Sent**    | **Session Id** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Server Flow** | **Credentials** | **KeepAliveInterval** |
 |-----------------------------------------------------------|---------------------|----------------|---------------|-----------------------|-----------------|-----------------|-----------------|-----------------------|
 | Negotiate                                                 |                     | ABC            | T1            | --                    | Idempotent      | --              | 123             |                       |
 |                                                           | NegotiationResponse | ABC            | --            | T1                    | --              | Recoverable     | --              |                       |
@@ -254,49 +253,48 @@ For example – the Establish message is neither accepted nor rejected and one K
 | Establish                                                 |                     | ABC            | T3            | --                    | --              | --              | --              | 10                    |
 | \<New Establish message should contain same Session ID\>  |
 
-<span id="_termination" class="anchor"><span id="_Toc429639526" class="anchor"></span></span>Unbinding
-------------------------------------------------------------------------------------------------------
+## Unbinding
 
 ### Ungraceful termination (time out)
 
-When the KeepAliveInterval has expired and no keep alive message is received then the session is terminated ungracefully and will need to be re-established. The transport layer connection is still open (TCP socket) therefore Negotiation is not required. Termination due to error does not require the sender to wait for corresponding Terminate response from counterparty.
+When the KeepAliveInterval has expired and no keep alive message is received then the session is terminated ungracefully and will need to be re-established. The transport layer connection is still open (TCP socket) therefore Negotiation is not required. Termination due to error does not require the sender to wait for corresponding Terminate response message from counterparty.
 
-| **Message Received**                                                                             | **Message Sent**    | **Session ID** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Keep Alive Interval** | **Code**  | **Reason**                     |
+| **Message Received**                                                                             | **Message Sent**    | **Session Id** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Keep Alive Interval** | **Code**  | **Reason**                     |
 |--------------------------------------------------------------------------------------------------|---------------------|----------------|---------------|-----------------------|-----------------|-------------------------|-----------|--------------------------------|
 | Negotiate                                                                                        |                     | ABC            | T1            | --                    | Idempotent      | --                      | --        | --                             |
 |                                                                                                  | NegotiationResponse | ABC            | --            | T1                    | --              | --                      | --        | --                             |
 | Establish                                                                                        |                     | ABC            | T2            | --                    | --              | 10                      | --        | --                             |
 |                                                                                                  | EstablishmentAck    | ABC            | --            | T2                    | --              | 10                      | --        | --                             |
-| \<Time Interval Greater Than Keep Alive Interval Has Lapsed Without Any Message Being Received\> |
-|                                                                                                  | Terminate           | ABC            | --            | --                    | --              | --                      | Timed Out | Keep Alive Interval Has Lapsed |
+| \<Time interval greater than KeepAliveInterval has lapsed without any message being received\>   |
+|                                                                                                  | Terminate           | ABC            | --            | --                    | --              | --                      | Timed Out | KeepAliveInterval has lapsed   |
 | Establish                                                                                        |                     | ABC            | T3            | --                    | --              | 10                      | --        | --                             |
 |                                                                                                  | EstablishmentAck    | ABC            | --            | T3                    | --              | 10                      | --        | --                             |
-| \<New Establish message should be sent with same Session ID\>                                    |
+| \<New Establish message should be sent with same SessionId\>                                    |
 
 ### Ungraceful termination (sequence message received with lower sequence number)
 
-The session could also be deliberately terminated due to Sequence message received with lower than expected sequence number and then it will need to be re-established. The transport layer connection is still open (TCP socket) therefore Negotiation is not required. Termination due to error does not require the sender to wait for corresponding Terminate response from counterparty.
+The session could also be deliberately terminated due to Sequence message received with lower than expected sequence number and then it will need to be re-established. The transport layer connection is still open (TCP socket) therefore Negotiation is not required. Termination due to error does not require the sender to wait for corresponding Terminate response message from counterparty.
 
-| **Message Received**                                          | **Message Sent**     | **Session ID** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **ImplicitSeqNo** | **Client Flow** | **Server Flow** | **Code**          | **Reason**        |
+| **Message Received**                                          | **Message Sent**     | **Session Id** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **ImplicitSeqNo** | **Client Flow** | **Server Flow** | **Code**          | **Reason**        |
 |---------------------------------------------------------------|----------------------|----------------|---------------|-----------------------|----------------|-------------------|-----------------|-----------------|-------------------|-------------------|
 | Negotiate                                                     |                      | ABC            | T1            | --                    | --             | --                | Idempotent      | --              | --                | --                |
-|                                                               | Negotiation Response | ABC            | --            | T1                    | --             | --                |                 | Recoverable     | --                | --                |
+|                                                               | NegotiationResponse  | ABC            | --            | T1                    | --             | --                |                 | Recoverable     | --                | --                |
 | Establish                                                     |                      | ABC            | T2            | --                    | 200            | --                | --              | --              | --                | --                |
 |                                                               | EstablishmentAck     | ABC            | --            | T2                    | 1000           | --                | --              | --              | --                | --                |
 | Sequence                                                      |                      | --             | --            | --                    | 100            | --                | --              | --              | --                | --                |
 |                                                               | Terminate            | ABC            | --            | --                    | --             | --                | --              | --              | Unspecified Error | Invalid NextSeqNo |
 | Establish                                                     |                      | ABC            | T4            | --                    | 200            | --                | Idempotent      | --              | --                | --                |
 |                                                               | EstablishmentAck     | ABC            | --            | T4                    | 1001           | --                | --              | Recoverable     | --                | --                |
-| \<New Establish message should be sent with same Session ID\> |
+| \<New Establish message should be sent with same SessionId\> |
 
 ### Ungraceful termination (EstablishmentAck received with lower sequence number)
 
-The session could also be deliberately terminated due to EstablishmentAck message received with lower than expected sequence number and then it will need to be re-established. The transport layer connection is still open (TCP socket) therefore Negotiation is not required. Termination due to error does not require the sender to wait for corresponding Terminate response from counterparty.
+The session could also be deliberately terminated due to EstablishmentAck message received with lower than expected sequence number and then it will need to be re-established. The transport layer connection is still open (TCP socket) therefore Negotiation is not required. Termination due to error does not require the sender to wait for corresponding Terminate response message from counterparty.
 
-| **Message Received**                                         | **Message Sent**     | **Session ID** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **ImplicitSeqNo** | **Client Flow** | **Server Flow** | **Code**          | **Reason**        |
+| **Message Received**                                         | **Message Sent**     | **Session Id** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **ImplicitSeqNo** | **Client Flow** | **Server Flow** | **Code**          | **Reason**        |
 |--------------------------------------------------------------|----------------------|----------------|---------------|-----------------------|----------------|-------------------|-----------------|-----------------|-------------------|-------------------|
 | Negotiate                                                    |                      | ABC            | T1            | --                    | --             | --                | Idempotent      | --              | --                | --                |
-|                                                              | Negotiation Response | ABC            | --            | T1                    | --             | --                |                 | Recoverable     | --                | --                |
+|                                                              | NegotiationResponse  | ABC            | --            | T1                    | --             | --                |                 | Recoverable     | --                | --                |
 | Establish                                                    |                      | ABC            | T2            | --                    | 200            | --                | --              | --              | --                | --                |
 |                                                              | EstablishmentAck     | ABC            | --            | T2                    | 1000           | --                | --              | --              | --                | --                |
 | Sequence                                                     |                      | --             | --            | --                    | 100            | --                | --              | --              | --                | --                |
@@ -307,12 +305,12 @@ The session could also be deliberately terminated due to EstablishmentAck messag
 
 ### Graceful termination
 
-Graceful termination is possible when there are no more messages to be sent for the time being and the TCP socket connection could be disconnected for now. This allows the sender to re-establish connectivity with the same session ID as before since the session was terminated without finalization (FinishedSending was not used to indicate logical end of flow). Graceful termination (not due to error) does require the sender to wait for corresponding Terminate response from counterparty before disconnecting TCP socket connection. The receiver should not attempt to initiate TCP socket disconnection since the sender will do that upon receiving the response.
+Graceful termination is possible when there are no more messages to be sent for the time being and the TCP socket connection could be disconnected for now. This allows the sender to re-establish connectivity with the same session ID as before since the session was terminated without finalization (FinishedSending was not used to indicate logical end of flow). Graceful termination (not due to error) does require the sender to wait for corresponding Terminate response message from counterparty before disconnecting TCP socket connection. The receiver should not attempt to initiate TCP socket disconnection since the sender will do that upon receiving the response.
 
-| **Message Received**                                         | **Message Sent**     | **Session ID** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **ImplicitSeqNo** | **Client Flow** | **Server Flow** | **Code** | **Reason** |
+| **Message Received**                                         | **Message Sent**     | **Session Id** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **ImplicitSeqNo** | **Client Flow** | **Server Flow** | **Code** | **Reason** |
 |--------------------------------------------------------------|----------------------|----------------|---------------|-----------------------|----------------|-------------------|-----------------|-----------------|----------|------------|
 | Negotiate                                                    |                      | ABC            | T1            | --                    | --             | --                | Idempotent      | --              | --       | --         |
-|                                                              | Negotiation Response | ABC            | --            | T1                    | --             | --                |                 | Recoverable     | --       | --         |
+|                                                              | NegotiationResponse  | ABC            | --            | T1                    | --             | --                |                 | Recoverable     | --       | --         |
 | Establish                                                    |                      | ABC            | T2            | --                    | 200            | --                | --              | --              | --       | --         |
 |                                                              | EstablishmentAck     | ABC            | --            | T2                    | 1000           | --                | --              | --              | --       | --         |
 | Sequence                                                     |                      | --             | --            | --                    | 201            | --                | --              | --              | --       | --         |
@@ -327,7 +325,7 @@ Graceful termination is possible when there are no more messages to be sent for 
 
 When the transport layer session itself (TCP socket) has been disconnected then the session needs to be Negotiated and Established.
 
-| **Message Received**                              | **Message Sent**    | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Keep Alive Interval** | **Server Flow** | **Reason** |
+| **Message Received**                              | **Message Sent**    | **Session Id (UUID)** | **Timestamp** | **Request Timestamp** | **Client Flow** | **Keep Alive Interval** | **Server Flow** | **Reason** |
 |---------------------------------------------------|---------------------|-----------------------|---------------|-----------------------|-----------------|-------------------------|-----------------|------------|
 | Negotiate                                         |                     | ABC                   | T1            | --                    | Idempotent      | --                      | --              | --         |
 |                                                   | NegotiationResponse | ABC                   | --            | T1                    | --              | --                      | Recoverable     | --         |
@@ -340,21 +338,20 @@ When the transport layer session itself (TCP socket) has been disconnected then 
 |                                                   | EstablishmentAck    | DEF                   | --            | T4                    | --              | 10                      | --              | --         |
 | \<New Negotiate message requires new Session ID\> |
 
-<span id="_sequence" class="anchor"><span id="_Toc429639527" class="anchor"></span></span>Transferring
-------------------------------------------------------------------------------------------------------
+## Transferring
 
 ### Sequence
 
 Over TCP – a Client could send a Sequence message at the very beginning of the session upon establishment. The counterparty would not use it initially as it is provided in the EstablishmentAck message.
 
-| **Message Received** | **Message Sent**     | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **Client Flow** | **Server Flow** | ** Implicit SeqNo** |
+| **Message Received** | **Message Sent**     | **Session Id (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **Client Flow** | **Server Flow** | **Implicit SeqNo** |
 |----------------------|----------------------|-----------------------|---------------|-----------------------|----------------|-----------------|-----------------|---------------------|
 | Negotiate            |                      | ABC                   | T1            | --                    | --             | Idempotent      |                 | --                  |
-|                      | Negotiation Response | ABC                   | --            | T1                    | --             |                 | Recoverable     | --                  |
+|                      | NegotiationResponse  | ABC                   | --            | T1                    | --             |                 | Recoverable     | --                  |
 | Establish            |                      | ABC                   | T2            | --                    | 100            |                 |                 | --                  |
 |                      | EstablishmentAck     | ABC                   | --            | T2                    | 1000           |                 |                 | --                  |
 | Sequence             |                      | --                    | --            | --                    | 100            |                 |                 | --                  |
-| NewOrder Single      |                      | ABC                   | T3            | --                    | --             | --              | --              | 100                 |
+| NewOrderSingle       |                      | ABC                   | T3            | --                    | --             | --              | --              | 100                 |
 |                      | ExecutionReport      | ABC                   | T4            | --                    | --             | --              | --              | 1000                |
 
 Sequence message is applicable for idempotent and recoverable flows and if received for unsequenced and none flows then issue terminate message to sender since it is a protocol violation.
@@ -365,10 +362,10 @@ The Sequence, Context, EstablishmentAck and Retransmission messages are sequence
 
 For example – here the second Sequence message is increasing the NextSeqNo even though it was sent as a keep alive message within a sequenced flow.
 
-| **Message Received** | **Message Sent**     | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | ** Implicit SeqNo** | **Client Flow** | **Server Flow** | **From SeqNo** | **Count** |
+| **Message Received** | **Message Sent**     | **Session Id (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **Implicit SeqNo**  | **Client Flow** | **Server Flow** | **From SeqNo** | **Count** |
 |----------------------|----------------------|-----------------------|---------------|-----------------------|----------------|---------------------|-----------------|-----------------|----------------|-----------|
 | Negotiate            |                      | ABC                   | T1            | --                    | --             | --                  | Idempotent      | --              | --             | --        |
-|                      | Negotiation Response | ABC                   | --            | T1                    | --             | --                  | --              | Recoverable     | --             | --        |
+|                      | NegotiationResponse  | ABC                   | --            | T1                    | --             | --                  | --              | Recoverable     | --             | --        |
 | Establish            |                      | ABC                   | T2            | --                    | 100            | --                  | --              | --              | --             | --        |
 |                      | EstablishmentAck     | ABC                   | --            | T2                    | 1000           | --                  | --              | --              | --             | --        |
 | Sequence             |                      | --                    | --            | --                    | 100            | --                  | --              | --              | --             | --        |
@@ -383,10 +380,10 @@ For example – here the second Sequence message is increasing the NextSeqNo eve
 
 This is an example of a Sequence message being sent with a lower than expected NextSeqNo value even though it was sent as a keep alive message within a sequenced flow.
 
-| **Message Received** | **Message Sent**     | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | ** Implicit SeqNo** | **Client Flow** | **Server Flow** | **Code**          | **Reason**        |
+| **Message Received** | **Message Sent**     | **Session Id (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **Implicit SeqNo**  | **Client Flow** | **Server Flow** | **Code**          | **Reason**        |
 |----------------------|----------------------|-----------------------|---------------|-----------------------|----------------|---------------------|-----------------|-----------------|-------------------|-------------------|
 | Negotiate            |                      | ABC                   | T1            | --                    | --             | --                  | Idempotent      | --              | --                | --                |
-|                      | Negotiation Response | ABC                   | --            | T1                    | --             | --                  | --              | Recoverable     | --                | --                |
+|                      | NegotiationResponse  | ABC                   | --            | T1                    | --             | --                  | --              | Recoverable     | --                | --                |
 | Establish            |                      | ABC                   | T2            | --                    | 100            | --                  | --              | --              | --                | --                |
 |                      | EstablishmentAck     | ABC                   | --            | T2                    | 1000           | --                  | --              | --              | --                | --                |
 | Sequence             |                      | --                    | --            | --                    | 100            | --                  | --              | --              | --                | --                |
@@ -399,10 +396,10 @@ This is an example of a Sequence message being sent with a lower than expected N
 
 The Sequence message could also be used as a heartbeat for idempotent and recoverable flows.
 
-| **Message Received** | **Message Sent**     | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **Client Flow** | **Server Flow** | **Keep Alive Interval** | ** Implicit SeqNo** |
+| **Message Received** | **Message Sent**     | **Session Id (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **Client Flow** | **Server Flow** | **Keep Alive Interval** | **Implicit SeqNo**  |
 |----------------------|----------------------|-----------------------|---------------|-----------------------|----------------|-----------------|-----------------|-------------------------|---------------------|
 | Negotiate            |                      | ABC                   | T1            | --                    | --             | Idempotent      | --              | --                      | --                  |
-|                      | Negotiation Response | ABC                   | --            | T1                    | --             |                 | Recoverable     | --                      | --                  |
+|                      | NegotiationResponse  | ABC                   | --            | T1                    | --             |                 | Recoverable     | --                      | --                  |
 | Establish            |                      | ABC                   | T2            | --                    | 100            | --              | --              | 10                      | --                  |
 |                      | EstablishmentAck     | ABC                   | --            | T2                    | 1000           | --              | --              | 10                      | --                  |
 | Sequence             |                      | --                    | -- (T2+10)    | --                    | 100            | --              | --              | --                      | --                  |
@@ -412,11 +409,9 @@ The Sequence message could also be used as a heartbeat for idempotent and recove
 
 ### Context (multiplexing session IDs)
 
-The Context message is needed to convey that a context switch is taking place from one Session ID (ABC) to another (DEF) over the same transport. This way – two sessions (ABC & DEF) could be multiplexed over one TCP connection and there is a one to one relation between the two such that they need to be negotiated and established independently. They will have independent sequence numbering and the value of NextSeqNo in each EstablishmentAck response will depend on where the particular session is sequence wise. There is no need to send a Context message before an application message if the previous application message was destined for the same session. A Context message has to be sent before an application message if the previous application message was destined for another session. This is an example where a Context message is necessary since the previous message was for a different session.
+The Context message is needed to convey that a context switch is taking place from one Session ID (ABC) to another (DEF) over the same transport. This way – two sessions (ABC & DEF) could be multiplexed over one TCP connection and there is a one-to-one relation between the two such that they need to be negotiated and established independently. They will have independent sequence numbering and the value of the NextSeqNo field in each EstablishmentAck response message will depend on where the particular session is sequence wise. There is no need to send a Context message before an application message if the previous application message was destined for the same session. A Context message has to be sent before an application message if the previous application message was destined for another session. This is an example where a Context message is necessary since the previous message was for a different session.
 
-<span id="_multiplexing_sessions" class="anchor"></span>
-
-| **Message Received** | **Message Sent**    | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next Seq No** | ** Implicit SeqNo** |
+| **Message Received** | **Message Sent**    | **Session Id (UUID)** | **Timestamp** | **Request Timestamp** | **Next Seq No** | **Implicit SeqNo**  |
 |----------------------|---------------------|-----------------------|---------------|-----------------------|-----------------|---------------------|
 | Negotiate            |                     | ABC                   | T1            | --                    | --              | --                  |
 |                      | NegotiationResponse | ABC                   | --            | T1                    | --              | --                  |
@@ -427,43 +422,43 @@ The Context message is needed to convey that a context switch is taking place fr
 | Establish            |                     | DEF                   | T4            | --                    | --              | --                  |
 |                      | EstablishmentAck    | DEF                   | --            | T4                    | 2000            | --                  |
 | Context              |                     | ABC                   | --            | --                    | 100             | --                  |
-| NewOrder Single      |                     | ABC                   | T5            | --                    | --              | 100                 |
+| NewOrderSingle       |                     | ABC                   | T5            | --                    | --              | 100                 |
 |                      | Context             | ABC                   | --            | --                    | 1000            | --                  |
 |                      | ExecutionReport     | ABC                   | T6            | --                    | --              | 1000                |
 | Context              |                     | DEF                   | --            | --                    | 200             | --                  |
-| NewOrder Single      |                     | DEF                   | T7            | --                    | --              | 200                 |
-|                      |  Context            | DEF                   | --            | --                    | 2000            | --                  |
+| NewOrderSingle       |                     | DEF                   | T7            | --                    | --              | 200                 |
+|                      | Context             | DEF                   | --            | --                    | 2000            | --                  |
 |                      | ExecutionReport     | DEF                   | T8            | --                    | --              | 2000                |
 
 #### Context flow using sequence
 
 This is an example where a Context message is not necessary since the previous message was for the same session and a Sequence message will suffice.
 
-| **Message Received** | **Message Sent**    | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | ** Implicit SeqNo** |
+| **Message Received** | **Message Sent**    | **Session Id (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **Implicit SeqNo**  |
 |----------------------|---------------------|-----------------------|---------------|-----------------------|----------------|---------------------|
 | Negotiate            |                     | ABC                   | T1            | --                    | --             | --                  |
 |                      | NegotiationResponse | ABC                   | --            | T1                    | --             | --                  |
 | Establish            |                     | ABC                   | T2            | --                    | --             | --                  |
 |                      | EstablishmentAck    | ABC                   | --            | T2                    | 1000           | --                  |
 | Sequence             |                     | --                    | --            | --                    | 100            | --                  |
-| NewOrder Single      |                     | ABC                   | T3            | --                    | --             | 100                 |
+| NewOrderSingle       |                     | ABC                   | T3            | --                    | --             | 100                 |
 |                      | ExecutionReport     | ABC                   | T4            | --                    | --             | 1000                |
 | Negotiate            |                     | DEF                   | T5            | --                    | --             | --                  |
 |                      | NegotiationResponse | DEF                   | --            | T5                    | --             | --                  |
 | Establish            |                     | DEF                   | T6            | --                    | --             | --                  |
 |                      | EstablishmentAck    | DEF                   | --            | T6                    | 2000           | --                  |
 | Sequence             |                     | --                    | --            | --                    | 200            | --                  |
-| NewOrder Single      |                     | DEF                   | T7            | --                    | --             | 200                 |
+| NewOrderSingle       |                     | DEF                   | T7            | --                    | --             | 200                 |
 |                      | ExecutionReport     | DEF                   | T8            | --                    | --             | 2000                |
 
 ### Unsequenced heartbeat
 
 This message is used to keep alive the session on unsequenced and none flows.
 
-| **Message Received** | **Message Sent**     | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **Client Flow** | **Server Flow** | **Keep Alive Interval** | ** Implicit SeqNo** |
+| **Message Received** | **Message Sent**     | **Session Id (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **Client Flow** | **Server Flow** | **Keep Alive Interval** | **Implicit SeqNo**  |
 |----------------------|----------------------|-----------------------|---------------|-----------------------|----------------|-----------------|-----------------|-------------------------|---------------------|
 | Negotiate            |                      | ABC                   | T1            | --                    | --             | Unsequenced     | --              | --                      | --                  |
-|                      | Negotiation Response | ABC                   | --            | T1                    | --             |                 | Recoverable     | --                      | --                  |
+|                      | NegotiationResponse  | ABC                   | --            | T1                    | --             |                 | Recoverable     | --                      | --                  |
 | Establish            |                      | ABC                   | T2            | --                    | 100            | --              | --              | 10                      | --                  |
 |                      | EstablishmentAck     | ABC                   | --            | T2                    | 1000           | --              | --              | 10                      | --                  |
 | UnsequencedHeartbeat |                      | --                    | -- (T2+10)    | --                    | --             | --              | --              | --                      | --                  |
@@ -474,25 +469,25 @@ This message is used to keep alive the session on unsequenced and none flows.
 
 For recoverable flows, a Retransmission Request could be issued to recover gap in sequence numbers
 
-| **Message Received**                                                                                                                  | **Message Sent**     | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | ** Implicit SeqNo** | **Client Flow** | **Server Flow** | **From SeqNo** | **Count** |
+| **Message Received**                                                                                                                  | **Message Sent**     | **Session Id (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **Implicit SeqNo**  | **Client Flow** | **Server Flow** | **From SeqNo** | **Count** |
 |---------------------------------------------------------------------------------------------------------------------------------------|----------------------|-----------------------|---------------|-----------------------|----------------|---------------------|-----------------|-----------------|----------------|-----------|
 | Negotiate                                                                                                                             |                      | ABC                   | T1            | --                    | --             | --                  | Idempotent      | --              | --             | --        |
-|                                                                                                                                       | Negotiation Response | ABC                   | --            | T1                    | --             | --                  | --              | Recoverable     | --             | --        |
+|                                                                                                                                       | NegotiationResponse  | ABC                   | --            | T1                    | --             | --                  | --              | Recoverable     | --             | --        |
 | Establish                                                                                                                             |                      | ABC                   | T2            | --                    | 100            | --                  | --              | --              | --             | --        |
-|                                                                                                                                       | Establishment Ack    | ABC                   | --            | T2                    | 1000           | --                  | --              | --              | --             | --        |
+|                                                                                                                                       | EstablishmentAck    | ABC                   | --            | T2                    | 1000           | --                  | --              | --              | --             | --        |
 |                                                                                                                                       | Sequence             | --                    | --            | --                    | 1000           | --                  | --              | --              | --             | --        |
-|                                                                                                                                       | Execution Report     | ABC                   | T3            | --                    | --             | 1100                | --              | --              | --             | --        |
+|                                                                                                                                       | ExecutionReport      | ABC                   | T3            | --                    | --             | 1100                | --              | --              | --             | --        |
 | RetransmissionRequest                                                                                                                 |                      | ABC                   | T4            | --                    | --             | --                  | --              | --              | 1000           | 100       |
 |                                                                                                                                       | Retransmission       | ABC                   | --            | T4                    | 1000           | --                  | --              | --              | --             | 100       |
 | \<100 messages between 1000 to 1099 are replayed and message number 1100 is queued for processing after Retransmisison is satisfied\> |
 
-Retransmission message is not applicable for idempotent, unsequenced and none flows and if received for these flows then issue terminate message to sender since it is a protocol violation.
+Retransmission message is not applicable for Idempotent, Unsequenced, and None flows and if received for these flows then issue terminate message to sender since it is a protocol violation.
 
 #### Retransmission (concurrent)
 
 More than one RetransmissionRequest is not allowed at a time and subsequent in-flight requests will lead to session termination.
 
-| **Message Received**                                            | **Message Sent**     | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | ** Implicit SeqNo** | **Client Flow** | **Server Flow** | **From SeqNo** | **Count** |
+| **Message Received**                                            | **Message Sent**     | **Session Id (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **Implicit SeqNo**  | **Client Flow** | **Server Flow** | **From SeqNo** | **Count** |
 |-----------------------------------------------------------------|----------------------|-----------------------|---------------|-----------------------|----------------|---------------------|-----------------|-----------------|----------------|-----------|
 | Negotiate                                                       |                      | ABC                   | T1            | --                    | --             | --                  | Idempotent      | --              | --             | --        |
 |                                                                 | NegotiationResponse  | ABC                   | --            | T1                    | --             | --                  | --              | Recoverable     | --             | --        |
@@ -511,17 +506,13 @@ More than one RetransmissionRequest is not allowed at a time and subsequent in-f
 
 While responding back to a RetransmissionRequest it is possible that the sender could interleave real time original messages with duplicate retransmission responses. This interleaving will happen between both flows in ranges which could be the chunk of messages which can fit into a single datagram or packet. Each batch of duplicate replayed messages will be preceded by a Retransmission message in the same packet and each batch of real time original messages will be preceded by a Sequence message in the same packet.
 
-| **Message Received**                                                                                                           | **Message Sent** | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | ** Implicit SeqNo** | **Client Flow** | **Server Flow** | **From SeqNo** | **Count** |
+| **Message Received**                                                                                                           | **Message Sent** | **Session Id (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **Implicit SeqNo**  | **Client Flow** | **Server Flow** | **From SeqNo** | **Count** |
 |--------------------------------------------------------------------------------------------------------------------------------|------------------|-----------------------|---------------|-----------------------|----------------|---------------------|-----------------|-----------------|----------------|-----------|
 | RetransmissionRequest                                                                                                          |                  | ABC                   | T1            | --                    | --             | --                  | --              | --              | 1000           | 100       |
 |                                                                                                                                | Retransmission   | ABC                   | --            | T1                    | 1000           | --                  | --              | --              | --             | 50        |
-| \<50 duplicate messages between 1000 and 1049 are replayed in first packet which includes Retransmission message\>             
-
- \<Real time messages between 2000 and 2049 are queued by the sender at this time\>                                              |
+| \<50 duplicate messages between 1000 and 1049 are replayed in first packet which includes Retransmission message\> \ \<Real time messages between 2000 and 2049 are queued by the sender at this time\>                                              |
 |                                                                                                                                | Sequence         | --                    | --            | --                    | 2000           | --                  | --              | --              | --             | --        |
-| \<50 original real time messages between 2000 and 2049 are sent in second packet which includes Sequence message\>  
-
- \<Duplicate messages between 1050 and 1099 are queued by sender at this time\>                                                  |
+| \<50 original real time messages between 2000 and 2049 are sent in second packet which includes Sequence message\> \ \<Duplicate messages between 1050 and 1099 are queued by sender at this time\>                                                  |
 |                                                                                                                                | Retransmission   | ABC                   | --            | T1                    | 1050           | --                  | --              | --              | --             | 50        |
 | \<Second batch of 50 duplicate messages between 1050 and 1099 are send in third packet which includes Retransmission message\> |
 
@@ -529,9 +520,9 @@ While responding back to a RetransmissionRequest it is possible that the sender 
 
 #### Invalid FromSeqNo
 
-RetransmissionRequest could be rejected if the messages being requested (FromSeqNo) belong to an invalid sequence range i.e. greater than last sent sequence number from sender.
+A RetransmissionRequest message could be rejected if the messages being requested (FromSeqNo) belong to an invalid sequence range, i.e. greater than last sent sequence number from sender.
 
-| **Message Received**                                                   | **Message Sent**     | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | ** Implicit SeqNo** | **Code**   | **Reason**        | **From SeqNo** | **Count** |
+| **Message Received**                                                   | **Message Sent**     | **Session Id (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **Implicit SeqNo**  | **Code**   | **Reason**        | **From SeqNo** | **Count** |
 |------------------------------------------------------------------------|----------------------|-----------------------|---------------|-----------------------|----------------|---------------------|------------|-------------------|----------------|-----------|
 | Negotiate                                                              |                      | ABC                   | T1            | --                    | --             | --                  | Idempotent | --                | --             | --        |
 |                                                                        | NegotiationResponse  | ABC                   | --            | T1                    | --             | --                  | --         | Recoverable       | --             | --        |
@@ -544,9 +535,9 @@ RetransmissionRequest could be rejected if the messages being requested (FromSeq
 
 #### Retransmission reject (OutOfRange)
 
-RetransmissionRequest could be rejected if the messages being requested (FromSeqNo + Count) belong to an invalid sequence range i.e. greater than last sent sequence number from sender.
+A RetransmissionRequest message could be rejected if the messages being requested (FromSeqNo + Count) belong to an invalid sequence range, i.e. greater than last sent sequence number from sender.
 
-| **Message Received**                                                           | **Message Sent**     | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | ** Implicit SeqNo** | **Code**   | **Reason**    | **From SeqNo** | **Count** |
+| **Message Received**                                                           | **Message Sent**     | **Session Id (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **Implicit SeqNo**  | **Code**   | **Reason**    | **From SeqNo** | **Count** |
 |--------------------------------------------------------------------------------|----------------------|-----------------------|---------------|-----------------------|----------------|---------------------|------------|---------------|----------------|-----------|
 | Negotiate                                                                      |                      | ABC                   | T1            | --                    | --             | --                  | Idempotent | --            | --             | --        |
 |                                                                                | NegotiationResponse  | ABC                   | --            | T1                    | --             | --                  | --         | Recoverable   | --             | --        |
@@ -559,9 +550,9 @@ RetransmissionRequest could be rejected if the messages being requested (FromSeq
 
 #### Retransmission reject (invalid session ID)
 
-RetransmissionRequest could be rejected if the messages are being requested with a different session ID such that it is unknown or not authorized.
+A RetransmissionRequest message could be rejected if the messages are being requested with a different session identifier such that it is unknown or not authorized.
 
-| **Message Received**                                                                        | **Message Sent**     | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | ** Implicit SeqNo** | **Code**        | **Reason**         | **From SeqNo** | **Count** |
+| **Message Received**                                                                        | **Message Sent**     | **Session Id (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **Implicit SeqNo**  | **Code**        | **Reason**         | **From SeqNo** | **Count** |
 |---------------------------------------------------------------------------------------------|----------------------|-----------------------|---------------|-----------------------|----------------|---------------------|-----------------|--------------------|----------------|-----------|
 | Negotiate                                                                                   |                      | ABC                   | T1            | --                    | --             | --                  | Idempotent      | --                 | --             | --        |
 |                                                                                             | NegotiationResponse  | ABC                   | --            | T1                    | --             | --                  | --              | Recoverable        | --             | --        |
@@ -574,14 +565,14 @@ RetransmissionRequest could be rejected if the messages are being requested with
 
 #### Retransmission reject (request limit exceeded)
 
-RetransmissionRequest could be rejected if the messages being requested exceed the limit for allowable count in each request.
+A RetransmissionRequest message could be rejected if the messages being requested exceed the limit for allowable count in each request.
 
-| **Message Received**                                                                                                                      | **Message Sent**     | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | ** Implicit SeqNo** | **Code**             | **Reason**        | **From SeqNo** | **Count** |
+| **Message Received**                                                                                                                      | **Message Sent**     | **Session Id (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **Implicit SeqNo**  | **Code**             | **Reason**        | **From SeqNo** | **Count** |
 |-------------------------------------------------------------------------------------------------------------------------------------------|----------------------|-----------------------|---------------|-----------------------|----------------|---------------------|----------------------|-------------------|----------------|-----------|
 | Negotiate                                                                                                                                 |                      | ABC                   | T1            | --                    | --             | --                  | Idempotent           | --                | --             | --        |
-|                                                                                                                                           | Negotiation Response | ABC                   | --            | T1                    | --             | --                  | --                   | Recoverable       | --             | --        |
+|                                                                                                                                           | NegotiationResponse  | ABC                   | --            | T1                    | --             | --                  | --                   | Recoverable       | --             | --        |
 | Establish                                                                                                                                 |                      | ABC                   | T2            | --                    | 100            | --                  | --                   | --                | --             | --        |
-|                                                                                                                                           | Establishment Ack    | ABC                   | --            | T2                    | 1000           | --                  | --                   | --                | --             | --        |
+|                                                                                                                                           | EstablishmentAck    | ABC                   | --            | T2                    | 1000           | --                  | --                   | --                | --             | --        |
 |                                                                                                                                           | Sequence             | --                    | --            | --                    | 1000           | --                  | --                   | --                | --             | --        |
 | RetransmissionRequest                                                                                                                     |                      | ABC                   | T3            | --                    | --             | --                  | --                   | --                | 1              | 999       |
 |                                                                                                                                           | RetransmitReject     | ABC                   | --            | T3                    | --             | --                  | RequestLimitExceeded | Count Exceeds 500 | --             | --        |
@@ -589,9 +580,9 @@ RetransmissionRequest could be rejected if the messages being requested exceed t
 
 #### Retransmission reject (retransmission out of bounds)
 
-RetransmissionRequest asking to replay messages which are no longer available (for example older than three days) could also be rejected.
+A RetransmissionRequest message asking to replay messages which are no longer available (for example older than three days) could also be rejected.
 
-| **Message Received**                                                   | **Message Sent**     | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **ImplicitSeqNo** | **From SeqNo** | **Count** | **Code**             | **Reason**                   |
+| **Message Received**                                                   | **Message Sent**     | **Session Id (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **ImplicitSeqNo** | **From SeqNo** | **Count** | **Code**             | **Reason**                   |
 |------------------------------------------------------------------------|----------------------|-----------------------|---------------|-----------------------|----------------|-------------------|----------------|-----------|----------------------|------------------------------|
 | Negotiate                                                              |                      | ABC                   | T1            | --                    | --             | --                | --             | --        | --                   | --                           |
 |                                                                        | NegotiationResponse  | ABC                   | --            | T1                    | --             | --                | --             | --        | --                   | --                           |
@@ -601,16 +592,15 @@ RetransmissionRequest asking to replay messages which are no longer available (f
 |                                                                        | RetransmitReject     | ABC                   | --            | T3                    | --             | --                | --             | --        | ReRequestOutOfBounds | Messages No Longer Available |
 | \<Here the messages being requested (1-175) were older than 72 hours\> |
 
-Finalizing
-----------
+## Finalizing
 
 ### Finished sending & finished receiving
 
-The FinishedSending message is used by the initiator to inform the acceptor that the logical flow of messages has reached its end i.e. the FIXP session is in the process of being wound down and gracefully terminated, for example at the end of the day or at the end of the week etc. Once the acceptor responds back with a FinishedReceiving confirmation message then the session could be half-closed i.e. no more messages will be sent from the initiator but the acceptor could continue to send messages until it does not send a FinishedSending message itself to the counterparty to indicate that it too has reached the end of its logical flow and it has no more messages to send.
+The FinishedSending message is used by the initiator to inform the acceptor that the logical flow of messages has reached its end, i.e. the FIXP session is in the process of being wound down and gracefully terminated, for example at the end of the day or at the end of the week etc. Once the acceptor responds back with a FinishedReceiving confirmation message then the session could be half-closed, i.e. no more messages will be sent from the initiator but the acceptor could continue to send messages until it does not send a FinishedSending message itself to the counterparty to indicate that it too has reached the end of its logical flow and it has no more messages to send.
 
 The FinishedReceiving message is used to confirm that the FinishedSending message has been successfully received and acknowledged and that the FIXP session could be terminated once both counterparties have sent and received a FinishedReceiving message. The initiator is then expected to re-negotiate the session with a new SessionID.
 
-| **Message Received**                                                                                                                                                                                                                                                    | **Message Sent**     | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **LastSeqNo** | **ClientFlow** | **ServerFlow** | **Code** | **Reason** |
+| **Message Received**                                                                                                                                                                                                                                                    | **Message Sent**     | **Session Id (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **LastSeqNo** | **ClientFlow** | **ServerFlow** | **Code** | **Reason** |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|-----------------------|---------------|-----------------------|----------------|---------------|----------------|----------------|----------|------------|
 | Negotiate                                                                                                                                                                                                                                                               |                      | ABC                   | T1            | --                    | --             | --            | Idempotent     | --             | --       | --         |
 |                                                                                                                                                                                                                                                                         | NegotiationResponse  | ABC                   | --            | T1                    | --             | --            | --             | Recoverable    | --       | --         |
@@ -630,9 +620,9 @@ The FinishedReceiving message is used to confirm that the FinishedSending messag
 
 ### Finished sending & no response received
 
-If the initiator has sent a FinishedSending message and does not receive a corresponding FinishedReceiving response from the counterparty within one KeepAliveInterval then it is supposed to keep sending the FinishedSending message until it hears back at the rate of one per KeepAliveInterval i.e. use it as a proxy for the Heartbeat message.
+If the initiator has sent a FinishedSending message and does not receive a corresponding FinishedReceiving response message from the counterparty within one KeepAliveInterval, then it is supposed to keep sending the FinishedSending message until it hears back at the rate of one per KeepAliveInterval, i.e. use it as a proxy for the Heartbeat message.
 
-| **Message Received**                                                                                                                                                                                                                                                                                                                         | **Message Sent**  | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **LastSeqNo** | **Code** | **Reason** |
+| **Message Received**                                                                                                                                                                                                                                                                                                                         | **Message Sent**  | **Session Id (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **LastSeqNo** | **Code** | **Reason** |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------|-----------------------|---------------|-----------------------|----------------|---------------|----------|------------|
 | FinishedSending                                                                                                                                                                                                                                                                                                                              |                   | ABC                   | --            | --                    | --             | 201           | --       | --         |
 | One \<KeepAliveInterval\> lapses without any corresponding FinishedReceived response from the counterparty                                                                                                                                                                                                                                   |                   |                       |
@@ -646,7 +636,7 @@ If the initiator has sent a FinishedSending message and does not receive a corre
 
 Upon receiving the FinishedSending message, if the counterparty detects a gap in the sequence by scrutinizing the \<LastSeqNo\> field (which is literal and not implied) then it will attempt to recover this gap in a recoverable flow before responding back with a corresponding FinishedReceiving confirmation message.
 
-| **Message Received**                                                                                                                                                                                                                                                                                                             | **Message Sent**      | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **LastSeqNo** | **FromSeqNo** | **Count** | **Code** |
+| **Message Received**                                                                                                                                                                                                                                                                                                             | **Message Sent**      | **Session Id (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **LastSeqNo** | **FromSeqNo** | **Count** | **Code** |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------|-----------------------|---------------|-----------------------|----------------|---------------|---------------|-----------|----------|
 | FinishedSending                                                                                                                                                                                                                                                                                                                  |                       | ABC                   | --            | --                    | --             | 201           | --            | --        | --       |
 | Last implicit sequence number or value of \<NextSeqNo\> from ABC is 198 therefore acceptor issues a \<RetransmissionRequest\> to recover sequence gap of four messages (198-201) assuming that ABC was using recoverable flow                                                                                                    | --                    |
@@ -660,7 +650,7 @@ Upon receiving the FinishedSending message, if the counterparty detects a gap in
 
 The party which wishes to cease logical flow of messages from its connection at the end of the day, end of the week or upon market close should wait until the other counterparty is also ready to do the same before attempting to terminate the connection otherwise this will be regarded as a protocol violation and will result in an ungraceful termination of the connection by the other party which has not yet had the opportunity to cease logical flow of its own messages.
 
-| **Message Received** | **Message Sent**  | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **LastSeqNo** | **FromSeqNo** | **Count** | **Code**          | **Reason**               |
+| **Message Received** | **Message Sent**  | **Session Id (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **LastSeqNo** | **FromSeqNo** | **Count** | **Code**          | **Reason**               |
 |----------------------|-------------------|-----------------------|---------------|-----------------------|----------------|---------------|---------------|-----------|-------------------|--------------------------|
 | FinishedSending      |                   | ABC                   | --            | --                    | --             | 201           | --            | --        | --                | --                       |
 |                      | FinishedReceiving | ABC                   | --            | --                    | --             | --            | --            | --        | --                | --                       |
@@ -671,7 +661,7 @@ The party which wishes to cease logical flow of messages from its connection at 
 
 The party which wishes to cease logical flow of messages from its connection at the end of the day, end of the week or upon market close should not send any other message after the first FinishedSending message has been sent. The only exception to this rule is the Retransmission message and replayed messages (in response to RetransmissionRequest from counterparty if it detects a gap based on the value of LastSeqNo). If it sends any other message either (FIXP or application) then it will lead to ungraceful termination by the other counterparty since this is a protocol violation. This should be avoided at all costs since if the other counterparty is trying to recover a gap in sequence then that will be aborted.
 
-| **Message Received**                                                                                                                                      | **Message Sent**  | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **LastSeqNo** | **FromSeqNo** | **Count** | **Code**          | **Reason**                                    |
+| **Message Received**                                                                                                                                      | **Message Sent**  | **Session Id (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **LastSeqNo** | **FromSeqNo** | **Count** | **Code**          | **Reason**                                    |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------|-----------------------|---------------|-----------------------|----------------|---------------|---------------|-----------|-------------------|-----------------------------------------------|
 | FinishedSending                                                                                                                                           |                   | ABC                   | --            | --                    | --             | 201           | --            | --        | --                | --                                            |
 |                                                                                                                                                           | FinishedReceiving | ABC                   | --            | --                    | --             | --            | --            | --        | --                | --                                            |
@@ -680,7 +670,7 @@ The party which wishes to cease logical flow of messages from its connection at 
 | Here a Sequence message was sent after the counterparty responded back with a Finished Receiving message and it led to an ungraceful termination          |
 ---------------------------------------------------------------------------------------------------
 
-| **Message Received**                                                                                                                                      | **Message Sent**  | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **LastSeqNo** | **FromSeqNo** | **Count** | **Code**          | **Reason**                                    |
+| **Message Received**                                                                                                                                      | **Message Sent**  | **Session Id (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **LastSeqNo** | **FromSeqNo** | **Count** | **Code**          | **Reason**                                    |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------|-----------------------|---------------|-----------------------|----------------|---------------|---------------|-----------|-------------------|-----------------------------------------------|
 | FinishedSending                                                                                                                                           |                   | ABC                   | --            | --                    | --             | 201           | --            | --        | --                | --                                            |
 | Sequence                                                                                                                                                  |                   | ABC                   | --            | --                    | 202            | --            | --            | --        | --                | --                                            |
@@ -691,7 +681,7 @@ The party which wishes to cease logical flow of messages from its connection at 
 
 Once one of the two parties has ceased logical flow of messages from its connection at the end of the day, end of the week or upon market close then it should still be ready and able to accept messages from the other counterparty till the time that the counterparty itself does not cease logical flow of messages from its own connection. However this should not lead to any corresponding output back from the connection which has been half-closed (with the exception of Retransmission) since that would be a protocol violation and lead to ungraceful termination.
 
-| **Message Received**                                                                                                                                                                                                                                                                                                                                                          | **Message Sent**  | **Session ID (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **LastSeqNo** | **ClientFlow** | **ServerFlow** | **Code**           | **Reason**                                       |
+| **Message Received**                                                                                                                                                                                                                                                                                                                                                          | **Message Sent**  | **Session Id (UUID)** | **Timestamp** | **Request Timestamp** | **Next SeqNo** | **LastSeqNo** | **ClientFlow** | **ServerFlow** | **Code**           | **Reason**                                       |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------|-----------------------|---------------|-----------------------|----------------|---------------|----------------|----------------|--------------------|--------------------------------------------------|
 | FinishedSending                                                                                                                                                                                                                                                                                                                                                               |                   | ABC                   | --            | --                    | --             | 201           | --             | --             | --                 | --                                               |
 |                                                                                                                                                                                                                                                                                                                                                                               | FinishedReceiving | ABC                   | --            | --                    | --             | --            | --             | --             | --                 | --                                               |
@@ -699,4 +689,4 @@ Once one of the two parties has ceased logical flow of messages from its connect
 |                                                                                                                                                                                                                                                                                                                                                                               | ExecutionReport    | ABC                   | --            | T6                    | --             | --            | --             | --             | --                 | --                                               |
 | RetransmissionRequest                                                                                                                                                                                                                                                                                                                                                         |                   | ABC                   | T7            | --                    | --             | --            | --             | --             | --                 | --                                               |
 |                                                                                                                                                                                                                                                                                                                                                                               | Terminate         | ABC                   | --            | --                    | --             | --            | --             | --             | Unspecified Error | Logical Flow Cannot Resume After Finalization |
-| Here the initiator has sent a RetransmissionRequest message after ceasing logical flow of messages from its own connection while continuing to accept message flow from acceptor and this will result in an ungraceful termination since the initiator can only respond back to a RetransmisisonRequest but cannot initiate one of its own after half-closing its connection. |
+| Here the initiator has sent a RetransmissionRequest message after ceasing logical flow of messages from its own connection while continuing to accept message flow from acceptor and this will result in an ungraceful termination since the initiator can only respond back to a RetransmissionRequest message but cannot initiate one of its own after half-closing its connection. |

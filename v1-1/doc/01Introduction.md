@@ -1,12 +1,12 @@
 # Scope
 
-FIX Performance Session Layer (FIXP) is a “lightweight point-to-point protocol” introduced to provide an open industry standard for high performance computing requirements currently encountered by the FIX Community. FIXP is a derived work. The origin and basis for FIXP are the FIX session layer protocols and protocols designed and implemented by NASDAQ OMX, i.e. SoupTCP, SoupBinTCP, and UFO (UDP for Orders). Every attempt was made to keep FIXP as close to the functionality and behavior of SoupBinTCP and UFO as possible. Extensions and refactoring were performed as incremental improvements. Every attempt was made to limit FIXP to establishing and maintaining a communication session between two end points in a reliable manner, regardless of the reliability of the underlying transport.
+FIX Performance Session Layer (FIXP) is a “lightweight point-to-point protocol” introduced to provide an open industry standard for high performance computing requirements currently encountered by the FIX Trading Community. FIXP is a derived work. The origin and basis for FIXP are the FIX session layer protocols and protocols designed and implemented by NASDAQ OMX, i.e. SoupTCP, SoupBinTCP, and UFO (UDP for Orders). Every attempt was made to keep FIXP as close to the functionality and behavior of SoupBinTCP and UFO as possible. Extensions and refactoring were performed as incremental improvements. Every attempt was made to limit FIXP to establishing and maintaining a communication session between two end points in a reliable manner, regardless of the reliability of the underlying transport.
 
 FIXP features:
 
 - Very lightweight session layer with no restrictions on the application layer
 - Encoding independent supporting binary protocols
-- Transport independent supporting both stream, datagram, and message oriented protocols
+- Transport independent supporting both stream, datagram, and message-oriented protocols
 - Point-to-point as well as multicast patterns, sharing common primitives
 - Negotiable delivery guarantees that may be asymmetrical
 
@@ -20,15 +20,17 @@ The FIX Simple Open Framing Header standard governs how messages are delimited a
 
 [Simple Open Framing Header (SOFH)](https://www.fixtrading.org/standards/fix-sofh/), technical specification of a message framing standard for FIX messages.
 
-[FIX Latest](https://www.fixtrading.org/online-specification/), normative specification of the application layer of the FIX protocol.
+[FIX Latest](https://www.fixtrading.org/online-specification/), normative specification of the application layer of the FIX Protocol.
 
-[FIX Simple Binary Encoding](https://www.fixtrading.org/standards/sbe/), optional specification for the presentation layer of the FIX protocol.
+[FIX Simple Binary Encoding](https://www.fixtrading.org/standards/sbe/), optional encoding standard for FIX messages (presentation layer).
 
-[Abstract Syntax Notation (ASN.1)](https://www.fixtrading.org/standards/asn1/), optional specification for the presentation layer of the FIX protocol.
+[Encoding FIX using JSON)](https://www.fixtrading.org/standards/asn1/), optional encoding standard for FIX messages (presentation layer).
 
-[Google Protocol Buffers(GPB)](https://www.fixtrading.org/standards/gpb/), optional specification for the presentation layer of the FIX protocol.
+[Encoding FIX using GPB](https://www.fixtrading.org/standards/gpb/), optional encoding standard for FIX messages (presentation layer).
 
-[FIX-over-TLS (FIXS)](https://www.fixtrading.org/standards/fixs-online/), security guidelines for using Transport Layer Security (TLS) with FIX.
+[Encoding FIX using ASN.1](https://www.fixtrading.org/standards/asn1/), optional encoding standard for FIX messages (presentation layer).
+
+[FIX-over-TLS (FIXS)](https://www.fixtrading.org/standards/fixs/), security guidelines for using Transport Layer Security (TLS) with FIX.
 
 ### Dependencies on other standards
 
@@ -40,11 +42,11 @@ FIXP is dependent on several industry standards. Implementations of FIXP must co
 
 [IETF RFC 768](https://tools.ietf.org/html/rfc768), *User Datagram Protocol (UDP)*
 
-[IETF RFC 4122](https://tools.ietf.org/html/rfc4122), *A Universally Unique IDentifier (UUID) URN Namespace* 
+[IETF RFC 4122](https://tools.ietf.org/html/rfc4122), *A Universally Unique IDentifier (UUID) URN Namespace*
 
-[IETF RFC 3629](https://tools.ietf.org/html/rfc3629), *UTF-8, a transformation format of ISO 10646* 
+[IETF RFC 3629](https://tools.ietf.org/html/rfc3629), *UTF-8, a transformation format of ISO 10646*
 
-[IETF RFC 6455](https://tools.ietf.org/html/rfc6455), *The WebSocket Protocol* 
+[IETF RFC 6455](https://tools.ietf.org/html/rfc6455), *The WebSocket Protocol*
 
 # Terms and definitions
 
@@ -71,10 +73,10 @@ Initiator of session.
 ### server
 Acceptor of session.
 
-### credentials 
+### credentials
 User identification for authentication.
 
-### idempotence 
+### idempotence
 Idempotence means that an operation that is applied multiple times does not change the outcome, the result, after the first time.
 
 ### IETF
@@ -95,7 +97,7 @@ An IETF protocol that consists of an opening handshake followed by basic message
 ## Specification terms
 
 These key words in this document are to be interpreted as described in
-[Internet Engineering Task Force RFC2119](http://www.apps.ietf.org/rfc/rfc2119.html). 
+[Internet Engineering Task Force RFC2119](http://www.apps.ietf.org/rfc/rfc2119.html).
 
 These terms indicate an absolute requirement for implementations of the standard: "**must**", or "**required**".
 

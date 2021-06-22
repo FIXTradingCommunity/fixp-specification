@@ -6,13 +6,13 @@ All symbolic names for messages and fields in this protocol must follow the same
 
 ## Data types
 
-Data types used in this standard are abstract. 
+Data types used in this standard are abstract.
 The terminology used to define them are to be interpreted as described in international standard
-[ISO/IEC 11404 Information technology -- General-Purpose Datatypes ](http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=39479). 
+[ISO/IEC 11404 Information technology -- General-Purpose Datatypes ](http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=39479).
 
 It defines a set of datatypes, independent of any particular programming language specification or implementation, that is rich
 enough so that any common datatype in a standard programming language or service package can be
-mapped to some datatype in the set. 
+mapped to some datatype in the set.
 
 
 Actual wire format of FIXP is left to the presentation layer implementation.
@@ -62,7 +62,7 @@ Each session must be identified by a unique Session ID encoded as a UUID version
 
 ### User identification
 
-The FIX Trading Community is in the process of specifying how to authenticate counterparties. This is expected to primarily using TLS and, optionally, using TLS in conjunction with FIX credentials.  FIX credentials can be used after a TLS transport has been established, whilst its FIXP session is being established. In any event, the security features will be specified outside of FIXP, but may make use of FIXP credentials.
+The FIX Trading Community is in the process of specifying how to authenticate counterparties. This is expected to primarily use TLS and, optionally, use TLS in conjunction with FIX credentials.  FIX credentials can be used after a TLS transport has been established, whilst its FIXP session is being established. In any event, the security features will be specified outside of FIXP, but may make use of FIXP credentials.
 
 FIXP does not dictate the format of user credentials. They are agreed between counterparties and should be documented in rules of engagement. The Credentials field in FIXP is of datatype Object (opaque data) so no restriction on its contents is imposed by the protocol.
 
@@ -86,11 +86,11 @@ From highest to lowest delivery guarantee, the flow types are:
 
 -   **Unsequenced**: Makes no delivery guarantees (best-effort). This choice is appropriate if guarantees are unnecessary or if recovery is provided at the application layer or through a different communication channel.
 
--   **None**: No application messages should be sent in one direction of a session. If ClientFlow is None, then application messages flow only from server to client.
+-   **None**: No application messages should be sent in one direction of a session. If the ClientFlow field is None, then application messages flow only from server to client.
 
 #### Flow restrictions
 
-All the flow types listed above are possible for a point-to-point session. Only one of the flows may be None, meaning that although the transport supports bidirectional transmissions, application messages flow in only one direction. 
+All the flow types listed above are possible for a point-to-point session. Only one of the flows may be None, meaning that although the transport supports bidirectional transmissions, application messages flow in only one direction.
 By agreement between counterparties, only certain of these flow types may be supported for a particular service.
 
 A multicast session only supports one flow from producer to consumers, and it is restricted to the Idempotent type, possibly with out-of-band recovery.
@@ -169,4 +169,3 @@ Templates may be delivered either over a point-to-point or multicast session. Me
 | EffectiveTime  | nanotime | N        |                 | Date-time that the template becomes effective. If not present, effective immediately.
 | Version        | Object   | N        |                 | Version and format description. Version may also be embedded in the template itself, depending on protocol.
 | Template       | Object   | Y        |                 | Content of the template or message schema
-

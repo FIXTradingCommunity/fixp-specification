@@ -22,7 +22,7 @@ Valid flow types on a multicast session are:
 
 -   **Recoverable**: Messages are sequenced and recoverable. Since the transport is one-way, RetransmitRequests must be delivered through a separate session, however.
 
--   **Idempotent**: Messages are sequenced to allow detection of loss but any missed messages are not recoverable.
+-   **Idempotent**: Messages are sequenced to allow detection of loss, but any missed messages are not recoverable.
 
 Each Topic carries a Classification for the flow to associate it to a permanent or semi-permanent application layer entity. Typical classifications are product types, market symbols or the like.
 
@@ -31,11 +31,11 @@ To support late joiners, Topic messages should be repeated at regular intervals 
 **Topic**
 
 | **Field name** | **Type** | **Required** | **Value** | **Description** |
-|----------------|----------|--------------|-----------|-----------------|
+|----------------|----------|:------------:|-----------|-----------------|
 | MessageType    | Enum     | Y            | Topic     |                 |
-| SessionId      | UUID     | Y            |           | Session Identifier
-| Flow           | FlowType Enum | Y       |           | Type of flow from publisher
-| Classification | Object   | Y            |           | Category of application messages that follow
+| SessionId      | UUID     | Y            |           | Session Identifier |
+| Flow           | FlowType Enum | Y       |           | Type of flow from publisher |
+| Classification | Object   | Y            |           | Category of application messages that follow |
 
 ### Finalizing a multicast session
 
