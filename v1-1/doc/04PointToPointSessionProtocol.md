@@ -87,7 +87,6 @@ If negotiation is re-attempted after rejection, a new session ID should be gener
 
 ```plantuml
 @startuml
-scale 0.6
 skinparam {
   minClassWidth 80
   monochrome true
@@ -190,7 +189,6 @@ Rejection reasons:
 
 ```plantuml
 @startuml
-scale 0.6
 skinparam {
   minClassWidth 80
   monochrome true
@@ -273,7 +271,6 @@ On a WebSocket transport, a Close frame is used instead of a Terminate message. 
 
 ```plantuml
 @startuml
-scale 0.6
 skinparam {
   minClassWidth 80
   monochrome true
@@ -302,7 +299,6 @@ Sequence diagram for Unbind Transport--Connection-oriented transport, TCP
 
 ```plantuml
 @startuml
-scale 0.6
 skinparam {
   minClassWidth 80
   monochrome true
@@ -391,7 +387,6 @@ Sending a RetransmitRequest to the sender of an Idempotent, Unsequenced or None 
 
 ```plantuml
 @startuml
-scale 0.6
 skinparam {
   minClassWidth 80
   monochrome true
@@ -460,7 +455,6 @@ Rejection reasons:
 
 ```plantuml
 @startuml
-scale 0.7
 skinparam {
   minClassWidth 80
   monochrome true
@@ -499,7 +493,6 @@ For a RetransmitRequest message that the requester should have known was invalid
 
 ```plantuml
 @startuml
-scale 0.7
 skinparam {
   minClassWidth 80
   monochrome true
@@ -579,7 +572,6 @@ When a FinishedReceiving message has been received by the party that initiated t
 
 ```plantuml
 @startuml
-scale 0.6
 skinparam {
   minClassWidth 80
   monochrome true
@@ -673,11 +665,7 @@ The first (empty) PLantUML diagram is a workaround for an apparent bug in Pandoc
 -->
 
 ```plantuml
-```
-
-```plantuml
 @startuml
-scale 0.6
 skinparam {
   minClassWidth 80
   monochrome true
